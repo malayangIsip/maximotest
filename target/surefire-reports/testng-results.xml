@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="MaximoTestSuite" duration-ms="26553" started-at="2018-02-16T01:37:21Z" finished-at="2018-02-16T01:37:47Z">
+    <groups>
+    </groups>
+    <test name="MaximoTestSuiteRunInFirefox" duration-ms="26553" started-at="2018-02-16T01:37:21Z" finished-at="2018-02-16T01:37:47Z">
+      <class name="executionEngine.DriverScript">
+        <test-method status="PASS" signature="main()[pri:0, instance:executionEngine.DriverScript@482f8f11]" name="main" duration-ms="26495" started-at="2018-02-16T14:37:21Z" finished-at="2018-02-16T14:37:47Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- main -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:executionEngine.DriverScript@482f8f11]" name="tearDown" is-config="true" duration-ms="0" started-at="2018-02-16T14:37:48Z" finished-at="2018-02-16T14:37:48Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- executionEngine.DriverScript -->
+    </test> <!-- MaximoTestSuiteRunInFirefox -->
+  </suite> <!-- MaximoTestSuite -->
+</testng-results>

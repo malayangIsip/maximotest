@@ -1,0 +1,27 @@
+19-07-2017_11-39-25
+BMXAA3208I - PM PM52302 created work order 3296805.
+
+
+19-07-2017_16-28-00
+BMXAA3208I - PM PM52303 created work order 3296812.
+BMXAA4581I - Work order 3296813 created for PM PM52303 with a target start of 19/07/2017 12:00 AM in apply route.
+
+
+21-07-2017_10-34-00
+BMXAA3208I - PM PM52316 created work order 3296936.
+BMXAA4581I - Work order 3296937 created for PM PM52316 with a target start of 21/07/2017 12:00 AM in apply route.
+
+
+21-07-2017_10-41-33
+BMXAA3208I - PM PM52317 created work order 3296938.
+BMXAA4581I - Work order 3296939 created for PM PM52317 with a target start of 21/07/2017 12:00 AM in apply route.
+
+
+11-10-2017_16-08-47
+BMXAA3208I - PM PM52642 created work order 3172984.
+
+
+11-10-2017_16-37-52
+BMXAA3208I - PM PM52644 created work order 3173008.
+
+
