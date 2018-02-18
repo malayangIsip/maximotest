@@ -25,6 +25,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -47,6 +48,7 @@ public class ActionKeywords {
 	static String saveMsg = "Record has been saved.";
 	static String changeStatusMsg = "BMXAA4591I";
 			
+	@SuppressWarnings("deprecation")
 	public static void openBrowser(String object,String data){		
 		Log.info("Opening Browser...");
 		try{	
@@ -55,24 +57,34 @@ public class ActionKeywords {
 				Log.info("Mozilla is the browser");
 //				driver=new FirefoxDriver();
 //				WebDriver driver;
-				System.setProperty("webdriver.gecko.driver", "////home-wdc//homedir$//mme9310//Documents//lib//geckodriver.exe");
-//				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/libs/geckodriverWin32.exe");
+//				System.setProperty("webdriver.gecko.driver", "////home-wdc//homedir$//mme9310//Documents//lib//geckodriver.exe");
+				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/lib/geckodriver.exe");
 				
 			    DesiredCapabilities capabilities = DesiredCapabilities.firefox();
 			    capabilities.setBrowserName("firefox");
-//			    //capabilities.setVersion("");
+//			    capabilities.setVersion("58.0.2 (64-bit)");
 //
 			    capabilities.setCapability("marionette", true);
+			    
+			    FirefoxProfile profile = new FirefoxProfile();
+			    profile.setPreference("network.proxy.type", 4);
+			    driver = new FirefoxDriver(profile);
 				
-				driver =new FirefoxDriver();
-				
+//				driver =new FirefoxDriver();
+								
 				Log.info("Mozilla browser started");				
 			} else if(data.equals("IE")) {
 				//Dummy Code, implement your own code
 				driver=new InternetExplorerDriver();
 				Log.info("IE browser started");
 			} else if(data.equals("Chrome")) {
-				System.setProperty("webdriver.chrome.driver", "//home-wdc/homedir$/mme9310/Documents/lib");
+				Log.info("Chrome is the browser");
+//				System.setProperty("webdriver.chrome.driver", "////home-wdc//homedir$//mme9310//Documents//lib//chromedriver.exe");
+				System.setProperty("webdriver.chrome.driver", "C:/Users/mme9310/Documents/lib/chromedriver.exe");
+				
+				DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+			    capabilities.setBrowserName("chrome");
+			    
 				driver=new ChromeDriver();
 				Log.info("Chrome browser started");
 			}

@@ -11,8 +11,8 @@ public class Constants {
 //	public static final String URL = "http://utmaxp01:9080/maximo/";
 	
 //TST
-//	public static final String URL = "http://10.160.16.59:9080/maximo/";
-	public static final String URL = "http://dvmax01:9080/maximo/";
+//	public static final String URL = "http://10.160.16.59:9080/maximo/webclient/login/login.jsp";
+	public static final String URL = "http://dvmax01:9080/maximo/webclient/login/login.jsp";
 	
 //UAT	
 //	public static final String URL = "https://maximouat.tranzrail.co.nz/maximo/";
@@ -24,7 +24,7 @@ public class Constants {
 	
 	public static final String Path_Screenshot = "H://Documents//workspace//maximotest//Screenshots//";
 	public static final String Path_TestData = "H://Documents//workspace//maximotest//src//test//java//dataEngine//DataEngine.xlsx";
-	public static final String Path_TestFiles = "H://Documents//workspace//maximotest//target//test-classes//dataEngine//";
+	public static final String Path_TestFiles = "H://Documents//workspace//maximotest//src//test//java//dataEngine//";
 	public static final String Path_OR = "H://Documents//workspace//maximotest//src//test//java//config//OR.txt";
 	public static final String KEYWORD_FAIL = "FAIL";
 	public static final String KEYWORD_PASS = "PASS";
