@@ -96,6 +96,13 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.6.6</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-remote-driver
+		<dependency>
+    		<groupId>org.seleniumhq.selenium</groupId>
+    		<artifactId>selenium-remote-driver</artifactId>
+    		<version>3.9.1</version>
+		</dependency>
+         -->
 	</dependencies>
 	<build>
     	<plugins>
@@ -145,7 +152,7 @@
 				<version>2.20</version>
 				<configuration>
 					<suiteXmlFiles>
-					<suiteXmlFile>//home-wdc/homedir$/mme9310/Documents/workspace/maximotest/testng.xml</suiteXmlFile>
+					<suiteXmlFile>testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
