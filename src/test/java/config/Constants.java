@@ -24,10 +24,10 @@ public class Constants {
 //	public static final String URL = "http://dvmaxp01:9080/maximo/webclient/login/login.jsp";
 //	public static final String URL = "http://10.160.16.55:9080/maximo/webclient/login/login.jsp";
 	
-	public static final String Path_Screenshot = "///home-wdc//homedir$//mme9310//Documents//workspace//maximotest//Screenshots//";
-	public static final String Path_TestData = "///home-wdc//homedir$//mme9310//Documents//workspace//maximotest//src//test//java//dataEngine//DataEngine.xlsx";
-	public static final String Path_TestFiles = "///home-wdc//homedir$//mme9310//Documents//workspace//maximotest//src//test//java//dataEngine//";
-	public static final String Path_OR = "///home-wdc//homedir$//mme9310//Documents//workspace//maximotest//src//test//java//config//OR.txt";
+	public static final String Path_Screenshot = "Screenshots";
+	public static final String Path_TestData = "src//test//java//dataEngine//DataEngine.xlsx";
+	public static final String Path_TestFiles = "src//test//java//dataEngine//";
+	public static final String Path_OR = "src//test//java//config//OR.txt";
 
 	public static final String KEYWORD_FAIL = "FAIL";
 	public static final String KEYWORD_PASS = "PASS";
