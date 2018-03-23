@@ -60,8 +60,8 @@ public class ActionKeywords {
 				Log.info("Mozilla is the browser");
 //				driver=new FirefoxDriver();
 //				WebDriver driver;
-				System.setProperty("webdriver.gecko.driver", "////home-wdc//homedir$//mme9310//Documents//lib//geckodriver.exe");
-//				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/lib/geckodriver.exe");
+//				System.setProperty("webdriver.gecko.driver", "////home-wdc//homedir$//mme9310//Documents//lib//geckodriver.exe");
+				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/lib/geckodriver.exe");
 				
 			    DesiredCapabilities cap = DesiredCapabilities.firefox();
 			    cap.setBrowserName("firefox");
