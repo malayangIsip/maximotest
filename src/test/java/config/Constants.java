@@ -24,13 +24,14 @@ public class Constants {
 //	public static final String URL = "http://dvmaxp01:9080/maximo/webclient/login/login.jsp";
 //	public static final String URL = "http://10.160.16.55:9080/maximo/webclient/login/login.jsp";
 	
-	public static final String Path_Screenshot = "H://Documents//workspace//maximotest//Screenshots//";
-	public static final String Path_TestData = "H://Documents//workspace//maximotest//src//test//java//dataEngine//DataEngine.xlsx";
-	public static final String Path_TestFiles = "H://Documents//workspace//maximotest//src//test//java//dataEngine//";
-	public static final String Path_OR = "H://Documents//workspace//maximotest//src//test//java//config//OR.txt";
+	public static final String Path_Screenshot = "///home-wdc//homedir$//mme9310//Documents//workspace//maximotest//Screenshots//";
+	public static final String Path_TestData = "///home-wdc//homedir$//mme9310//Documents//workspace//maximotest//src//test//java//dataEngine//DataEngine.xlsx";
+	public static final String Path_TestFiles = "///home-wdc//homedir$//mme9310//Documents//workspace//maximotest//src//test//java//dataEngine//";
+	public static final String Path_OR = "///home-wdc//homedir$//mme9310//Documents//workspace//maximotest//src//test//java//config//OR.txt";
+
 	public static final String KEYWORD_FAIL = "FAIL";
 	public static final String KEYWORD_PASS = "PASS";
-	
+
 //	public static final String Path_Screenshot = "Z://zAutomation Tool//GitRepository//MaxTestTool//Screenshots//";
 //	public static final String Path_TestData = "Z://zAutomation Tool//GitRepository//MaxTestTool//src//dataEngine//DataEngine.xlsx";
 //	public static final String Path_TestFiles = "Z://zAutomation Tool//GitRepository//MaxTestTool//bin//dataEngine//";
