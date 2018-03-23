@@ -2,6 +2,8 @@ package config;
 
 public class Constants {
 	
+//Node machine
+	public static final String Node = "http://10.96.101.46:4444/wd/hub";
 //System Variables
 //sandbox(dmo)
 //	public static final String URL = "http://dvmstr01:9081/maximo/";

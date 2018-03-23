@@ -2,6 +2,7 @@ package config;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.util.StringUtil;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -29,6 +31,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
@@ -57,20 +60,20 @@ public class ActionKeywords {
 				Log.info("Mozilla is the browser");
 //				driver=new FirefoxDriver();
 //				WebDriver driver;
-//				System.setProperty("webdriver.gecko.driver", "////home-wdc//homedir$//mme9310//Documents//lib//geckodriver.exe");
-				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/lib/geckodriver.exe");
+				System.setProperty("webdriver.gecko.driver", "////home-wdc//homedir$//mme9310//Documents//lib//geckodriver.exe");
+//				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/lib/geckodriver.exe");
 				
-			    DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-			    capabilities.setBrowserName("firefox");
+			    DesiredCapabilities cap = DesiredCapabilities.firefox();
+			    cap.setBrowserName("firefox");
 //			    capabilities.setVersion("58.0.2 (64-bit)");
-//
-			    capabilities.setCapability("marionette", true);
+
+//			    cap.setVersion("56.0 (32-bit)");
+			    cap.setCapability("marionette", true);
 			    
 			    FirefoxProfile profile = new FirefoxProfile();
 			    profile.setPreference("network.proxy.type", 4);
 			    driver = new FirefoxDriver(profile);
-				
-//				driver =new FirefoxDriver();
+//			    driver = new RemoteWebDriver(new URL("http://10.96.101.46:4444/wd/hub"), cap);
 								
 				Log.info("Mozilla browser started");				
 			} else if(data.equals("IE")) {
