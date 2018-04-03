@@ -37,6 +37,7 @@ public class DriverScript {
 	public static String sData;
 	public static boolean bResult;
 	public static int counter = 0;
+	public static int maxRetry = 0;
 
 	public static String storedValue;
 	public static String WONUM = null;
@@ -80,7 +81,12 @@ public class DriverScript {
 				Log.info("sTestCaseID="+sTestCaseID);
 //				Log.info("iTestcase="+iTestcase);
 //				Log.info("sRunMode="+sRunMode);
-		        startEngine.execute_TestCase(iTestcase);
+				do {
+					maxRetry += 1;
+					System.out.println("Failed run... Retry = "+maxRetry);
+					startEngine.execute_TestCase(iTestcase);
+				} while (bResult == false && maxRetry <= 3);
+				
 //		        Log.info("bResult="+bResult);
 //		        if (bResult == true) {
 //					ExcelUtils.setCellData(Constants.KEYWORD_PASS, iTestcase, Constants.Col_Result,
@@ -146,6 +152,7 @@ public class DriverScript {
 			}
 		}
 	}
+
 
 	@AfterSuite
     public void tearDown() throws Exception {
