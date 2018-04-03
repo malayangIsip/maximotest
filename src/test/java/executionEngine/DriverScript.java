@@ -149,6 +149,6 @@ public class DriverScript {
 
 	@AfterSuite
     public void tearDown() throws Exception {
-//        driver.quit();
+        driver.quit();
     }
 }

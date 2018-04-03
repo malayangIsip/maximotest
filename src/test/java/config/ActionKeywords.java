@@ -26,6 +26,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -85,10 +86,13 @@ public class ActionKeywords {
 //				System.setProperty("webdriver.chrome.driver", "////home-wdc//homedir$//mme9310//Documents//lib//chromedriver.exe");
 				System.setProperty("webdriver.chrome.driver", "C:/Users/mme9310/Documents/lib/chromedriver.exe");
 				
+				ChromeOptions chromeOptions = new ChromeOptions();
+				chromeOptions.addArguments("--headless");
+				 
 				DesiredCapabilities capabilities = DesiredCapabilities.chrome();
 			    capabilities.setBrowserName("chrome");
 			    
-				driver=new ChromeDriver();
+				driver=new ChromeDriver(chromeOptions);
 				Log.info("Chrome browser started");
 			}
 			
@@ -1109,6 +1113,7 @@ public class ActionKeywords {
 	
 	public static void verifyAlert(String object, String data){
 		try{
+			Thread.sleep(5000);
 			if(isAlertPresent()){
 	            driver.switchTo().alert();
 	            driver.switchTo().alert().accept();
