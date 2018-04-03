@@ -455,7 +455,7 @@ public class ActionKeywords {
 			}
 			
 			ele = StringUtils.remove(ele, ",");	
-			data = StringUtils.remove(ele, ",");	
+			data = StringUtils.remove(data, ",");	
 			Log.info("get assertValue: object="+ele.toUpperCase()+" data:"+data.toUpperCase());
 			waitFor();
 			Assert.assertTrue(ele.toUpperCase().trim().equals(data.toUpperCase().trim()), "Assertion failed.");
