@@ -102,6 +102,7 @@ public class ActionKeywords {
 			navigate();
 		}catch (Exception e){
 			Log.info("Not able to open the Browser --- " + e.getMessage());
+			extentTest.log(LogStatus.ERROR, "Not able to open the Browser --- " +e.getMessage());
 			DriverScript.bResult = false;
 		}
 	}
@@ -115,6 +116,7 @@ public class ActionKeywords {
 //			assertEquals("Welcome to MAXTDMO", driver.getTitle());
 		}catch(Exception e){
 			Log.info("Not able to navigate --- " + e.getMessage());
+			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
 		}
 	}
@@ -139,6 +141,7 @@ public class ActionKeywords {
 			waitFor();
 		 }catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -161,6 +164,7 @@ public class ActionKeywords {
 			waitFor();
 		}catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
        	}
 	}
@@ -173,6 +177,7 @@ public class ActionKeywords {
 //			ActionKeywords.closeBrowser("","");
 		 }catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
         }
 	}
@@ -183,6 +188,7 @@ public class ActionKeywords {
 			waitFor();
 		}catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
         }
 	}
@@ -199,6 +205,7 @@ public class ActionKeywords {
             waitFor();
 		 }catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -213,6 +220,7 @@ public class ActionKeywords {
 	        driver.findElement(By.xpath(OR.getProperty(data))).click();	
 		 }catch(Exception e){
  			Log.error("Not able to hover --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	} 
@@ -224,6 +232,7 @@ public class ActionKeywords {
 			waitFor();
 		 }catch(Exception e){
  			Log.error("Not able to click OK --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	} 
@@ -435,9 +444,11 @@ public class ActionKeywords {
 			Assert.assertTrue(ele.toUpperCase().trim().equals(data.toUpperCase()), "Assertion failed.");
 		 } catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
 		 	DriverScript.bResult = false;
 	     } catch(Exception e){
 	 		Log.error("Assertion failed --- " + e.getMessage());
+	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	     } 
 	}
@@ -456,13 +467,14 @@ public class ActionKeywords {
 			ele = StringUtils.remove(ele, ",");	
 			data = StringUtils.remove(data, ",");	
 			Log.info("get assertValue: object="+ele.toUpperCase()+" data:"+data.toUpperCase());
-			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + ele.toUpperCase().trim());
+			
 			waitFor();
 			Assert.assertTrue(ele.toUpperCase().trim().equals(data.toUpperCase().trim()), "Assertion failed.");
 		 } catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 		 	DriverScript.bResult = false;
 	     } catch(Exception e){
 	 		Log.error("Assertion failed --- " + e.getMessage());
@@ -491,9 +503,13 @@ public class ActionKeywords {
 			Assert.assertTrue(CollectionUtils.containsAny(txtToCheck1, txtToCheck), "Assertion failed.");
 		 } catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 		 	DriverScript.bResult = false;
 	     } catch(Exception e){
 	 		Log.error("Assertion failed --- " + e.getMessage());
+	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	     } 
 	}
@@ -516,9 +532,13 @@ public class ActionKeywords {
 			Assert.assertTrue(ele.toUpperCase().trim().equals(data.toUpperCase()), "Assertion failed.");
 		 } catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 		 	DriverScript.bResult = false;
 	     } catch(Exception e){
 	 		Log.error("Assertion failed --- " + e.getMessage());
+	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	     } 
 	}
@@ -577,9 +597,13 @@ public class ActionKeywords {
 			Assert.assertEquals(field1.trim().toLowerCase(), field2.trim().toLowerCase());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
 		 }catch(Exception e){
  			Log.error("Fields not Equal --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -590,9 +614,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val.toLowerCase(), data.toLowerCase());
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
 		}catch(Exception e){
  			Log.error("Object is null --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -603,9 +631,13 @@ public class ActionKeywords {
 			Assert.assertEquals(String.valueOf(val).toLowerCase(), data.toLowerCase());
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
 		}catch(Exception e){
  			Log.error("Object is empty --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -619,9 +651,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, data.toLowerCase());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
 		 }catch(Exception e){
  			Log.error("Object is readonly --- " +e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -635,9 +671,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, data.toLowerCase()); 
     	}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
 		}catch(Exception e){
 			Log.error("Object is disabled --- " +e.getMessage());
+			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
         }
 	}
@@ -651,9 +691,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, data.toLowerCase());
    	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		}catch(Exception e){
  			Log.error("Object is required --- " +e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
         }
 	}
@@ -664,9 +708,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val.toLowerCase(), data.toLowerCase());
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
 		}catch(Exception e){
  			Log.error("Object is checked--- " +e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
         }
 	}
@@ -688,9 +736,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val.toLowerCase(), data.toLowerCase());
   	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
 		}catch(Exception e){
  			Log.error("Object is ticked --- " +e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
         }
 	}
@@ -704,9 +756,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, data.toLowerCase());
   	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
 		}catch(Exception e){
  			Log.error("Object is ticked --- " +e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
         }
 	}
@@ -717,9 +773,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		 }catch(Exception e){
  			Log.error("rowsDisplayed ---" + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -730,9 +790,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		 }catch(Exception e){
  			Log.error("rowsDisplayed ---" + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -743,9 +807,13 @@ public class ActionKeywords {
 			Assert.assertEquals(Boolean.valueOf(val > 0).toString().toLowerCase(), data.toLowerCase());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		 }catch(Exception e){
  			Log.error("tableNotEmpty ---" + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -756,9 +824,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		 }catch(Exception e){
  			Log.error("Total rows per page ---" + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -769,9 +841,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		 }catch(Exception e){
  			Log.error("Total rows per page ---" + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -783,9 +859,13 @@ public class ActionKeywords {
 			Assert.assertEquals(rowCount, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
 		 }catch(Exception e){
  			Log.error("Total row count ---" +e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -796,9 +876,13 @@ public class ActionKeywords {
 			Assert.assertFalse(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value").equals("0.00"), "Zero line cost.");
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
 		 }catch(Exception e){
  			Log.error("Zero line cost --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -810,6 +894,7 @@ public class ActionKeywords {
 			wait.until(ExpectedConditions.presenceOfElementLocated((By.xpath(OR.getProperty(object)))));
 		 }catch(Exception e){
  			Log.error("Element does not exists --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -820,6 +905,7 @@ public class ActionKeywords {
 			(new WebDriverWait(driver, sec)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(OR.getProperty(object))));			
 		}catch(Exception e){
 			Log.error("Element does not exists --- " + e.getMessage());
+			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
 		}
 	}
@@ -832,9 +918,13 @@ public class ActionKeywords {
 			Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value").equals(data));
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
 		 }catch(Exception e){
  			Log.error("Save not done --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -870,9 +960,13 @@ public class ActionKeywords {
 			}
 	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
 	    }
 	}
@@ -883,9 +977,13 @@ public class ActionKeywords {
 	    	Assert.assertEquals(String.valueOf(existsElement(object)), data.toLowerCase());
 	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
 	    }
 	}
@@ -904,7 +1002,8 @@ public class ActionKeywords {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Element Not Found.");		
+			System.out.println("Element Not Found.");	
+			extentTest.log(LogStatus.ERROR, e.getMessage());
 			return false;
 		}
 		System.out.println("Element Not Found.");	
@@ -924,6 +1023,7 @@ public class ActionKeywords {
 		
 		if (i > 30){
 			System.out.println("FAIL: Element not located in a reasonable timeframe");
+			extentTest.log(LogStatus.ERROR, "Element not located in a reasonable timeframe");
 			throw new Exception("FAIL: Element not located in a reasonable timeframe");
 		//	return false;
 		} else{
@@ -944,6 +1044,7 @@ public class ActionKeywords {
 		
 		if (i > 120){
 			System.out.println("FAIL: Element not located in a reasonable timeframe");
+			extentTest.log(LogStatus.ERROR, "Element not located in a reasonable timeframe");
 			throw new Exception("FAIL: Element not located in a reasonable timeframe");
 		//	return false;
 		} else{
@@ -964,6 +1065,7 @@ public class ActionKeywords {
 		
 		if (i > 120){
 			System.out.println("FAIL: Element not located in a reasonable timeframe");
+			extentTest.log(LogStatus.ERROR, "Element not located in a reasonable timeframe");
 			throw new Exception("FAIL: Element not located in a reasonable timeframe");
 		//	return false;
 		} else{
@@ -978,9 +1080,13 @@ public class ActionKeywords {
 	    	Assert.assertTrue(elementDisplayed(By.xpath("//table[contains(@summary,'"+object+"')]")));
 	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
 	    }
 	}
@@ -992,6 +1098,7 @@ public class ActionKeywords {
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(OR.getProperty(object))));
 		 }catch(Exception e){
  			Log.error("Element does not exists --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -1004,6 +1111,7 @@ public class ActionKeywords {
 //	        driver.switchTo().alert().accept();
 		 }catch(Exception e){
  			Log.error("Element does not exists --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
          }
 	}
@@ -1016,6 +1124,7 @@ public class ActionKeywords {
 			waitFor();
 		 }catch(Exception e){
 			Log.error("Not able to Enter value --- " + e.getMessage());
+			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
 		 }
 	}
@@ -1025,6 +1134,7 @@ public class ActionKeywords {
 			driver.findElement(By.xpath(OR.getProperty(object))).clear();
 		}catch(Exception e){
 			 Log.error(e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
 		}
 	}
@@ -1035,6 +1145,7 @@ public class ActionKeywords {
 			Thread.sleep(Integer.parseInt(sec));
 		 }catch(Exception e){
 			 Log.error(e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
          }
 	}
@@ -1045,6 +1156,7 @@ public class ActionKeywords {
 			Thread.sleep(1000);
 		}catch(Exception e){
 			 Log.error("Not able to Wait --- " + e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
         }
 	}
@@ -1054,6 +1166,7 @@ public class ActionKeywords {
   			 Thread.sleep(5000);
 	    }catch(Exception e){
 			 Log.error("Not able to Wait --- " + e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
        	}
 	}
@@ -1063,6 +1176,7 @@ public class ActionKeywords {
   			 Thread.sleep(1000);
 	    }catch(Exception e){
 			 Log.error("Not able to Wait --- " + e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
        	}
 	}
@@ -1073,6 +1187,7 @@ public class ActionKeywords {
 			driver.quit();
 		}catch(Exception e){
 			 Log.error("Not able to Close the Browser --- " + e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
        	}
 	}
@@ -1083,6 +1198,7 @@ public class ActionKeywords {
 			Utils.takeScreenshot(driver, data);
 		} catch (Exception e) {
 			Log.error("Not able to take screenshot --- " + e.getMessage());
+			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
 		}
 	}
@@ -1098,6 +1214,7 @@ public class ActionKeywords {
 		    }
 		} catch (Exception e) {
 			Log.error("switchWindow --- " + e.getMessage());
+			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
 		}
 	}
@@ -1115,9 +1232,13 @@ public class ActionKeywords {
 			Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty(object))).getText().contains(data), "Assertion failed.");
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		}catch(Exception e){
 	 		Log.error("Verify Alert: Assertion failed --- " + e.getMessage());
+	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	    }
 	}
@@ -1157,9 +1278,13 @@ public class ActionKeywords {
 			}
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		}catch(Exception e){
 			 Log.error(e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
 		}
 	}
@@ -1206,6 +1331,7 @@ public class ActionKeywords {
 			waitForElementDisplayed("btn_OK");
 		}catch(Exception e){
 			 Log.error("WFAssignment not found --- " + e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
 		}
 	}
@@ -1245,9 +1371,13 @@ public class ActionKeywords {
 				Assert.assertEquals(String.valueOf(rowCount), data.trim());
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 			 }catch(Exception e){
 				Log.error("Table does not exists --- " +e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 			 }
 	  }
@@ -1281,9 +1411,13 @@ public class ActionKeywords {
 				}
 		  }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 		  }catch(Exception e){
 				Log.error("Check status exists --- " + e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 		  }
 	  }
@@ -1332,9 +1466,13 @@ public class ActionKeywords {
 				}
    	     }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 		 }catch(Exception e){
 			    Log.error("Check value exists --- " + e.getMessage());
+			    extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 		 }
 	  }
@@ -1386,9 +1524,13 @@ public class ActionKeywords {
 				}
    	     }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 		 }catch(Exception e){
 			    Log.error("Check value exists --- " + e.getMessage());
+			    extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 		 }
 	  }
@@ -1408,9 +1550,13 @@ public class ActionKeywords {
 		        }
    	      }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;	    
           }catch(Exception e){
 				Log.error("check topmost drilldown --- " +e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 		 }
 	  }
@@ -1442,9 +1588,13 @@ public class ActionKeywords {
 				}
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 			 }catch(Exception e){
 				Log.error("Check column exists ---" + e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 			 }
 	  }
@@ -1486,9 +1636,13 @@ public class ActionKeywords {
 				}
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 			 }catch(Exception e){
 				Log.error("Check column exists ---" + e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 			 }
 	  }
@@ -1531,9 +1685,13 @@ public class ActionKeywords {
 				}
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 			 }catch(Exception e){
 				Log.error("Check column exists ---" + e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 			 }
 	  }
@@ -1570,9 +1728,13 @@ public class ActionKeywords {
 				Assert.assertTrue(colList.containsAll(colToCheck));
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 			 }catch(Exception e){
 				Log.error("Check column exists ---" + e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 			 }
 	  }
@@ -1587,9 +1749,13 @@ public class ActionKeywords {
 			}                                                          
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
 		 }catch(Exception e){
 			Log.error("Check field exists ---" + e.getMessage());
+			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
 		 }
 	  }
@@ -1611,6 +1777,7 @@ public class ActionKeywords {
 			  driver.findElement(By.id(OR.getProperty(object))).getText();
 		  } catch(Exception e){
 				 Log.error("copyMessage --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
 	  }
@@ -1651,6 +1818,7 @@ public class ActionKeywords {
 			  waitFor();			  
 		  } catch(Exception e){
 			  Log.error("route WF --- " +e.getMessage());
+			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 		  }
 	  }	
@@ -1663,6 +1831,7 @@ public class ActionKeywords {
 			  waitFor();			  
 		  } catch(Exception e){
 			  Log.error("stop WF --- " +e.getMessage());
+			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 		  }
 	  }	
@@ -1683,6 +1852,7 @@ public class ActionKeywords {
 //			  storeValue(driver.findElement(By.xpath(OR.getProperty("txtbx_ReporterType"))).getAttribute(data), "WONUM");
 		  } catch(Exception e){
 				 Log.error("Create SR --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
 	  }	
@@ -1710,6 +1880,7 @@ public class ActionKeywords {
 			  waitFor();
 		  } catch(Exception e){
 				 Log.error("CreateWO --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
      }	
@@ -1749,6 +1920,7 @@ public class ActionKeywords {
 			  waitFor();
 		  } catch(Exception e){
 				 Log.error("CreateWO --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
      }	
@@ -1809,6 +1981,7 @@ public class ActionKeywords {
 			  waitFor();
 		  } catch(Exception e){
 				 Log.error("CreateWOwithPlans --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
      }	
@@ -1868,6 +2041,7 @@ public class ActionKeywords {
 			  waitFor();
 		  } catch(Exception e){
 				 Log.error("createWOwithMaterialPlans --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
      }	
@@ -1883,6 +2057,7 @@ public class ActionKeywords {
 			  waitFor();
 		  } catch(Exception e){
 				 Log.error("Create PO --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
 	  }
@@ -1899,6 +2074,7 @@ public class ActionKeywords {
 			  waitFor();
 		  } catch(Exception e){
 				 Log.error("Create PR --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
 	  }
@@ -1920,12 +2096,17 @@ public class ActionKeywords {
 			  assertValue1("End Metrage", "96.600");
 		  }catch(AssertionError ae){
 			  Log.error("Assertion failed --- " + ae.getMessage());
+			  extentTest.log(LogStatus.ERROR, ae.getMessage());
+			  extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			  extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			  DriverScript.bResult = false;
 		  } catch (NoSuchElementException e) {
 		      Log.error("Element not found --- " + e.getMessage());
+		      extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		  DriverScript.bResult = false;
 		  } catch (Exception e) {
 		      Log.error("Create Asset --- " + e.getMessage());
+		      extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		  DriverScript.bResult = false;
 		  }
 	  }
@@ -1952,12 +2133,17 @@ public class ActionKeywords {
 				assertValue1("End Metrage", "98.568");
 			}catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 		    } catch (NoSuchElementException e) {
 		    	Log.error("Element not found --- " + e.getMessage());
+		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
 		    } catch (Exception e) {
 		    	Log.error("Create Location --- " + e.getMessage());
+		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
 		    }	
 	  }
@@ -1980,12 +2166,17 @@ public class ActionKeywords {
 				assertValue1("End Metrage", "98.568");
 			}catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 		    } catch (NoSuchElementException e) {
 		    	Log.error("Element not found --- " + e.getMessage());
+		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
 		    } catch (Exception e) {
 		    	Log.error("Create Location --- " + e.getMessage());
+		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
 		    }	
 	  }
@@ -2022,6 +2213,7 @@ public class ActionKeywords {
 			  save("1","1");
 		  } catch(Exception e){
 				 Log.error("Create PO --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
 	  }
@@ -2043,6 +2235,7 @@ public class ActionKeywords {
 			  waitFor();
 		  } catch(Exception e){
 				 Log.error("Add value --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
 	  }
@@ -2118,9 +2311,13 @@ public class ActionKeywords {
 			  Assert.assertFalse(driver.findElement(By.xpath(OR.getProperty("txtbx_Status"))).getAttribute("value").trim().toUpperCase().equals(oldStatus), "Assertion failed - status not changed");
 		  }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;	
 		  } catch(Exception e) {
 				 Log.error("changeStatus --- " +e.getMessage());
+				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
      }	
@@ -2139,9 +2336,13 @@ public class ActionKeywords {
 				}
 			}catch(AssertionError ae){
 				Log.error("duplicate failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;	
 			}catch(Exception e){
 		 		Log.error("Verify Alert: duplicate failed --- " + e.getMessage());
+		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
 		    }
 	  }
@@ -2162,9 +2363,13 @@ public class ActionKeywords {
 				}
 			}catch(AssertionError ae){
 				Log.error("duplicate failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;	
 			}catch(Exception e){
 		 		Log.error("Verify Alert: duplicate failed --- " + e.getMessage());
+		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
 		    }
 	  }
@@ -2184,9 +2389,13 @@ public class ActionKeywords {
 				Thread.sleep(500);
 			 }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;	
 			 }catch(Exception e){
 		 		Log.error("Verify Alert: Assertion failed --- " + e.getMessage());
+		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
 		     }
 	}  
@@ -2240,9 +2449,13 @@ public class ActionKeywords {
 				Assert.assertEquals(String.valueOf(rowCount), data.trim());
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
 			 }catch(Exception e){
 				Log.error("Table does not exists --- " +e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 			 }
 	  }  
@@ -2275,6 +2488,7 @@ public class ActionKeywords {
 				fw.close();
 			} catch (Exception e) {
 				Log.error("Unable to capture sytem message ---- " +e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 			}
 		}
@@ -2308,6 +2522,7 @@ public class ActionKeywords {
 				fw.close();
 			} catch (Exception e) {
 				Log.error("Unable to capture sytem message ---- " +e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 			}
 		}
@@ -2323,6 +2538,7 @@ public class ActionKeywords {
 			  waitFor();
 		  } catch(Exception e){
 			  Log.error("whereClause --- " +e.getMessage());
+			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 		  }
       }	
@@ -2335,6 +2551,7 @@ public class ActionKeywords {
 //			  waitFor();
 		  } catch(Exception e){
 			  Log.error("clearWhereClause --- " +e.getMessage());
+			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 		  }
       }
@@ -2350,6 +2567,7 @@ public class ActionKeywords {
 			  }
 		  } catch(Exception e){
 			  Log.error("populateDate --- " +e.getMessage());
+			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 		  }
      }	
@@ -2375,6 +2593,7 @@ public class ActionKeywords {
 				save("1","1");
 			 }catch(Exception e){
 	 			Log.error("Not able to click --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
 	       	 }
 	   }
