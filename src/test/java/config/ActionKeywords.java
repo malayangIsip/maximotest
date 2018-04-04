@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import static executionEngine.DriverScript.OR;
 import static executionEngine.DriverScript.driver;
+import static executionEngine.DriverScript.extentTest;
 import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -39,6 +40,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.relevantcodes.extentreports.LogStatus;
+
+
 import executionEngine.DriverScript;
 import utility.Log;
 import utility.Utils;
@@ -59,16 +63,12 @@ public class ActionKeywords {
 			Log.info("Try opening browser");
 			if(data.equals("Mozilla")) {
 				Log.info("Mozilla is the browser");
-//				driver=new FirefoxDriver();
-//				WebDriver driver;
+
 //				System.setProperty("webdriver.gecko.driver", "////home-wdc//homedir$//mme9310//Documents//lib//geckodriver.exe");
 				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/lib/geckodriver.exe");
 				
 			    DesiredCapabilities cap = DesiredCapabilities.firefox();
 			    cap.setBrowserName("firefox");
-//			    capabilities.setVersion("58.0.2 (64-bit)");
-
-//			    cap.setVersion("56.0 (32-bit)");
 			    cap.setCapability("marionette", true);
 			    
 			    FirefoxProfile profile = new FirefoxProfile();
@@ -109,7 +109,6 @@ public class ActionKeywords {
 	public static void navigate(){
 		try{
 			Log.info("Navigating to URL");
-//			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			driver.get(Constants.URL);
 //			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 //			assertEquals("Welcome to MAX", driver.getTitle());			
@@ -457,13 +456,17 @@ public class ActionKeywords {
 			ele = StringUtils.remove(ele, ",");	
 			data = StringUtils.remove(data, ",");	
 			Log.info("get assertValue: object="+ele.toUpperCase()+" data:"+data.toUpperCase());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
+			extentTest.log(LogStatus.INFO, "Actual Value: " + ele.toUpperCase().trim());
 			waitFor();
 			Assert.assertTrue(ele.toUpperCase().trim().equals(data.toUpperCase().trim()), "Assertion failed.");
 		 } catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
 		 	DriverScript.bResult = false;
 	     } catch(Exception e){
 	 		Log.error("Assertion failed --- " + e.getMessage());
+	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	     } 
 	}
@@ -625,8 +628,6 @@ public class ActionKeywords {
 	
 	public static void isDisabled(String object, String data){
 		 try{
-//			String val = String.valueOf(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("active").equals("true"));
-//			Assert.assertEquals(val, data.toLowerCase());
 			String val = "false"; 
 	    	if (driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("active") != null) {
 			    val = "true";
@@ -643,7 +644,6 @@ public class ActionKeywords {
 	
 	public static void isRequired(String object, String data){
 		try{
-//			Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("aria-required").equals("true"), "Element is not a required field.");
 			String val = "false"; 
     		if (driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("aria-required") != null) {
 				val = "true";
@@ -839,15 +839,6 @@ public class ActionKeywords {
          }
 	}
 	
-	
-//	static boolean waitForElementTobeActive(String object, String data) {
-//		try {
-//			existsElement(driver.findElement(By.xpath(OR.getProperty(object))).isEnabled());
-//	    } catch (NoSuchElementException e) {
-//	        return false;
-//	    }
-//	    return true;
-//	}
 	
 //to verify if element exists; for negative testing
 	static boolean existsElement(String id) {
@@ -1219,16 +1210,7 @@ public class ActionKeywords {
 		}
 	}
 	
-	  public static void executeSQL(String object, String data){
-        try{
-        	driver.switchTo().alert();
-            driver.switchTo().alert().accept();
-        }
-        catch(Exception e){
-//TODO
-        }   
-	  }
-	 
+ 
       public static void expectedRows(String object, String data){
 		     try{
 		    	 String dir = null;
@@ -1611,18 +1593,18 @@ public class ActionKeywords {
 			DriverScript.bResult = false;
 		 }
 	  }
-	  //duplicate of input -- testing if possible
-	  public static void input1(String object, String data){
-			try{
-				Log.info("Entering the text in " + object);
-				driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).clear();
-				driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).sendKeys(data);
-//				waitFor();
-			 }catch(Exception e){
-				Log.error("Not able to Enter value --- " + e.getMessage());
-				DriverScript.bResult = false;
-			 }
-		}
+//	  //duplicate of input -- testing if possible
+//	  public static void input1(String object, String data){
+//			try{
+//				Log.info("Entering the text in " + object);
+//				driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).clear();
+//				driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).sendKeys(data);
+////				waitFor();
+//			 }catch(Exception e){
+//				Log.error("Not able to Enter value --- " + e.getMessage());
+//				DriverScript.bResult = false;
+//			 }
+//		}
 	  	  
 	  public static void copyMessage(String object, String data) {
 		  try{
@@ -1633,14 +1615,14 @@ public class ActionKeywords {
 		  }
 	  }
 	  
-	  public static void checkTotalCost(String object, String data) {
-		  try{
-//			  compare value of est cost field to the value from view cost total row
-		  } catch(Exception e){
-				 Log.error("Total Cost Discrepancy --- " +e.getMessage());
-				 DriverScript.bResult = false;
-		  }
-	  }
+//	  public static void checkTotalCost(String object, String data) {
+//		  try{
+////			  compare value of est cost field to the value from view cost total row
+//		  } catch(Exception e){
+//				 Log.error("Total Cost Discrepancy --- " +e.getMessage());
+//				 DriverScript.bResult = false;
+//		  }
+//	  }
 	  
 	  public static void scrollDown(String object, String data) throws Exception {
 		  Log.info("scrolling down to field..");

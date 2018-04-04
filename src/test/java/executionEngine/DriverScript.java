@@ -11,9 +11,15 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
 import config.ActionKeywords;
 import config.Constants;
@@ -29,6 +35,10 @@ public class DriverScript {
 	public static String sActionKeyword;
 	public static String sPageObject;
 	public static Method method[];
+	
+	//reporting
+	public static ExtentReports extent;
+	public static ExtentTest extentTest;
 
 	public static int iTestStep;
 	public static int iTestLastStep;
@@ -60,6 +70,13 @@ public class DriverScript {
 		method = actionKeywords.getClass().getMethods();
 	}
 	
+	@BeforeSuite
+	public void setReport() {
+		extent = new ExtentReports(Constants.extentReportFile, false);
+		extentTest = extent.startTest("Maximo Regression");
+	}
+	
+	
 	@Test
 	public void main() throws Exception {
 		ExcelUtils.setExcelFile(Constants.Path_TestData);
@@ -79,31 +96,24 @@ public class DriverScript {
 			if (sRunMode.equals("Yes")) {
 				Log.startTestCase(sTestCaseID);
 				Log.info("sTestCaseID="+sTestCaseID);
-//				Log.info("iTestcase="+iTestcase);
-//				Log.info("sRunMode="+sRunMode);
+
+                extentTest.log(LogStatus.INFO, sTestCaseID);
 				do {
 					maxRetry += 1;
-					System.out.println("Failed run... Retry = "+maxRetry);
+					System.out.println("Retry = "+maxRetry);
+					extentTest.log(LogStatus.INFO, "Retry = "+maxRetry);
 					startEngine.execute_TestCase(iTestcase);
 				} while (bResult == false && maxRetry <= 3);
-				
-//		        Log.info("bResult="+bResult);
-//		        if (bResult == true) {
-//					ExcelUtils.setCellData(Constants.KEYWORD_PASS, iTestcase, Constants.Col_Result,
-//							Constants.Sheet_TestCases, Constants.Path_TestData);
-//					Log.endTestCase(sTestCaseID);
-//				} 
 			}
 		}	
 	}
 
 	private void execute_TestCase(int testCase) throws Exception {
 		ExcelUtils.setExcelFile(Constants.Path_TestFiles+"//"+sTestCaseID+".xlsx");
-//		Log.info("Input file path ... "+Constants.Path_TestFiles+"//"+sTestCaseID+".xlsx");
 		iTestStep = ExcelUtils.getRowContains(sTestCaseID, Constants.Col_TestCaseID, Constants.Sheet_TestSteps);
 		iTestLastStep = ExcelUtils.getTestStepsCount(Constants.Sheet_TestSteps, sTestCaseID, iTestStep);
 		bResult = true;
-//		counter = 1;
+
 		for (; iTestStep < iTestLastStep; iTestStep++) {
 			sActionKeyword = ExcelUtils.getCellData(iTestStep, Constants.Col_ActionKeyword,
 				Constants.Sheet_TestSteps);
@@ -119,6 +129,7 @@ public class DriverScript {
 			    ExcelUtils.setCellData(Constants.KEYWORD_FAIL, testCase, Constants.Col_Result,
 				    Constants.Sheet_TestCases, Constants.Path_TestData);
 			    Log.endTestCase(sTestCaseID);
+			    extentTest.log(LogStatus.FAIL, "TestStep: "+iTestStep +"; "+"Action: "+sActionKeyword +"; "+"Field: "+sPageObject +"; "+"Data: "+sData);
 			    break;
 			}
 		}
@@ -127,6 +138,7 @@ public class DriverScript {
 			ExcelUtils.setCellData(Constants.KEYWORD_PASS, testCase, Constants.Col_Result,
 				Constants.Sheet_TestCases, Constants.Path_TestData);
 			Log.endTestCase(sTestCaseID);
+			extentTest.log(LogStatus.PASS, sTestCaseID);
 		}
 	}	
 	
@@ -134,8 +146,6 @@ public class DriverScript {
 	private static void execute_Actions() throws Exception {
 		for (int i = 0; i < method.length; i++) {
 			if (method[i].getName().equals(sActionKeyword)) {
-//				Log.info("method[i].getName(): " + method[i].getName());
-//				Log.info("sActionKeyword 2: " + sActionKeyword.toString());
 				method[i].invoke(actionKeywords, sPageObject, sData);
 				if (bResult == true) {
 					ExcelUtils.setCellData(Constants.KEYWORD_PASS, iTestStep, Constants.Col_TestStepResult,
@@ -146,6 +156,9 @@ public class DriverScript {
 							Constants.Sheet_TestSteps, Constants.Path_TestFiles+"//"+sTestCaseID+".xlsx");
 					Utils.takeScreenshot(driver, sTestCaseID);
 					Log.error("Error executing: " + sActionKeyword);
+
+//					extentTest.log(LogStatus.ERROR, "Error executing action: " + sActionKeyword);
+				    extentTest.addScreenCapture(Constants.extentReportImage);
 					ActionKeywords.closeBrowser("","");
 					break;
 				}
@@ -157,5 +170,11 @@ public class DriverScript {
 	@AfterSuite
     public void tearDown() throws Exception {
         driver.quit();
+        
+        // close report.
+     	extent.endTest(extentTest);
+
+     	// writing everything to document.
+     	extent.flush();
     }
 }

@@ -56,4 +56,9 @@ public class Constants {
 // Test Data
 	public static final String UserName = "maxadmin";
 	public static final String Password = "maxadmin";
+	
+//Reporting
+	public static final String extentReportPath = "Logs";
+	public static final String extentReportFile = "Logs//extentReportFile.html";
+	public static final String extentReportImage = "Logs//extentReportImage.png";
 }
