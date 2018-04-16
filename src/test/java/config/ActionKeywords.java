@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -16,6 +18,7 @@ import static executionEngine.DriverScript.OR;
 import static executionEngine.DriverScript.driver;
 import static executionEngine.DriverScript.extentTest;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,10 +47,12 @@ import com.relevantcodes.extentreports.LogStatus;
 
 
 import executionEngine.DriverScript;
+import pageObjects.WOPage;
 import utility.Log;
 import utility.Utils;
 
 public class ActionKeywords {
+	public static WOPage  woPage;
 //	static String password = "sirius";
 //	static String password = "Kiwirail123";
 	
@@ -55,6 +60,10 @@ public class ActionKeywords {
 	static String duplicateMsg = "BMXAA4131E";
 	static String saveMsg = "Record has been saved.";
 	static String changeStatusMsg = "BMXAA4591I";
+	
+	public ActionKeywords() {
+		woPage = new WOPage(driver);
+	}
 			
 	@SuppressWarnings("deprecation")
 	public static void openBrowser(String object,String data){		
@@ -64,7 +73,6 @@ public class ActionKeywords {
 			if(data.equals("Mozilla")) {
 				Log.info("Mozilla is the browser");
 
-//				System.setProperty("webdriver.gecko.driver", "////home-wdc//homedir$//mme9310//Documents//lib//geckodriver.exe");
 				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/lib/geckodriver.exe");
 				
 			    DesiredCapabilities cap = DesiredCapabilities.firefox();
@@ -83,7 +91,16 @@ public class ActionKeywords {
 				Log.info("IE browser started");
 			} else if(data.equals("Chrome")) {
 				Log.info("Chrome is the browser");
-//				System.setProperty("webdriver.chrome.driver", "////home-wdc//homedir$//mme9310//Documents//lib//chromedriver.exe");
+				System.setProperty("webdriver.chrome.driver", "C:/Users/mme9310/Documents/lib/chromedriver.exe");
+				
+				ChromeOptions chromeOptions = new ChromeOptions();
+				DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+			    capabilities.setBrowserName("chrome");
+			    
+				driver=new ChromeDriver(chromeOptions);
+				Log.info("Chrome browser started");
+			} else if(data.equals("Chrome--headless")) {
+				Log.info("Chrome is the browser--headless");
 				System.setProperty("webdriver.chrome.driver", "C:/Users/mme9310/Documents/lib/chromedriver.exe");
 				
 				ChromeOptions chromeOptions = new ChromeOptions();
@@ -93,7 +110,7 @@ public class ActionKeywords {
 			    capabilities.setBrowserName("chrome");
 			    
 				driver=new ChromeDriver(chromeOptions);
-				Log.info("Chrome browser started");
+				Log.info("Chrome browser--headless started");
 			}
 			
 			int implicitWaitTime=(1);
@@ -173,7 +190,7 @@ public class ActionKeywords {
 		try{
 			Log.info("Logging out");
 			driver.findElement(By.id("titlebar_hyperlink_8-lbsignout_image")).click();
-			driver.close();
+//			driver.close();
 //			ActionKeywords.closeBrowser("","");
 		 }catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
@@ -202,7 +219,7 @@ public class ActionKeywords {
 			Log.info("Clicking on Webelement "+ object);
 			elementClickable(object);
 			driver.findElement(By.xpath(OR.getProperty(object))).click();
-            waitFor();
+            Thread.sleep(2000);
 		 }catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
@@ -213,11 +230,13 @@ public class ActionKeywords {
 	public static void hover(String object, String data){
 		try{
 			Log.info("Hover on Webelement "+ object);
-			waitElementExists(object);
+//			waitElementExists(object);
+			waitForElementDisplayed(object);
 			WebElement element = driver.findElement(By.xpath(OR.getProperty(object)));
 	        Actions action = new Actions(driver);	
 	        action.moveToElement(element).build().perform();
 	        driver.findElement(By.xpath(OR.getProperty(data))).click();	
+	        waitFor();
 		 }catch(Exception e){
  			Log.error("Not able to hover --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
@@ -225,7 +244,8 @@ public class ActionKeywords {
          }
 	} 
 	
-    static void ok(){
+//	tobe deleted
+    static void _ok(){
 		try{
 			Log.info("Click OK button");
 	        driver.findElement(By.xpath("//button[@type='button' and contains (., 'OK')]")).click();
@@ -665,10 +685,12 @@ public class ActionKeywords {
 	public static void isDisabled(String object, String data){
 		 try{
 			String val = "false"; 
+			waitForElementDisplayed(object);
 	    	if (driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("active") != null) {
 			    val = "true";
 			}
 			Assert.assertEquals(val, data.toLowerCase()); 
+			Thread.sleep(2000);
     	}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
@@ -681,7 +703,7 @@ public class ActionKeywords {
 			DriverScript.bResult = false;
         }
 	}
-	
+		
 	public static void isRequired(String object, String data){
 		try{
 			String val = "false"; 
@@ -988,6 +1010,11 @@ public class ActionKeywords {
 	    }
 	}
 	
+	public static LocalDate getDate() {
+		LocalDate today = LocalDate.now();
+		return today;
+	}
+	
 	/**
 	 * This method verifies if an element is being displayed and returns true/false
 	 */
@@ -1094,7 +1121,7 @@ public class ActionKeywords {
     public static void elementClickable(String object){
 		try{
 			Log.info("Checks Webelement is clickable: "+ object);
-			WebDriverWait wait = new WebDriverWait(driver, 3);
+			WebDriverWait wait = new WebDriverWait(driver, 5);
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(OR.getProperty(object))));
 		 }catch(Exception e){
  			Log.error("Element does not exists --- " + e.getMessage());
@@ -1118,10 +1145,18 @@ public class ActionKeywords {
 		
 	public static void input(String object, String data){
 		try{
+			if (object == "txtbx_ScheduledStart") {
+				LocalDate ngayon = getDate();
+			    //add 2 week to the current date
+			    LocalDate next2Week = ngayon.plus(2, ChronoUnit.WEEKS);
+				data = next2Week.toString();
+			}
+			
 			Log.info("Entering the text in " + object);
 			driver.findElement(By.xpath(OR.getProperty(object))).clear();
+			driver.findElement(By.xpath(OR.getProperty(object))).click();
 			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(data);
-			waitFor();
+			Thread.sleep(1000);
 		 }catch(Exception e){
 			Log.error("Not able to Enter value --- " + e.getMessage());
 			extentTest.log(LogStatus.ERROR, e.getMessage());
@@ -1132,6 +1167,7 @@ public class ActionKeywords {
 	public static void clear(String object, String data){
 		try{
 			driver.findElement(By.xpath(OR.getProperty(object))).clear();
+			waitFor();
 		}catch(Exception e){
 			 Log.error(e.getMessage());
 			 extentTest.log(LogStatus.ERROR, e.getMessage());
@@ -1153,7 +1189,7 @@ public class ActionKeywords {
 	public static void waitFor() throws Exception{
 		try{
 			Log.info("Wait...");
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 		}catch(Exception e){
 			 Log.error("Not able to Wait --- " + e.getMessage());
 			 extentTest.log(LogStatus.ERROR, e.getMessage());
@@ -1221,11 +1257,13 @@ public class ActionKeywords {
 	
 	public static void verifyAlert(String object, String data){
 		try{
-			Thread.sleep(5000);
+//			Thread.sleep(2000);
+			waitForElementDisplayed(object);
 			if(isAlertPresent()){
 	            driver.switchTo().alert();
 	            driver.switchTo().alert().accept();
 	            driver.switchTo().defaultContent();
+	            Log.info("Alert: " + driver.switchTo().defaultContent());
 	        }
 			Log.info("get assertValue object.." +driver.findElement(By.xpath(OR.getProperty(object))).getText());
 			Log.info("get assertValue data.." +data);
@@ -1237,7 +1275,7 @@ public class ActionKeywords {
 			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		}catch(Exception e){
-	 		Log.error("Verify Alert: Assertion failed --- " + e.getMessage());
+	 		Log.error("Verify Alert: " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	    }
@@ -1795,7 +1833,7 @@ public class ActionKeywords {
 		  Log.info("scrolling down to field..");
 		  WebElement element = driver.findElement(By.xpath(OR.getProperty(object)));
 		  ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-		  Thread.sleep(500); 
+		  Thread.sleep(5000); 
 	  }
 	  
 	  public static void scrollUp(String object, String data) throws Exception {
@@ -1865,6 +1903,10 @@ public class ActionKeywords {
 				  activityType="Destress";
 				  priority="18";
 			  }
+			  LocalDate ngayon = getDate();
+		      //add 2 week to the current date
+		      LocalDate next2Week = ngayon.plus(2, ChronoUnit.WEEKS);
+		      
 			  waitFor5();
 			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
 			  waitFor5();			  
@@ -1874,10 +1916,13 @@ public class ActionKeywords {
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).click();
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).sendKeys(activityType);
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_Priority"))).sendKeys(priority);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys("2017");
-			  waitFor();
+			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys(String.valueOf(ngayon.getYear()));
+			  driver.findElement(By.xpath(OR.getProperty("txtbx_ScheduledStart"))).sendKeys(next2Week.toString());
 			  driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
 			  waitFor();
+		  } catch(AssertionError ae){
+				Log.error(ae.getMessage());
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
 		  } catch(Exception e){
 				 Log.error("CreateWO --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
@@ -1893,7 +1938,11 @@ public class ActionKeywords {
 				  activityType="Destress";
 				  priority="18";
 			  }
-			  waitFor5();
+			  LocalDate ngayon = getDate();
+		      //add 2 week to the current date
+		      LocalDate next2Week = ngayon.plus(2, ChronoUnit.WEEKS);
+		      
+		      waitFor5();
 			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
 			  waitFor5();			  
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).sendKeys("1000047");
@@ -1910,7 +1959,8 @@ public class ActionKeywords {
 			  
 			  System.out.println("SendKeys txtbx_ActivityType");
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_Priority"))).sendKeys(priority);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys("2018");
+			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys(String.valueOf(ngayon.getYear()));
+			  driver.findElement(By.xpath(OR.getProperty("txtbx_ScheduledStart"))).sendKeys(next2Week.toString());
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_StartRefPoint"))).sendKeys("12");
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_EndRefPoint"))).sendKeys("12");
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_StartRefPointOffset"))).sendKeys("0");
@@ -1927,7 +1977,7 @@ public class ActionKeywords {
 	  
 	  public static void createWOwithPlans(String object, String data){
 		  try{  
-//			  Log.info("Generating WONUM...");
+			  Log.info("Generating WONUM...");
 			  String activityType = "Drainage";
 			  String priority = "4";
 			  if (data.equals("CAP")) {
@@ -1935,49 +1985,52 @@ public class ActionKeywords {
 				  priority="18";
 			  }
 				
-			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
+			  LocalDate ngayon = getDate();
+		      //add 2 week to the current date
+		      LocalDate next2Week = ngayon.plus(2, ChronoUnit.WEEKS);
+		      
+		      click("btn_New", null);
 			  waitFor();	
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).sendKeys("1000014");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Description"))).sendKeys(object.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Worktype"))).sendKeys(data.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).click();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).sendKeys(activityType);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Priority"))).sendKeys(priority);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys("2017");
+			  input("txtbx_Priority", priority);
+			  input("txtbx_FinancialYear", String.valueOf(ngayon.getYear()));
+			  input("txtbx_ScheduledStart", next2Week.toString());
+			  input("txtbx_AssetNum", "1000014");
+			  input("txtbx_Description", object.trim());
+			  input("txtbx_Worktype", data.trim());
+			  click("txtbx_ActivityType", null);
+			  input("txtbx_ActivityType", activityType);
 			  
-			  waitFor();
+			  //for some reason these fields auto clears
+//			  input("txtbx_Description", object.trim());
+//			  input("txtbx_Priority", priority);
+//			  input("txtbx_ActivityType", activityType);
+			  save("1","1");
 			  Log.info("Generated WONUM = " + driver.findElement(By.xpath(OR.getProperty("txtbx_WONUM"))).getAttribute("value"));
 				 
-//			  driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
-//			  Log.info("Saving...");
-			  driver.findElement(By.xpath(OR.getProperty("tab_Plans"))).click();
+			  click("tab_Plans", null);
 			  waitForElementDisplayed("btn_NewRow_Labour");
 //			  add labour plan
-//			  driver.findElement(By.xpath(OR.getProperty("tab_Labour"))).click();
-			  driver.findElement(By.xpath(OR.getProperty("btn_NewRow_Labour"))).click();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Trade"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Trade"))).sendKeys("LEVEL1");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Quantity"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Quantity"))).sendKeys("2");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_PersonHours"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_PersonHours"))).sendKeys("5");
+			  click("btn_NewRow_Labour", null);
+			  waitFor();
+			  input("txtbx_Trade", "LEVEL1");
+			  input("txtbx_Quantity", "2");
+			  input("txtbx_PersonHours", "5");
 			  Log.info("Added labour plan...");
 //			  add material plan
-			  driver.findElement(By.xpath(OR.getProperty("tab_Materials"))).click();
+			  click("tab_Materials", null);
 			  waitForElementDisplayed("btn_NewRow_Materials");
-			  driver.findElement(By.xpath(OR.getProperty("btn_NewRow_Materials"))).click();
+			  click("btn_NewRow_Materials", null);
+			  waitFor();
 //			  item 1027419 cost = 788.34
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Item"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Item"))).sendKeys("1027419");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Quantity"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Quantity"))).sendKeys("2");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Storeroom"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Storeroom"))).sendKeys("W600");
-//			  driver.findElement(By.xpath(OR.getProperty("txtbx_ConditionCode"))).sendKeys("NEW");
+			  input("txtbx_Item", "1027419");
+			  input("txtbx_Quantity", "2");
+			  getStoreroom();
+			  input("txtbx_DeliveryAddress", "Dummy address");
+			  save("1","1");
+			  waitFor();
 			  Log.info("Added material plan...");
 //			  Go back to Labour Plan
-			  driver.findElement(By.xpath(OR.getProperty("tab_Labour"))).click();
-			  save("1","1");
+			  click("tab_Labour", null);
 			  waitFor();
 		  } catch(Exception e){
 				 Log.error("CreateWOwithPlans --- " +e.getMessage());
@@ -1995,6 +2048,9 @@ public class ActionKeywords {
 				  activityType="Destress";
 				  priority="18";
 			  }
+			  LocalDate ngayon = getDate();
+		      //add 2 week to the current date
+		      LocalDate next2Week = ngayon.plus(2, ChronoUnit.WEEKS);
 				
 			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
 			  waitFor();	
@@ -2004,7 +2060,8 @@ public class ActionKeywords {
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).click();
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).sendKeys(activityType);
 			  driver.findElement(By.xpath(OR.getProperty("txtbx_Priority"))).sendKeys(priority);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys("2017");
+			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys(String.valueOf(ngayon.getYear()));
+			  driver.findElement(By.xpath(OR.getProperty("txtbx_ScheduledStart"))).sendKeys(next2Week.toString());
 			  
 			  waitFor();
 			  Log.info("Generated WONUM = " + driver.findElement(By.xpath(OR.getProperty("txtbx_WONUM"))).getAttribute("value"));
@@ -2218,6 +2275,22 @@ public class ActionKeywords {
 		  }
 	  }
 	  
+	  public static boolean inWorkflow() {
+		  boolean inWorkflow = false;
+		  try {
+			hover("hvr_Workflow", "lnk_WFAssignment");
+			waitForElementDisplayed("tbl_WFAssignment");
+			if(driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0")) {
+				inWorkflow = false;
+			} else { inWorkflow = true; }
+		  } catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		  }
+		  return inWorkflow;
+	  }
+	  
+	  
 	  public static void addValue(String object, String data){
 		  try{
 			  String objectVal = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
@@ -2379,14 +2452,14 @@ public class ActionKeywords {
 	  public static void save(String object, String data){
 			try{
 				driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 				
 //				Log.info("titlebar_message path =  "+ OR.getProperty("titlebar_message"));
 //				Log.info(driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText());
 				if(waitForElementDisplayed("titlebar_message")){
 					Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText().trim().contains(saveMsg), "Assertion failed.");
 		        }
-				Thread.sleep(500);
+				Thread.sleep(2000);
 			 }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
@@ -2398,6 +2471,19 @@ public class ActionKeywords {
 		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
 		     }
+	}  
+	  
+	public static void getStoreroom() {
+		try {
+			driver.findElement(By.xpath(OR.getProperty("btn_Storeroom_chevron"))).click();
+			driver.findElement(By.xpath(OR.getProperty("lnk_SelectValue"))).click();
+			waitFor();
+			driver.findElement(By.xpath(OR.getProperty("lnk_List_Code"))).click();
+			waitFor();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}  
 	  
 	  /*
@@ -2571,6 +2657,17 @@ public class ActionKeywords {
 			  DriverScript.bResult = false;
 		  }
      }	
+	  
+	  public static String getAttributeValue(String element) {
+		String value = null;
+	  	try {
+	  		value = driver.findElement(By.xpath(OR.getProperty(element))).getAttribute("value");
+	  	} catch(Exception e){
+ 			Log.error(e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
+       	}
+		return value;
+	  }
  
 	  public static void changeWOStatusToPlan(String object, String data){
 			try{
@@ -2654,7 +2751,7 @@ public class ActionKeywords {
 		  Vendor.vendor();;
 	  }
 	  
-	  public static void UnitTests(String object, String data) {
-		  UnitTests.unitTests(object, data);
+	  public static void UnitTests(String object, String data) throws Exception {
+		  UnitTests.unitTests();
 	  }
 }

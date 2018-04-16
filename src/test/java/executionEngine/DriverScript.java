@@ -103,7 +103,7 @@ public class DriverScript {
 					System.out.println("Retry = "+maxRetry);
 					extentTest.log(LogStatus.INFO, "Retry = "+maxRetry);
 					startEngine.execute_TestCase(iTestcase);
-				} while (bResult == false && maxRetry <= 3);
+				} while (bResult == false && maxRetry <= 1);
 			}
 		}	
 	}
