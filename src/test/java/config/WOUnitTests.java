@@ -21,7 +21,7 @@ import com.relevantcodes.extentreports.LogStatus;
 import executionEngine.DriverScript;
 import utility.Log;
 
-public class UnitTests extends ActionKeywords {
+public class WOUnitTests extends ActionKeywords {
     static WebDriverWait wait = new WebDriverWait(driver, 3);
     
     static LocalDate ngayon = getDate();

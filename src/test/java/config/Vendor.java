@@ -53,12 +53,12 @@ public class Vendor extends ActionKeywords  {
 			driver.findElement(By.xpath(OR.getProperty("txtbx_Description"))).sendKeys(" - inactivate Vendor");
 			driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
 			verifyAlert("msg_Popup", "is not valid");
-			ok();
+			click("btn_OK", null);
 //			Try to route the WO
 			Log.info("Click btn_Route..................");
 			driver.findElement(By.xpath(OR.getProperty("btn_Route"))).click();
 			verifyAlert("msg_Popup", "is not valid");
-			ok();
+			click("btn_OK", null);
 			waitFor();
 //			Reactivate Vendor
 			Log.info("Reactivate Vendor..................");

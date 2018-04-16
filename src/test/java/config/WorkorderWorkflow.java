@@ -10,6 +10,7 @@ import java.util.Date;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.testng.Assert;
 
 import executionEngine.DriverScript;
 import utility.Log;
@@ -52,8 +53,8 @@ public class WorkorderWorkflow extends ActionKeywords {
 			  fw.append("WO Total Cost = "+WOCost+ lineSeparator);
 			  
 			  DriverScript.storedValue = driver.findElement(By.xpath(OR.getProperty("txtbx_WONUM"))).getAttribute("value");
-			  driver.findElement(By.xpath(OR.getProperty("btn_Route"))).click();
-			  driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
+			  click("btn_Route", null);
+			  click("btn_OK", null);
 			  waitFor();
 			  assertValue2("txtbx_Status", "PLAN");
 			  
@@ -64,7 +65,7 @@ public class WorkorderWorkflow extends ActionKeywords {
 			  DriverScript.WFApprover = driver.findElement(By.xpath("//table[contains(@summary,'Workflow Assignments')]/tbody/tr[4]/td[2]")).getText();
 			  
 			  Log.info("IsNull table approver =" +driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0"));
-			  driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
+			  click("btn_OK", null);
 			  
 			  while (!inWorkflow) {
 			      fw.append("WF Approval Level " +wfLevel+ " Approver = "+DriverScript.WFApprover);
@@ -76,7 +77,7 @@ public class WorkorderWorkflow extends ActionKeywords {
 				  Log.info("WF Approval Level " +wfLevel+ " Approver = "+DriverScript.WFApprover);
 				  openWFAssignment("1","1");
 				  waitFor();
-				  driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
+				  click("btn_OK", null);
 				  Log.info("clicked image....");
 				  waitFor();
 				  
@@ -88,10 +89,11 @@ public class WorkorderWorkflow extends ActionKeywords {
 					  Log.info("IsNull table approver =" +driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0"));
 					  
 				  }
-				  driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
+				  click("btn_OK", null);
 				  wfLevel++;
 			  }
 			  assertValue2("txtbx_Status", "APPR,WMATL");
+
 			  fw.append("WO "+WONUM+" status = "+driver.findElement(By.xpath(OR.getProperty("txtbx_Status"))).getAttribute("value"));
 			  fw.append(lineSeparator);
 			  fw.append("End Workflow.");
