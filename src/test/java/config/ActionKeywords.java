@@ -2752,6 +2752,6 @@ public class ActionKeywords {
 	  }
 	  
 	  public static void UnitTests(String object, String data) throws Exception {
-		  UnitTests.unitTests();
+		  WOUnitTests.unitTests();
 	  }
 }

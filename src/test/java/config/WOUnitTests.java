@@ -396,14 +396,15 @@ public class WOUnitTests extends ActionKeywords {
 			} 
 			click("btn_OK", null);
 			Assert.assertEquals(inWorkflow(), true);
+			click("btn_OK", null);
 			assertValue2("txtbx_Status", "PLAN");
 						
 			Log.info("If Work Order is approved the button is greyed out");
-//			changeStatus("dummy", "approved");
-			String sqlData = "((status = 'WMATL' and (woclass = 'WORKRESULT' or woclass = 'WORKORDER' or woclass = 'ACTIVITY') and historyflag = 0 and istask = 0)) and ((upper(kr_discipline) = 'TRACK'))";
-			whereClause(null, sqlData);
-			waitForElementDisplayed("lnk_List_Code");
-			click("lnk_List_Code", null);
+			changeStatus("dummy", "approved");
+//			String sqlData = "((status = 'WMATL' and (woclass = 'WORKRESULT' or woclass = 'WORKORDER' or woclass = 'ACTIVITY') and historyflag = 0 and istask = 0)) and ((upper(kr_discipline) = 'TRACK'))";
+//			whereClause(null, sqlData);
+//			waitForElementDisplayed("lnk_List_Code");
+//			click("lnk_List_Code", null);
 			isDisabled("lnk_SetSchedDate", "TRUE");
 			logout(null, null);
 			Log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> END _schedDateWF");
