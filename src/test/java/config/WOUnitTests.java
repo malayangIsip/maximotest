@@ -32,8 +32,8 @@ public class WOUnitTests extends ActionKeywords {
 //		commTemplateEmail1("SLEEPERS");
 //		validateVendor();
 		editReservations("mxplan", "CM");
-//		schedDateButton("maxadmin", "CAP");
-//		schedDateWF("maxadmin","CAP");
+		schedDateButton("maxadmin", "CAP");
+		schedDateWF("maxadmin","CAP");
 	}
 	
 	//Scenario 1 - user has primary email
