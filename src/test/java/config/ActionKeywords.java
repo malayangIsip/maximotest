@@ -2617,10 +2617,11 @@ public class ActionKeywords {
 		  try{
 			  driver.findElement(By.xpath("//img[@alt='Advanced Search menu']")).click();
 			  driver.findElement(By.xpath("//span[@id='menu0_SEARCHWHER_OPTION_a_tnode']")).click();
-			  driver.findElement(By.xpath("//textarea[@ctype='textarea']")).clear();
-			  driver.findElement(By.xpath("//textarea[@ctype='textarea']")).sendKeys(data.trim());
-			  waitFor();
-			  driver.findElement(By.xpath("//button[@type='button' and contains (., 'Find')]")).click();
+			  waitForElementDisplayed("txtarea_whereClause");
+			  driver.findElement(By.xpath(OR.getProperty("txtarea_whereClause"))).clear();
+			  driver.findElement(By.xpath(OR.getProperty("txtarea_whereClause"))).sendKeys(data.trim());
+			  waitForElementDisplayed("btn_Find");
+			  driver.findElement(By.xpath(OR.getProperty("btn_Find"))).click();
 			  waitFor();
 		  } catch(Exception e){
 			  Log.error("whereClause --- " +e.getMessage());

@@ -1,5 +1,4 @@
 #OR_BAU
-#Components
 SR=SR
 ASSET=ASSET
 CE=CE
@@ -9,6 +8,7 @@ PM=PM
 tbl_inbox=.//*[@id='portletbody_8914']
 titlebar_message=.//*[@id='titlebar_error'] 
 app_name=//span[@id='titlebar-tb_appname']
+txtarea_whereClause=.//td//textarea[contains(@id,'-ta') and @ctype='textarea']
 
 #Generics
 txtbx_UserName=.//*[@id='username']
@@ -433,12 +433,11 @@ txtbx_RailWearReadingComment=//input[@id=(//label[text()="Rail Wear Reading Comm
 txtbx_TopLeft=//input[@id=(//label[text()='Top:']/@for)][1]
 txtbx_TopRight=//input[@id=(//label[text()='Top:']/@for)][2]
 
-#txtbx_ReservedQuantityViewReservation=//input[@id=(//label[text()='Reserved Quantity']/@for)][2]
-txtbx_RequiredDateViewReservation=//input[@id=(//label[text()='Required Date']/@for)]
+txtbx_RequiredDateViewReservation=//input[contains(@id,'_tdrow_[C:6]_txt-tb[R:0]')]
 
 #WO
 tbl_Routes=//table[contains(@summary,'Routes')]  
-tbl_Reservations=//table[contains(@summary,'View Reserved Items')] 
+tbl_Reservations=//table[contains(@summary,'Items')] 
 
 #Plan tab
 tbl_WO_Task=//table[contains(@summary,'Children of Work Order')] 

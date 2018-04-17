@@ -31,9 +31,9 @@ public class WOUnitTests extends ActionKeywords {
 	public static void unitTests() throws Exception {
 //		commTemplateEmail1("SLEEPERS");
 //		validateVendor();
-//		editReservations("mxplan", "CM");
+		editReservations("mxplan", "CM");
 //		schedDateButton("maxadmin", "CAP");
-		schedDateWF("maxadmin","CAP");
+//		schedDateWF("maxadmin","CAP");
 	}
 	
 	//Scenario 1 - user has primary email
@@ -205,7 +205,10 @@ public class WOUnitTests extends ActionKeywords {
 			Log.info("Start _editReservations");
 			login(null, user);
 			
-//			click("lnk_Home", null);
+			waitForElementDisplayed("hvr_WO", "1");
+			scrollDown("hvr_WO", "");
+			hover("hvr_WO","lnk_WO");
+			
 			//Search for an approved WO with material resevation
 			String sqlData = "((status = 'WMATL' and (woclass = 'WORKRESULT' or woclass = 'WORKORDER' or woclass = 'ACTIVITY') and historyflag = 0 and istask = 0)) and ((upper(kr_discipline) = 'TRACK'))";
 			whereClause(null, sqlData);
@@ -214,11 +217,13 @@ public class WOUnitTests extends ActionKeywords {
 //			check if  edit reservation link is active
 			isDisabled("lnk_EditReservations", "FALSE");
 			click("lnk_EditReservations", null);
-			tableNotEmpty("tbl_Reservations", "TRUE");
-			//check required date fields are editable
-			isDisabled("txtbx_RequiredDateViewReservation", "FALSE");
-
-			
+			tableNotEmpty("Items", "TRUE");
+			//check required date fields is editable
+//			isDisabled("txtbx_RequiredDateViewReservation", "FALSE");
+			elementExists("txtbx_RequiredDateViewReservation", "TRUE");
+			click("btn_OK", null);
+			logout(null, null);
+			Log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> END _editReservations");	
 		} catch(AssertionError ae){
 			Log.error("JUNIT _editReservations --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
