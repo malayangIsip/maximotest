@@ -1,42 +1,94 @@
 package config;
 
-import static executionEngine.DriverScript.OR;
-import static executionEngine.DriverScript.driver;
+import static executionEngine.Base.OR;
+import static executionEngine.Base.driver;
+import static executionEngine.Base.extentTest;
+import static executionEngine.Base.action;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.relevantcodes.extentreports.LogStatus;
 
 import executionEngine.DriverScript;
 import utility.Log;
 
-public class WorkorderWorkflow extends ActionKeywords {
+public class WorkorderWorkflow {
+	static boolean runStatus = true;
+    static String methodName = "";	
+	
+	@BeforeClass(alwaysRun = true)
+    public void init() throws Exception {
+    	extentTest.log(LogStatus.INFO, "Start workorderWorkflow Tests");
+    }
 
-	public static void workorderWorkflow(String object, String data) {
+	@AfterClass(alwaysRun = true)
+    public void tearDown() throws Exception {
+		extentTest.log(LogStatus.INFO, "END workorderWorkflow Tests");
+    }
+    
+        
+    @BeforeMethod(alwaysRun = true)
+    void setUp() {
+    	action.openBrowser(null, "Chrome");
+    }
+    
+    @AfterMethod(alwaysRun = true)
+    void logout() {
+    	if (runStatus == true) {
+    		extentTest.log(LogStatus.PASS, methodName);
+//    		action.logout(null, null);
+    		driver.close();
+    	} else {
+    		extentTest.log(LogStatus.FAIL, methodName);
+    		driver.close();
+    	}
+    }
+	
+    
+    @DataProvider
+ 	public Object[][] workType() {
+ 		return new Object[][] { { "mxfldeng", "CM"}, {"mxfldeng", "CAP"} };
+ 	}
+    
+    @Test(dataProvider = "workType")
+	public void workorderWorkflow(String user, String worktype) {
+    	methodName = "workorderWorkflow";
 		try{  
-			  createWOwithPlans(object, data);
-			  driver.findElement(By.xpath(OR.getProperty("tab_Main"))).click(); 
-			  String WONUM = driver.findElement(By.xpath(OR.getProperty("txtbx_WONUM"))).getAttribute("value");
-			  String WOCost = driver.findElement(By.xpath(OR.getProperty("txtbx_Total_Hier_Est_Cost"))).getAttribute("value");
-			  String area = driver.findElement(By.xpath(OR.getProperty("txtbx_Area"))).getAttribute("value");
-			  String discipline = driver.findElement(By.xpath(OR.getProperty("txtbx_Discipline"))).getAttribute("value");
-			  String region = driver.findElement(By.xpath(OR.getProperty("txtbx_Region"))).getAttribute("value");
+			Log.info("Start workorderWorkflow...................." + worktype);
+			  action.login(null, user);  
+			  action.goToWOPage();
+			
+			  action.createWOwithPlans("workorderWorkflow", worktype);
+			  action.click("tab_Main"); 
+			  final String WONUM = action.getAttributeValue("txtbx_WONUM");
+			  String WOCost = action.getAttributeValue("txtbx_Total_Hier_Est_Cost");
+			  String area = action.getAttributeValue("txtbx_Area");
+			  String discipline = action.getAttributeValue("txtbx_Discipline");
+			  String region = action.getAttributeValue("txtbx_Region");
 			  int wfLevel = 1;
 			  
 			  Log.info("WONUM =" +WONUM);
 			  Log.info("WO Cost =" +WOCost);
 			  
 //			  change status to PLAN if Renewal WO
-			  if (data.equals("CAP") || data.equals("AMREN")) {
-				  driver.close();
-				  changeWOStatusToPlan(WONUM,data);
-				  waitFor();
-				  assertValue2("txtbx_Status", "PLAN");
+			  if (worktype.equals("CAP") || worktype.equals("AMREN")) {
+//				  driver.close();
+				  action.changeWOStatusToPlan(WONUM, worktype); 
+				  action.assertValue2("txtbx_Status", "PLAN");
 			  }
 				   			  
 			  //Create workflow log
@@ -53,46 +105,44 @@ public class WorkorderWorkflow extends ActionKeywords {
 			  fw.append("WO Total Cost = "+WOCost+ lineSeparator);
 			  
 			  DriverScript.storedValue = driver.findElement(By.xpath(OR.getProperty("txtbx_WONUM"))).getAttribute("value");
-			  click("btn_Route", null);
-			  click("btn_OK", null);
-			  waitFor();
-			  assertValue2("txtbx_Status", "PLAN");
+			  action.route();
+			  action.clickOK();
+			  action.assertValue2("txtbx_Status", "PLAN");
 			  
 			  boolean inWorkflow = true;
-			  hover("hvr_Workflow", "lnk_WFAssignment");
-			  waitForElementDisplayed("tbl_WFAssignment");
+			  action.hover("hvr_Workflow", "lnk_WFAssignment");
+			  action.waitForElementDisplayed("tbl_WFAssignment");
 			  inWorkflow = driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0");
 			  DriverScript.WFApprover = driver.findElement(By.xpath("//table[contains(@summary,'Workflow Assignments')]/tbody/tr[4]/td[2]")).getText();
 			  
 			  Log.info("IsNull table approver =" +driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0"));
-			  click("btn_OK", null);
+			  action.clickOK();
 			  
 			  while (!inWorkflow) {
 			      fw.append("WF Approval Level " +wfLevel+ " Approver = "+DriverScript.WFApprover);
 				  fw.append(lineSeparator);
 				  driver.close();
-				  openBrowser("1","Mozilla");
-				  loginApprover("1","1");
-				  waitFor();
+				  action.openBrowser(null,"Chrome");
+				  action.loginApprover("dummy", "dummy");
+//				  waitFor();
 				  Log.info("WF Approval Level " +wfLevel+ " Approver = "+DriverScript.WFApprover);
-				  openWFAssignment("1","1");
-				  waitFor();
-				  click("btn_OK", null);
-				  Log.info("clicked image....");
-				  waitFor();
-				  
-				  hover("hvr_Workflow", "lnk_WFAssignment");
-				  waitForElementDisplayed("tbl_WFAssignment");
+				  action.openWFAssignment("dummy", "dummy");
+//				  waitFor();
+				  action.waitForElementDisplayed("btn_OK");
+				  action.clickOK();
+
+				  action.hover("hvr_Workflow", "lnk_WFAssignment");
+				  action.waitForElementDisplayed("tbl_WFAssignment");
 				  inWorkflow = driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0");
 				  if (!inWorkflow) {
 					  DriverScript.WFApprover = driver.findElement(By.xpath("//table[contains(@summary,'Workflow Assignments')]/tbody/tr[4]/td[2]")).getText();
 					  Log.info("IsNull table approver =" +driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0"));
 					  
 				  }
-				  click("btn_OK", null);
+				  action.clickOK();
 				  wfLevel++;
 			  }
-			  assertValue2("txtbx_Status", "APPR,WMATL");
+			  action.assertValue2("txtbx_Status", "APPR,WMATL");
 
 			  fw.append("WO "+WONUM+" status = "+driver.findElement(By.xpath(OR.getProperty("txtbx_Status"))).getAttribute("value"));
 			  fw.append(lineSeparator);
@@ -101,16 +151,20 @@ public class WorkorderWorkflow extends ActionKeywords {
 
 			  fw.flush();
 			  fw.close();
-			  driver.close();
+//			  driver.close();
+			  Log.info("END workorderWorkflow....................");
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			DriverScript.bResult = false;
+			runStatus = false;
+ 			Assert.fail();
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+	    	runStatus = false;
+ 			Assert.fail();
 	    } catch (Exception e) {
 	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+	    	runStatus = false;
+ 			Assert.fail();
 	    }	
 	}
 
