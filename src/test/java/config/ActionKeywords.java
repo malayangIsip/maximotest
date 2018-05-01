@@ -162,7 +162,7 @@ public class ActionKeywords {
 			driver.findElement(By.xpath(".//*[contains(@id, 'password')]")).sendKeys(password);
 			click("btn_LogIn");
 		 }catch(Exception e){
- 			Log.error("Not able to click --- " + e.getMessage());
+ 			Log.error("Exception --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -198,7 +198,7 @@ public class ActionKeywords {
 //			driver.findElement(By.id("titlebar_hyperlink_8-lbsignout_image")).click();
 			driver.close();
 		 }catch(Exception e){
- 			Log.error("Not able to click --- " + e.getMessage());
+ 			Log.error("Exception --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -473,7 +473,7 @@ public class ActionKeywords {
 		 	DriverScript.bResult = false;
 		 	Assert.fail();
 	     } catch(Exception e){
-	 		Log.error("Assertion failed --- " + e.getMessage());
+	 		Log.error("Exception --- " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	 		Assert.fail();
@@ -505,7 +505,7 @@ public class ActionKeywords {
 		 	DriverScript.bResult = false;
 		 	Assert.fail();
 	     } catch(Exception e){
-	 		Log.error("Assertion failed --- " + e.getMessage());
+	 		Log.error("Exception --- " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	 		Assert.fail();
@@ -538,7 +538,7 @@ public class ActionKeywords {
 		 	DriverScript.bResult = false;
 		 	Assert.fail();
 	     } catch(Exception e){
-	 		Log.error("Assertion failed --- " + e.getMessage());
+	 		Log.error("Exception --- " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	 		Assert.fail();
@@ -569,7 +569,7 @@ public class ActionKeywords {
 		 	DriverScript.bResult = false;
 		 	Assert.fail();
 	     } catch(Exception e){
-	 		Log.error("Assertion failed --- " + e.getMessage());
+	 		Log.error("Exception --- " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	 		Assert.fail();
@@ -817,7 +817,7 @@ public class ActionKeywords {
 			DriverScript.bResult = false; 
 			Assert.fail();
 		}catch(Exception e){
- 			Log.error("Object is ticked --- " +e.getMessage());
+ 			Log.error("Exception --- " +e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -848,7 +848,7 @@ public class ActionKeywords {
 			DriverScript.bResult = false;	
 			Assert.fail();
 		 }catch(Exception e){
- 			Log.error("rowsDisplayed ---" + e.getMessage());
+ 			Log.error("Exception ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -868,7 +868,7 @@ public class ActionKeywords {
 			DriverScript.bResult = false;	
 			Assert.fail();
 		 }catch(Exception e){
- 			Log.error("rowsDisplayed ---" + e.getMessage());
+ 			Log.error("Exception ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -888,7 +888,7 @@ public class ActionKeywords {
 			DriverScript.bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
- 			Log.error("tableNotEmpty ---" + e.getMessage());
+ 			Log.error("Exception ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -908,7 +908,7 @@ public class ActionKeywords {
 			DriverScript.bResult = false;	
 			Assert.fail();
 		 }catch(Exception e){
- 			Log.error("Total rows per page ---" + e.getMessage());
+ 			Log.error("Exception ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -928,7 +928,7 @@ public class ActionKeywords {
 			DriverScript.bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
- 			Log.error("Total rows per page ---" + e.getMessage());
+ 			Log.error("Exception ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -981,7 +981,7 @@ public class ActionKeywords {
 			WebDriverWait wait = new WebDriverWait(driver, 3);
 			wait.until(ExpectedConditions.presenceOfElementLocated((By.xpath(OR.getProperty(object)))));
 		 }catch(Exception e){
- 			Log.error("Element does not exists --- " + e.getMessage());
+ 			Log.error("Exception --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -993,7 +993,7 @@ public class ActionKeywords {
 			Log.info("Checks Webelement exists: "+ object);
 			(new WebDriverWait(driver, sec)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(OR.getProperty(object))));			
 		}catch(Exception e){
-			Log.error("Element does not exists --- " + e.getMessage());
+			Log.error("Exception --- " + e.getMessage());
 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -1013,7 +1013,7 @@ public class ActionKeywords {
 			DriverScript.bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
- 			Log.error("Save not done --- " + e.getMessage());
+ 			Log.error("Exception --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -1218,7 +1218,7 @@ public class ActionKeywords {
 			WebDriverWait wait = new WebDriverWait(driver, 10);
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(OR.getProperty(object))));
 		 }catch(Exception e){
- 			Log.error("Element does not exists --- " + e.getMessage());
+ 			Log.error("Exception --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -1232,7 +1232,7 @@ public class ActionKeywords {
 	        wait.until(ExpectedConditions.alertIsPresent());
 //	        driver.switchTo().alert().accept();
 		 }catch(Exception e){
- 			Log.error("Element does not exists --- " + e.getMessage());
+ 			Log.error("Exception --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
  			Assert.fail();
@@ -1347,7 +1347,7 @@ public class ActionKeywords {
 		        }
 		    }
 		} catch (Exception e) {
-			Log.error("switchWindow --- " + e.getMessage());
+			Log.error("Exception switchWindow --- " + e.getMessage());
 			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
 		}
@@ -1372,7 +1372,32 @@ public class ActionKeywords {
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
 			DriverScript.bResult = false;	
 		}catch(Exception e){
-	 		Log.error("Verify Alert: " + e.getMessage());
+	 		Log.error("Exception Verify Alert: " + e.getMessage());
+	 		extentTest.log(LogStatus.ERROR, e.getMessage());
+	 		DriverScript.bResult = false;
+	    }
+	}
+		
+	public static void verifyAlert(String msg){
+		try{
+			String element = "msg_Popup";
+			waitForElementDisplayed(element);
+			if(isAlertPresent()){
+	            driver.switchTo().alert();
+	            driver.switchTo().alert().accept();
+	            driver.switchTo().defaultContent();
+	            Log.info("Alert: " + driver.switchTo().defaultContent());
+	        }
+			Log.info("get assertValue object.." +driver.findElement(By.xpath(OR.getProperty(element))).getText());
+			Log.info("get assertValue data.." +msg);
+			Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty(element))).getText().contains(msg), "Assertion failed.");
+		}catch(AssertionError ae){
+			Log.error("Assertion failed --- " + ae.getMessage());
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			extentTest.log(LogStatus.INFO, "Expected Value: " + msg.toUpperCase().trim());
+			DriverScript.bResult = false;	
+		}catch(Exception e){
+	 		Log.error("Exception Verify Alert: " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
 	    }
@@ -1388,15 +1413,15 @@ public class ActionKeywords {
         }
 	}
 	
-    public static void clickOK(String object, String data){
-        try{
-        	driver.switchTo().alert();
-            driver.switchTo().alert().accept();
-        }
-        catch(Exception e){
-//TODO
-        }   
-    }
+//    public static void clickOK(String object, String data){
+//        try{
+//        	driver.switchTo().alert();
+//            driver.switchTo().alert().accept();
+//        }
+//        catch(Exception e){
+////TODO
+//        }   
+//    }
     
     public static void clickNew(){
         try{
@@ -1477,7 +1502,7 @@ public class ActionKeywords {
 				Log.info(val + " not found in approver's Inbox");
 			}
 		}catch(Exception e){
-			 Log.error("WFAssignment not found --- " + e.getMessage());
+			 Log.error("Exception WFAssignment not found --- " + e.getMessage());
 			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
 			 Assert.fail();
@@ -1524,7 +1549,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
-				Log.error("Table does not exists --- " +e.getMessage());
+				Log.error("Exception Table does not exists --- " +e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -1565,7 +1590,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 		  }catch(Exception e){
-				Log.error("Check status exists --- " + e.getMessage());
+				Log.error("Exception Check status exists --- " + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -1621,7 +1646,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 		 }catch(Exception e){
-			    Log.error("Check value exists --- " + e.getMessage());
+			    Log.error("Exception Check value exists --- " + e.getMessage());
 			    extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -1680,7 +1705,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 		 }catch(Exception e){
-			    Log.error("Check value exists --- " + e.getMessage());
+			    Log.error("Exception Check value exists --- " + e.getMessage());
 			    extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -1707,7 +1732,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;	
 				Assert.fail();
           }catch(Exception e){
-				Log.error("check topmost drilldown --- " +e.getMessage());
+				Log.error("Exception check topmost drilldown --- " +e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -1748,7 +1773,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
-				Log.error("Check column exists ---" + e.getMessage());
+				Log.error("Exception Check column exists ---" + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -1799,7 +1824,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
-				Log.error("Check column exists ---" + e.getMessage());
+				Log.error("Exception Check column exists ---" + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -1851,7 +1876,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
-				Log.error("Check column exists ---" + e.getMessage());
+				Log.error("Exception Check column exists ---" + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -1897,7 +1922,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
-				Log.error("Check column exists ---" + e.getMessage());
+				Log.error("Exception checkTableColumnExists ---" + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -1921,7 +1946,7 @@ public class ActionKeywords {
 			DriverScript.bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
-			Log.error("Check field exists ---" + e.getMessage());
+			Log.error("Exception Check field exists ---" + e.getMessage());
 			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
 			Assert.fail();
@@ -1945,7 +1970,7 @@ public class ActionKeywords {
 			  waitForElementDisplayed(object);
 			  driver.findElement(By.id(OR.getProperty(object))).getText();
 		  } catch(Exception e){
-				 Log.error("copyMessage --- " +e.getMessage());
+				 Log.error("Exception copyMessage --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 		  }
@@ -2010,7 +2035,7 @@ public class ActionKeywords {
 			  driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
 			  waitFor();			  
 		  } catch(Exception e){
-			  Log.error("route WF --- " +e.getMessage());
+			  Log.error("Exception route WF --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 			  Assert.fail();
@@ -2025,7 +2050,7 @@ public class ActionKeywords {
 			  driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
 			  waitFor();			  
 		  } catch(Exception e){
-			  Log.error("stop WF --- " +e.getMessage());
+			  Log.error("Exception stop WF --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 			  Assert.fail();
@@ -2040,7 +2065,7 @@ public class ActionKeywords {
 			  driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
 			  waitFor();			  
 		  } catch(Exception e){
-			  Log.error("stop WF --- " +e.getMessage());
+			  Log.error("Exception stop WF --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 			  Assert.fail();
@@ -2059,7 +2084,7 @@ public class ActionKeywords {
 			  input("txtbx_ActivityType", "Destress");
 			  save(null, null);
 		  } catch(Exception e){
-			  Log.error("Create SR --- " +e.getMessage());
+			  Log.error("Exception Create SR --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 			  Assert.fail();
@@ -2095,7 +2120,7 @@ public class ActionKeywords {
 			  extentTest.log(LogStatus.ERROR, ae.getMessage());
 			  Assert.fail();
 		  } catch(Exception e){
-			  Log.error("CreateWO --- " +e.getMessage());
+			  Log.error("Exception CreateWO --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 			  Assert.fail();
@@ -2139,7 +2164,7 @@ public class ActionKeywords {
 			  input("txtbx_EndRefPointOffset", "1");
 			  save(null, null);
 		  } catch(Exception e){
-			 Log.error("CreateWO --- " +e.getMessage());
+			 Log.error("Exception CreateWO --- " +e.getMessage());
 			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
 			 Assert.fail();
@@ -2204,7 +2229,7 @@ public class ActionKeywords {
 			  click("tab_Labour", null);
 			  waitFor();
 		  } catch(Exception e){
-				 Log.error("CreateWOwithPlans --- " +e.getMessage());
+				 Log.error("Exception CreateWOwithPlans --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 				 Assert.fail();
@@ -2270,7 +2295,7 @@ public class ActionKeywords {
 //			  driver.findElement(By.xpath(OR.getProperty("tab_Labour"))).click();
 			  save();
 		  } catch(Exception e){
-			 Log.error("createWOwithMaterialPlans --- " +e.getMessage());
+			 Log.error("Exception createWOwithMaterialPlans --- " +e.getMessage());
 			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
 			 Assert.fail();
@@ -2286,7 +2311,7 @@ public class ActionKeywords {
 			  input("txtbx_Company", "DUMMY");
 			  save();
 		  } catch(Exception e){
-				 Log.error("Create PO --- " +e.getMessage());
+				 Log.error("Exception Create PO --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 				 Assert.fail();
@@ -2303,7 +2328,7 @@ public class ActionKeywords {
 			  input("txtbx_Company", "706170");
 			  save();
 		  } catch(Exception e){
-			  Log.error("Create PR --- " +e.getMessage());
+			  Log.error("Exception Create PR --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 			  Assert.fail();
@@ -2338,7 +2363,7 @@ public class ActionKeywords {
 	 		  DriverScript.bResult = false;
 	 		 Assert.fail();
 		  } catch (Exception e) {
-		      Log.error("Create Asset --- " + e.getMessage());
+		      Log.error("Exception Create Asset --- " + e.getMessage());
 		      extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		  DriverScript.bResult = false;
 	 		 Assert.fail();
@@ -2375,7 +2400,7 @@ public class ActionKeywords {
 	 			DriverScript.bResult = false;
 	 			Assert.fail();
 		    } catch (Exception e) {
-		    	Log.error("Create Location --- " + e.getMessage());
+		    	Log.error("Exception Create Location --- " + e.getMessage());
 		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
 	 			Assert.fail();
@@ -2412,7 +2437,7 @@ public class ActionKeywords {
 	 			DriverScript.bResult = false;
 	 			Assert.fail();
 		    } catch (Exception e) {
-		    	Log.error("Create Location --- " + e.getMessage());
+		    	Log.error("Exception Create Location --- " + e.getMessage());
 		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
 	 			Assert.fail();
@@ -2447,7 +2472,7 @@ public class ActionKeywords {
 			  click("tab_Labour");
 			  save();
 		  } catch(Exception e){
-				 Log.error("Create PO --- " +e.getMessage());
+				 Log.error("Exception Create JobPlan --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 				 Assert.fail();
@@ -2483,14 +2508,14 @@ public class ActionKeywords {
 			  Log.info("Cleared object");
 			  input(object, String.valueOf(newVal));
 		  } catch(Exception e){
-				 Log.error("Add value --- " +e.getMessage());
+				 Log.error("Exception Add value --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 				 Assert.fail();
 		  }
 	  }
  
-	  public static void changeStatus(String object, String data){
+	  public void changeStatus(String object, String data){
 		  try{
 			String status = null;
 			String oldStatus = null;
@@ -2553,13 +2578,17 @@ public class ActionKeywords {
               Log.info("clicked new status "+status);
               waitForElementDisplayed("btn_OK");
               click("btn_OK");
-              waitForElementDisplayed("titlebar_message");
-			  Log.info("titlebar msg = " +driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText());
-			  Log.info("changeStatusMsg = " +changeStatusMsg);
-//			  if(waitForElementDisplayed("titlebar_message")){
-//					Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText().trim().contains("status changed"), "Assertion failed - change status failed");
-//			  }
-			  Assert.assertTrue(waitForElementDisplayed("titlebar_message"));
+              
+//              if status is changed to completed 
+              if (status == "COMP") {
+            	  action.verifyAlert("Status change(s) completed successfully.");
+            	  driver.switchTo().activeElement().click();
+              } else {
+            	  waitForElementDisplayed("titlebar_message");
+//            	  Log.info("titlebar msg = " +driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText());
+//            	  Log.info("changeStatusMsg = " +changeStatusMsg);
+            	  Assert.assertTrue(waitForElementDisplayed("titlebar_message"));
+              }
 			  Log.info("old status = " +oldStatus);
 			  Log.info("new status = " +getAttributeValue(object));
 			  Assert.assertFalse(getAttributeValue(object).trim().toUpperCase().equals(oldStatus), "Assertion failed - status not changed");
@@ -2570,7 +2599,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;	
 				Assert.fail();
 		  } catch(Exception e) {
-				 Log.error("changeStatus --- " +e.getMessage());
+				 Log.error("Exception changeStatus --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
 				 Assert.fail();
@@ -2596,7 +2625,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;	
 				Assert.fail();
 			}catch(Exception e){
-		 		Log.error("Verify Alert: duplicate failed --- " + e.getMessage());
+		 		Log.error("Exception duplicate failed --- " + e.getMessage());
 		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
 		 		Assert.fail();
@@ -2624,7 +2653,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;	
 				Assert.fail();
 			}catch(Exception e){
-		 		Log.error("Verify Alert: duplicate failed --- " + e.getMessage());
+		 		Log.error("Exception --- " + e.getMessage());
 		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
 		 		Assert.fail();
@@ -2654,7 +2683,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
-		 		Log.error("Verify Alert: Assertion failed --- " + e.getMessage());
+		 		Log.error("Exception --- " + e.getMessage());
 		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
 		 		Assert.fail();
@@ -2729,7 +2758,7 @@ public class ActionKeywords {
 				DriverScript.bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
-				Log.error("Table does not exists --- " +e.getMessage());
+				Log.error("Exception Table does not exists --- " +e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
 				Assert.fail();
@@ -2818,7 +2847,7 @@ public class ActionKeywords {
 			  click("btn_Find");
 			  waitFor();
 		  } catch(Exception e){
-			  Log.error("whereClause --- " +e.getMessage());
+			  Log.error("Exception whereClause --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
 			  Assert.fail();
@@ -2951,7 +2980,7 @@ public class ActionKeywords {
 		  
 		  while (!inWorkflow) {
 //			  close current driver
-//			  driver.close();
+			  driver.close();
 			  action.openBrowser(null, "Chrome");
 			  action.loginApprover("dummy", "dummy");
 			  
@@ -2985,25 +3014,41 @@ public class ActionKeywords {
 	    }	
    }	  
 	  
-	  public void DeactivateOrActivateVendor() throws Exception {
-//		 this will deactivate active Vendor or activate inactive Vendor
-			Log.info("Deactivate/Activate Vendor..................");
-			Log.info("Click btn_Vendor_chevron..................");
-			action.click("btn_Vendor_chevron");
-
-			Log.info("Click Go To Companies..................");
-			waitForElementDisplayed(By.xpath("//span[text()='Go To Companies']"));
-			driver.findElement(By.xpath("//span[text()='Go To Companies']")).click();
+	  public void deactivateVendor(String vendor, boolean status) {
+		try {
+			boolean vendorStatus = false;
+ 
+			Log.info("activateVendor Vendor..................");
+			openBrowser("1","Chrome");
+			login(null, "maxadmin");
+			action.goToCompaniesPage();
 			
-			Log.info("Click chkbx_DisqualifyVendor..................");
+			action.quickSearch(vendor);
+			
+			Log.info("Check chkbx_DisqualifyVendor..................");
 			action.waitForElementDisplayed("chkbx_DisqualifyVendor"); 
-			action.click("chkbx_DisqualifyVendor");
-			action.save();
+			vendorStatus = action.isChecked("chkbx_DisqualifyVendor");
 			
-			Log.info("Click btn_ReturnValue..................");
-			action.click("btn_ReturnValue");
-	  }
-	  
+			Log.info("is DisqualifyVendor checked? = "+vendor +" " +vendorStatus);
+			
+			if (vendorStatus != status) {			
+				action.click("chkbx_DisqualifyVendor");
+				action.save();
+			}	
+			
+			Log.info("is DisqualifyVendor checked = "+vendor +" " +action.isChecked("chkbx_DisqualifyVendor"));
+			driver.close();
+	    } catch (AssertionError ae){
+			Log.error("Assertion failed --- " + ae.getMessage());
+			Assert.fail();
+	    } catch (NoSuchElementException e) {
+	    	Log.error("Element not found --- " + e.getMessage());
+			Assert.fail();
+	    } catch (Exception e) {
+	    	Log.error("Exception --- " + e.getMessage());
+			Assert.fail();
+	    }	
+	 }
   
 	  public void goToWOPage() {
 			try {
@@ -3068,6 +3113,20 @@ public class ActionKeywords {
 				hover("hvr_Asset", "lnk_Location");
 			} catch (Exception e) {
 				Log.error("goToLocationPage --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	 			Assert.fail();
+			}
+			
+	  }
+	  
+	  public void goToCompaniesPage() {
+			try {
+				goToHomePage();
+				waitForElementDisplayed("hvr_Purchasing");
+				scrollDown("hvr_Purchasing");
+				hover("hvr_Purchasing", "lnk_Companies");
+			} catch (Exception e) {
+				Log.error("goToCompaniesPage --- " + e.getMessage());
 	 			extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			Assert.fail();
 			}
