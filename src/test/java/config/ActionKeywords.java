@@ -14,9 +14,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static executionEngine.DriverScript.OR;
-import static executionEngine.DriverScript.driver;
-import static executionEngine.DriverScript.extentTest;
+import static executionEngine.Base.OR;
+import static executionEngine.Base.action;
+import static executionEngine.Base.driver;
+import static executionEngine.Base.extentTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -47,6 +48,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 
 import executionEngine.DriverScript;
+import utility.Constants;
 import pageObjects.WOPage;
 import utility.Log;
 import utility.Utils;
@@ -56,13 +58,12 @@ public class ActionKeywords {
 //	static String password = "sirius";
 //	static String password = "Kiwirail123";
 	
-//	static String code = null;
 	static String duplicateMsg = "BMXAA4131E";
 	static String saveMsg = "Record has been saved.";
 	static String changeStatusMsg = "BMXAA4591I";
 	
 	public ActionKeywords() {
-		woPage = new WOPage(driver);
+//		woPage = new WOPage(driver);
 	}
 			
 	@SuppressWarnings("deprecation")
@@ -73,7 +74,8 @@ public class ActionKeywords {
 			if(data.equals("Mozilla")) {
 				Log.info("Mozilla is the browser");
 
-				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/lib/geckodriver.exe");
+//				System.setProperty("webdriver.gecko.driver", "C:/Users/mme9310/Documents/lib/geckodriver.exe");
+				System.setProperty("webdriver.gecko.driver", Constants.Path_Lib + "geckodriver.exe");
 				
 			    DesiredCapabilities cap = DesiredCapabilities.firefox();
 			    cap.setBrowserName("firefox");
@@ -91,7 +93,8 @@ public class ActionKeywords {
 				Log.info("IE browser started");
 			} else if(data.equals("Chrome")) {
 				Log.info("Chrome is the browser");
-				System.setProperty("webdriver.chrome.driver", "C:/Users/mme9310/Documents/lib/chromedriver.exe");
+//				System.setProperty("webdriver.chrome.driver", "C:/Users/mme9310/Documents/lib/chromedriver.exe");
+				System.setProperty("webdriver.gecko.driver", Constants.Path_Lib + "chromedriver.exe");
 				
 				ChromeOptions chromeOptions = new ChromeOptions();
 				DesiredCapabilities capabilities = DesiredCapabilities.chrome();
@@ -101,7 +104,8 @@ public class ActionKeywords {
 				Log.info("Chrome browser started");
 			} else if(data.equals("Chrome--headless")) {
 				Log.info("Chrome is the browser--headless");
-				System.setProperty("webdriver.chrome.driver", "C:/Users/mme9310/Documents/lib/chromedriver.exe");
+//				System.setProperty("webdriver.chrome.driver", "C:/Users/mme9310/Documents/lib/chromedriver.exe");
+				System.setProperty("webdriver.gecko.driver", Constants.Path_Lib + "chromedriver.exe");
 				
 				ChromeOptions chromeOptions = new ChromeOptions();
 				chromeOptions.addArguments("--headless");
@@ -135,6 +139,7 @@ public class ActionKeywords {
 			Log.info("Not able to navigate --- " + e.getMessage());
 			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
+			Assert.fail();
 		}
 	}
 	
@@ -152,14 +157,15 @@ public class ActionKeywords {
 //				password="sirius";
 			}
 			Log.info("Password: "+ password);
+			Thread.sleep(5000);
 			driver.findElement(By.xpath(".//*[contains(@id, 'username')]")).sendKeys(data.trim());
 			driver.findElement(By.xpath(".//*[contains(@id, 'password')]")).sendKeys(password);
-			driver.findElement(By.xpath(".//*[@id='loginbutton']")).click();
-			waitFor();
+			click("btn_LogIn");
 		 }catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
@@ -177,36 +183,49 @@ public class ActionKeywords {
 			Log.info("Login Approver: "+ DriverScript.WFApprover);
 			driver.findElement(By.xpath(".//*[contains(@id, 'username')]")).sendKeys(DriverScript.WFApprover.toLowerCase());
 			driver.findElement(By.xpath(".//*[contains(@id, 'password')]")).sendKeys(password);
-			driver.findElement(By.xpath(".//*[@id='loginbutton']")).click();
-			waitFor();
+			click("btn_LogIn");
 		}catch(Exception e){
- 			Log.error("Not able to click --- " + e.getMessage());
+ 			Log.error("Not able to loginApprover --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
        	}
 	}
 	
 	public static void logout(String object, String data){
 		try{
 			Log.info("Logging out");
-			driver.findElement(By.id("titlebar_hyperlink_8-lbsignout_image")).click();
-//			driver.close();
-//			ActionKeywords.closeBrowser("","");
+//			driver.findElement(By.id("titlebar_hyperlink_8-lbsignout_image")).click();
+			driver.close();
 		 }catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
         }
 	}
 
-	public static void enter(String object, String data){
+	public static void enter(String object){
 		try{
+			waitForElementDisplayed(object);
 			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(Keys.ENTER);
-			waitFor();
 		}catch(Exception e){
- 			Log.error("Not able to click --- " + e.getMessage());
+ 			Log.error("Not able to enter --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
+        }
+	}
+	
+	public static void clear(String object){
+		try{
+			waitForElementDisplayed(object);
+			driver.findElement(By.xpath(OR.getProperty(object))).clear();;
+		}catch(Exception e){
+ 			Log.error("Not able to clear --- " + e.getMessage());
+ 			extentTest.log(LogStatus.ERROR, e.getMessage());
+ 			DriverScript.bResult = false;
+ 			Assert.fail();
         }
 	}
 	
@@ -217,13 +236,15 @@ public class ActionKeywords {
 	public static void click(String object, String data){
 		try{
 			Log.info("Clicking on Webelement "+ object);
+			waitForElementDisplayed(object);
 			elementClickable(object);
 			driver.findElement(By.xpath(OR.getProperty(object))).click();
-            Thread.sleep(2000);
+            Thread.sleep(500);
 		 }catch(Exception e){
  			Log.error("Not able to click --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
@@ -235,12 +256,14 @@ public class ActionKeywords {
 			WebElement element = driver.findElement(By.xpath(OR.getProperty(object)));
 	        Actions action = new Actions(driver);	
 	        action.moveToElement(element).build().perform();
-	        driver.findElement(By.xpath(OR.getProperty(data))).click();	
-	        waitFor();
+//	        driver.findElement(By.xpath(OR.getProperty(data))).click();	
+	        click(data);
+//	        waitFor();
 		 }catch(Exception e){
  			Log.error("Not able to hover --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	} 
 	
@@ -254,76 +277,54 @@ public class ActionKeywords {
  			Log.error("Not able to click OK --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	} 
 	
-//	public static void hoverSubmenu(String object, String data){
-//		try{
-//			Log.info("Hover on Webelement "+ object);
-//			 Consumer < By > hover = (By by) - > {
-//			        action.moveToElement(driver.findElement(by))
-//			              .perform();
-//			    };
-//
-//			    @Test
-//			    public void hoverTest() {
-//			        driver.get("https://www.bootply.com/render/6FC76YQ4Nh");
-//
-//			        hover.accept(By.linkText("Dropdown"));
-//			        hover.accept(By.linkText("Dropdown Link 5"));
-//			        hover.accept(By.linkText("Dropdown Submenu Link 5.4"));
-//			        hover.accept(By.linkText("Dropdown Submenu Link 5.4.1"));
-//			    }
-//			
-//		 }catch(Exception e){
-// 			Log.error("Not able to hover --- " + e.getMessage());
-// 			DriverScript.bResult = false;
-//         }
-//	} 
-//	
 	
 //	TODO duplicate
-	public static void storeValue1(String object, String data){
+	public static void _storeValue1(String object, String data){
 		String code = data;
+		String xpath = "//input[@id=(//label[contains(., '"+object+"')]/@for)]";
 		Log.info("storedValue value : " + code);
 		if (code.equalsIgnoreCase("WONUM")) {
-			DriverScript.WONUM = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
+//			DriverScript.WONUM = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
 			DriverScript.storedValue = DriverScript.WONUM;
 		} else if (code.equalsIgnoreCase("ASSETNUM")) {
-			DriverScript.ASSETNUM = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.ASSETNUM;
 		} else if (code.equalsIgnoreCase("PRNUM")) {
-			DriverScript.PRNUM = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.PRNUM;
 		} else if (code.equalsIgnoreCase("PONUM")) {
-			DriverScript.PONUM = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.PONUM;
 		} else if (code.equalsIgnoreCase("Storeroom")) {
-			DriverScript.Storeroom = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.Storeroom;
 		} else if (code.equalsIgnoreCase("PMNUM")) {
-			DriverScript.PMNUM = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.PMNUM;
 		} else if (code.equalsIgnoreCase("RouteNum")) {
-			DriverScript.RouteNum = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.RouteNum;
 		} else if (code.equalsIgnoreCase("JPNum")) {
-			DriverScript.JPNum = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.JPNum;
 		} else if (code.equalsIgnoreCase("Template")) {
-			DriverScript.Template = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.Template;
 		} else if (code.equalsIgnoreCase("SRNUM")) {
-			DriverScript.SRNUM = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.SRNUM;
 		} else if (code.equalsIgnoreCase("LOCATION")) {
-			DriverScript.LOCATION = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.LOCATION;
 		} else if (code.equalsIgnoreCase("POINT")) {
-			DriverScript.POINT = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+			getAttributeValue(By.xpath(xpath));
 			DriverScript.storedValue = DriverScript.POINT;
 		} else if (code.equalsIgnoreCase("WFApprover")) {
-//			DriverScript.WFApprover = driver.findElement(By.xpath(OR.getProperty(object))).getText();
 			DriverScript.WFApprover = driver.findElement(By.xpath("//table[contains(@summary,'Workflow Assignments')]/tbody/tr[4]/td[2]")).getText();
 			DriverScript.storedValue = DriverScript.WFApprover;
 		}
@@ -334,43 +335,45 @@ public class ActionKeywords {
 		String code = data;
 		Log.info("storedValue value : " + code);
 		if (code.equalsIgnoreCase("WONUM")) {
-			DriverScript.WONUM = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.WONUM = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.WONUM;
 		} else if (code.equalsIgnoreCase("ASSETNUM")) {
-			DriverScript.ASSETNUM = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.ASSETNUM = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.ASSETNUM;
 		} else if (code.equalsIgnoreCase("PRNUM")) {
-			DriverScript.PRNUM = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.PRNUM = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.PRNUM;
 		} else if (code.equalsIgnoreCase("PONUM")) {
-			DriverScript.PONUM = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.PONUM = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.PONUM;
 		} else if (code.equalsIgnoreCase("Storeroom")) {
-			DriverScript.Storeroom = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.Storeroom = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.Storeroom;
 		} else if (code.equalsIgnoreCase("PMNUM")) {
-			DriverScript.PMNUM = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.PMNUM = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.PMNUM;
 		} else if (code.equalsIgnoreCase("RouteNum")) {
-			DriverScript.RouteNum = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.RouteNum = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.RouteNum;
 		} else if (code.equalsIgnoreCase("JPNum")) {
-			DriverScript.JPNum = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.JPNum = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.JPNum;
 		} else if (code.equalsIgnoreCase("Template")) {
-			DriverScript.Template = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.Template = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.Template;
 		} else if (code.equalsIgnoreCase("SRNUM")) {
-			DriverScript.SRNUM = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.SRNUM = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.SRNUM;
 		} else if (code.equalsIgnoreCase("LOCATION")) {
-			DriverScript.LOCATION = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.LOCATION = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.LOCATION;
 		} else if (code.equalsIgnoreCase("POINT")) {
-			DriverScript.POINT = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			DriverScript.POINT = getAttributeValue(object);
 			DriverScript.storedValue = DriverScript.POINT;
+		} else if (code.equalsIgnoreCase("Vendor")) {
+			DriverScript.VENDOR = getAttributeValue(object);
+			DriverScript.storedValue = DriverScript.VENDOR;
 		} else if (code.equalsIgnoreCase("WFApprover")) {
-//			DriverScript.WFApprover = driver.findElement(By.xpath(OR.getProperty(object))).getText();
 			DriverScript.WFApprover = driver.findElement(By.xpath("//table[contains(@summary,'Workflow Assignments')]/tbody/tr[4]/td[2]")).getText();
 			DriverScript.storedValue = DriverScript.WFApprover;
 		}
@@ -381,38 +384,39 @@ public class ActionKeywords {
 		String code = data;
 		
 		if (code.equalsIgnoreCase("WONUM")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.WONUM);
+			input(object, DriverScript.WONUM);
 		} else if (code.equalsIgnoreCase("ASSETNUM")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.ASSETNUM);
+			input(object, DriverScript.ASSETNUM);
 		} else if (code.equalsIgnoreCase("PRNUM")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.PRNUM);
+			input(object, DriverScript.PRNUM);
 		} else if (code.equalsIgnoreCase("PONUM")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.PONUM);
+			input(object, DriverScript.PONUM);
 		} else if (code.equalsIgnoreCase("Storeroom")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.Storeroom);
+			input(object, DriverScript.Storeroom);
 		} else if (code.equalsIgnoreCase("RouteNum")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.RouteNum);
+			input(object, DriverScript.RouteNum);
 		} else if (code.equalsIgnoreCase("PMNUM")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.PMNUM);
+			input(object, DriverScript.PMNUM);
 		} else if (code.equalsIgnoreCase("JPNum")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.JPNum);
+			input(object, DriverScript.JPNum);
 		} else if (code.equalsIgnoreCase("Template")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.Template);
+			input(object, DriverScript.Template);
 		} else if (code.equalsIgnoreCase("SRNUM")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.SRNUM);
+			input(object, DriverScript.SRNUM);
 		} else if (code.equalsIgnoreCase("LOCATION")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.LOCATION);
+			input(object, DriverScript.LOCATION);
 		} else if (code.equalsIgnoreCase("POINT")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.POINT);
+			input(object, DriverScript.POINT);
 		} else if (code.equalsIgnoreCase("WFApprover")) {
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(DriverScript.WFApprover);
+			input(object, DriverScript.WFApprover);
 		} 
 		
 		Log.info("DriverScript.retrievedValue : " +DriverScript.storedValue);
 	}
-	
+
+	/*
 //	TODO duplicate
-	public static void retrieveValue1(String object, String data){
+	public static void _retrieveValue1(String object, String data){
 		String code = data;
 		
 		if (code.equalsIgnoreCase("WONUM")) {
@@ -445,17 +449,18 @@ public class ActionKeywords {
 		
 		Log.info("DriverScript.retrievedValue : " +DriverScript.storedValue);
 	}
-	
+*/	
 //	TODO duplicate
 	public static void assertValue1(String object, String data){
 		try{
 			String ele = null;
-			if (driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getText() != null &&
-					!driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getText().equals("") && 
-					!driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getText().isEmpty()) {
-				ele = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getText();
+			String xpath = "//input[@id=(//label[contains(., '"+object+"')]/@for)]";
+			if (driver.findElement(By.xpath(xpath)).getText() != null &&
+					!driver.findElement(By.xpath(xpath)).getText().equals("") && 
+					!driver.findElement(By.xpath(xpath)).getText().isEmpty()) {
+				ele = driver.findElement(By.xpath(xpath)).getText();
 			} else {
-				ele = driver.findElement(By.xpath("//input[@id=(//label[contains(., '"+object+"')]/@for)]")).getAttribute("value");
+				ele = getAttributeValue(By.xpath(xpath));
 			}
 			
 			ele = StringUtils.remove(ele, ",");	
@@ -466,22 +471,25 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 		 	DriverScript.bResult = false;
+		 	Assert.fail();
 	     } catch(Exception e){
 	 		Log.error("Assertion failed --- " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
+	 		Assert.fail();
 	     } 
 	}
 	
 	public static void assertValue(String object, String data){
 		try{
 			String ele = null;
+			waitForElementDisplayed(object);
 			if (driver.findElement(By.xpath(OR.getProperty(object))).getText() != null &&
 					!driver.findElement(By.xpath(OR.getProperty(object))).getText().equals("") && 
 					!driver.findElement(By.xpath(OR.getProperty(object))).getText().isEmpty()) {
 				ele = driver.findElement(By.xpath(OR.getProperty(object))).getText();
 			} else {
-				ele = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+				ele = getAttributeValue(object);
 			}
 			
 			ele = StringUtils.remove(ele, ",");	
@@ -494,24 +502,26 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 		 	DriverScript.bResult = false;
+		 	Assert.fail();
 	     } catch(Exception e){
 	 		Log.error("Assertion failed --- " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
+	 		Assert.fail();
 	     } 
 	}
 	
 	public static void assertValue2(String object, String data){
 		try{
 			String ele = null;
+			waitForElementDisplayed(object);
 			if (driver.findElement(By.xpath(OR.getProperty(object))).getText() != null &&
 					!driver.findElement(By.xpath(OR.getProperty(object))).getText().equals("") && 
 					!driver.findElement(By.xpath(OR.getProperty(object))).getText().isEmpty()) {
 				ele = driver.findElement(By.xpath(OR.getProperty(object))).getText();
 			} else {
-				ele = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+				ele = getAttributeValue(object);
 			}
 			
 			ele = StringUtils.remove(ele, ",");	
@@ -525,24 +535,26 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 		 	DriverScript.bResult = false;
+		 	Assert.fail();
 	     } catch(Exception e){
 	 		Log.error("Assertion failed --- " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
+	 		Assert.fail();
 	     } 
 	}
 	
 	public static void assertCode(String object, String data){
 		try{
 			String ele = null;
+			waitForElementDisplayed(object);
 			if (driver.findElement(By.xpath(OR.getProperty(object))).getText() != null &&
 					!driver.findElement(By.xpath(OR.getProperty(object))).getText().equals("") && 
 					!driver.findElement(By.xpath(OR.getProperty(object))).getText().isEmpty()) {
 				ele = driver.findElement(By.xpath(OR.getProperty(object))).getText();
 			} else {
-				ele = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+				ele = getAttributeValue(object);
 			}
 			
 			ele = StringUtils.remove(ele, ",");	
@@ -554,16 +566,17 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 		 	DriverScript.bResult = false;
+		 	Assert.fail();
 	     } catch(Exception e){
 	 		Log.error("Assertion failed --- " + e.getMessage());
 	 		extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		DriverScript.bResult = false;
+	 		Assert.fail();
 	     } 
 	}
 	
-	static String getStoredValue(String data) {
+	public static String getStoredValue(String data) {
 			String code = null;
 			switch (data.toUpperCase()) {
             	case "WONUM":
@@ -604,7 +617,10 @@ public class ActionKeywords {
 	            	break;
 	            case "WFAPPROVER":
 	            	code = DriverScript.WFApprover;
-	            	break;	 	 
+	            	break;	
+	            case "VENDOR":
+	            	code = DriverScript.VENDOR;
+	            	break;
 			    }
 			return code;
 	}
@@ -612,59 +628,67 @@ public class ActionKeywords {
 	
 	public static void fieldValuesEqual(String object, String data){
 		try{
-			String field1 = String.valueOf(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
-			String field2 = String.valueOf(driver.findElement(By.xpath(OR.getProperty(data))).getAttribute("value"));
+			waitForElementDisplayed(object);
+			waitForElementDisplayed(data);
+			String field1 = String.valueOf(getAttributeValue(object));
+			String field2 = String.valueOf(getAttributeValue(data));
 			Assert.assertEquals(field1.trim().toLowerCase(), field2.trim().toLowerCase());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Fields not Equal --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
 	public static void isNull(String object, String data){
 		try{
-			String val = String.valueOf(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value").equals(""));
+			waitForElementDisplayed(object);
+			String val = String.valueOf(getAttributeValue(object).equals(""));
 			Assert.assertEquals(val.toLowerCase(), data.toLowerCase());
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
+			Assert.fail();
 		}catch(Exception e){
  			Log.error("Object is null --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
 	public static void isEmpty(String object, String data){
 		try{
+			waitForElementDisplayed(object);
 			Boolean val = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("displayrows").equals("0");
 			Assert.assertEquals(String.valueOf(val).toLowerCase(), data.toLowerCase());
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
+			Assert.fail();
 		}catch(Exception e){
  			Log.error("Object is empty --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 
 	public static void isReadOnly(String object, String data){
 		 try{
 			String val = "false"; 
+			waitForElementDisplayed(object);
     		if (driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("readonly") != null) {
 				val = "true";
 			}
@@ -673,12 +697,13 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Object is readonly --- " +e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
@@ -695,18 +720,20 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
+			Assert.fail();
 		}catch(Exception e){
 			Log.error("Object is disabled --- " +e.getMessage());
 			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
+			Assert.fail();
         }
 	}
 		
 	public static void isRequired(String object, String data){
 		try{
 			String val = "false"; 
+			waitForElementDisplayed(object);
     		if (driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("aria-required") != null) {
 				val = "true";
 			}
@@ -715,33 +742,37 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
+			Assert.fail();
 		}catch(Exception e){
  			Log.error("Object is required --- " +e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
         }
 	}
 		
 	public static void isChecked(String object, String data){
 		try{
+			waitForElementDisplayed(object);
 			String val = String.valueOf(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("aria-checked").equals("true"));
 			Assert.assertEquals(val.toLowerCase(), data.toLowerCase());
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
+			Assert.fail();
 		}catch(Exception e){
  			Log.error("Object is checked--- " +e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
         }
 	}
 	
-	boolean isChecked(String object){
+	public boolean isChecked(String object) throws Exception{
+		waitForElementDisplayed(object);
 		boolean val = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("aria-checked").equals("true");
 		if (val) {
 			return true;
@@ -752,6 +783,7 @@ public class ActionKeywords {
 	
 	public static void isTicked(String object, String data){
 		try{
+			waitForElementDisplayed(object);
 			Log.error("Is Ticked ="+ driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("checked"));
 			String val = String.valueOf(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("checked").equals("true"));
 			Log.error("Is Ticked val ="+ val);
@@ -760,18 +792,20 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
+			Assert.fail();
 		}catch(Exception e){
  			Log.error("Object is ticked --- " +e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
         }
 	}
 	
 	public static void isValid(String object, String data){
 		try{
 			String val = "true"; 
+			waitForElementDisplayed(object);
     		if (driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("aria-invalid") != null) {
 				val = "false";
 			}
@@ -780,132 +814,164 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false; 
+			Assert.fail();
 		}catch(Exception e){
  			Log.error("Object is ticked --- " +e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
         }
 	}
+	
+//	public boolean isVendorActive() throws Exception{
+		//should be in the materials tab to call this method
+//		waitForElementDisplayed(object);
+//		boolean val = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("aria-checked").equals("true");
+//		if (val) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 		
 	public static void rowsDisplayed(String object, String data){
 		try{
-			int val = Integer.valueOf(driver.findElement(By.xpath("//table[contains(@id,'_tbod-tbd')]")).getAttribute("displayrows"));
+			object ="//table[contains(@id,'_tbod-tbd')]";
+			waitForElementDisplayed(object);
+			int val = Integer.valueOf(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("displayrows"));
 			Assert.assertEquals(val, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("rowsDisplayed ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
 	public static void rowsDisplayed1(String object, String data){
 		try{
-			int val = Integer.valueOf(driver.findElement(By.xpath("//table[contains(@summary,'"+object+"')]")).getAttribute("displayrows"));
+			String path = "//table[contains(@summary,'"+object+"')]";
+			waitForElementDisplayed(By.xpath(path));
+			int val = Integer.valueOf(driver.findElement(By.xpath(path)).getAttribute("displayrows"));
 			Assert.assertEquals(val, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("rowsDisplayed ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
 	public static void tableNotEmpty(String object, String data){
 		try{
-			int val = Integer.valueOf(driver.findElement(By.xpath("//table[contains(@summary,'"+object+"')]")).getAttribute("displayrows"));
+			String path = "//table[contains(@summary,'"+object+"')]";
+			waitForElementDisplayed(By.xpath(path));
+			int val = Integer.valueOf(driver.findElement(By.xpath(path)).getAttribute("displayrows"));
 			Assert.assertEquals(Boolean.valueOf(val > 0).toString().toLowerCase(), data.toLowerCase());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
-			DriverScript.bResult = false;	
+			DriverScript.bResult = false;
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("tableNotEmpty ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
 	public static void rowsPerPage(String object, String data){
 		try{
-			int val = Integer.valueOf(driver.findElement(By.xpath("//table[@id='lookup_page1_tbod-tbd']")).getAttribute("rowsperpage"));
+			String path = "//table[@id='lookup_page1_tbod-tbd']";
+			waitForElementDisplayed(By.xpath(path));
+			int val = Integer.valueOf(driver.findElement(By.xpath(path)).getAttribute("rowsperpage"));
 			Assert.assertEquals(val, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Total rows per page ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
 	public static void rowsPerPage1(String object, String data){
 		try{
-			int val = Integer.valueOf(driver.findElement(By.xpath("//table[contains(@summary,'"+object+"')]")).getAttribute("rowsperpage"));
+			String path = "//table[contains(@summary,'"+object+"')]";
+			waitForElementDisplayed(By.xpath(path));
+			int val = Integer.valueOf(driver.findElement(By.xpath(path)).getAttribute("rowsperpage"));
 			Assert.assertEquals(val, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
-			DriverScript.bResult = false;	
+			DriverScript.bResult = false;
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Total rows per page ---" + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
 	public static void totalRowCount(String object, String data){
 		try{
-			List<WebElement> ddOpts = driver.findElements(By.xpath("//table[@id='lookup_page1_tbod-tbd']/tbody/tr[contains(@id='lookup_page1_tbod_tdrow-tr')]"));
+			String path = "//table[@id='lookup_page1_tbod-tbd']/tbody/tr[contains(@id='lookup_page1_tbod_tdrow-tr')]";
+			waitForElementDisplayed(By.xpath(path));
+			List<WebElement> ddOpts = driver.findElements(By.xpath(path));
 			int rowCount = ddOpts.size();
 			Assert.assertEquals(rowCount, Integer.valueOf(data).intValue());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Total row count ---" +e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
 
 	public static void lineCostNotZero(String object, String data){
 		try{
-			Assert.assertFalse(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value").equals("0.00"), "Zero line cost.");
+			waitForElementDisplayed(object);
+			Assert.assertFalse(getAttributeValue(object).equals("0.00"), "Zero line cost.");
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Zero line cost --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
@@ -918,6 +984,7 @@ public class ActionKeywords {
  			Log.error("Element does not exists --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
@@ -929,6 +996,7 @@ public class ActionKeywords {
 			Log.error("Element does not exists --- " + e.getMessage());
 			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
 		}
 	}
 	
@@ -937,23 +1005,24 @@ public class ActionKeywords {
 			Log.info("Checks saving is done: "+ object);
 			WebDriverWait wait = new WebDriverWait(driver, 3);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ROUTEWF__-tbb_image']")));
-			Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value").equals(data));
+			Assert.assertTrue(getAttributeValue(object).equals(data));
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
+			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Save not done --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 	
 	
 //to verify if element exists; for negative testing
-	static boolean existsElement(String id) {
+	public static boolean existsElement(String id) {
 	    try {
 //	        driver.findElement(By.xpath(OR.getProperty(id)));
 	    	driver.findElement(By.xpath("//label[text()='"+id+"']"));
@@ -963,7 +1032,7 @@ public class ActionKeywords {
 	    return true;
 	}
 	
-	static boolean existsElement(By xpath) {
+	public static boolean existsElement(By xpath) {
 	    try {
 	    	driver.findElement(xpath);
 	    } catch (NoSuchElementException e) {
@@ -972,7 +1041,7 @@ public class ActionKeywords {
 	    return true;
 	}
 	
-	public static void elementExists(String object, String data) { 
+	public static void elementExists(String object, String data) throws InterruptedException { 
 	    try {
 	    	Log.info("Checks if element exists: "+ object);
 	    	if (data.toLowerCase().equals("true")) {
@@ -980,16 +1049,17 @@ public class ActionKeywords {
 			} else {
 				Assert.assertFalse(existsElement(By.xpath(OR.getProperty(object))));
 			}
+	    	Thread.sleep(2000);
 	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
-			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
+			Assert.fail();
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
 	    	extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
 	    }
 	}
 	
@@ -1000,13 +1070,13 @@ public class ActionKeywords {
 	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
-			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
+			Assert.fail();
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
 	    	extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
 	    }
 	}
 	
@@ -1018,7 +1088,7 @@ public class ActionKeywords {
 	/**
 	 * This method verifies if an element is being displayed and returns true/false
 	 */
-	static boolean elementDisplayed(By xpath) {
+	public static boolean elementDisplayed(By xpath) {
 		try {
 			if(xpath != null) {
 				WebElement ane = driver.findElement(xpath);
@@ -1059,7 +1129,7 @@ public class ActionKeywords {
 		}
 	}
 	
-	static boolean waitForElementDisplayed(String data) throws Exception{
+	public static boolean waitForElementDisplayed(String data) throws Exception{
 		int i = 0;
 		Log.info("Waiting for element to display");
 		while (!elementDisplayed(By.xpath(OR.getProperty(data)))&&(i <= 120)){
@@ -1080,7 +1150,28 @@ public class ActionKeywords {
 		}
 	}
 	
-	static boolean waitForListViewDisplayed(String object, String data) throws Exception{
+	public static boolean waitForElementDisplayed(By xpath) throws Exception{
+		int i = 0;
+		Log.info("Waiting for element to display");
+		while (!elementDisplayed(xpath)&&(i <= 120)){
+			System.out.println("Searching for element..."+i);
+			Thread.sleep(1000);
+			i++;
+		}
+		
+		
+		if (i > 120){
+			System.out.println("FAIL: Element not located in a reasonable timeframe");
+			extentTest.log(LogStatus.ERROR, "Element not located in a reasonable timeframe");
+			throw new Exception("FAIL: Element not located in a reasonable timeframe");
+		//	return false;
+		} else{
+			Thread.sleep(2000);
+			return true;
+		}
+	}
+	
+	public static boolean waitForListViewDisplayed(String object, String data) throws Exception{
 		int i = 0;
 		Log.info("Waiting for element to display");
 		while (!elementDisplayed(By.xpath("//table[contains(@summary,"+data+")]"))&&(i <= 120)){
@@ -1104,29 +1195,33 @@ public class ActionKeywords {
 	public static void tableExists(String object, String data) throws Exception{
 		try {
 	    	Log.info("Checks table exists: "+ object);
-	    	Assert.assertTrue(elementDisplayed(By.xpath("//table[contains(@summary,'"+object+"')]")));
+	    	String path = "//table[contains(@summary,'"+object+"')]";
+	    	waitForElementDisplayed(By.xpath(path));
+	    	Assert.assertTrue(elementDisplayed(By.xpath(path)));
 	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
+			Assert.fail();
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
 	    	extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
 	    }
 	}
 	
     public static void elementClickable(String object){
 		try{
 			Log.info("Checks Webelement is clickable: "+ object);
-			WebDriverWait wait = new WebDriverWait(driver, 5);
+			WebDriverWait wait = new WebDriverWait(driver, 10);
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(OR.getProperty(object))));
 		 }catch(Exception e){
  			Log.error("Element does not exists --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
     
@@ -1140,6 +1235,7 @@ public class ActionKeywords {
  			Log.error("Element does not exists --- " + e.getMessage());
  			extentTest.log(LogStatus.ERROR, e.getMessage());
  			DriverScript.bResult = false;
+ 			Assert.fail();
          }
 	}
 		
@@ -1152,22 +1248,24 @@ public class ActionKeywords {
 				data = next2Week.toString();
 			}
 			
+			waitForElementDisplayed(object);
 			Log.info("Entering the text in " + object);
-			driver.findElement(By.xpath(OR.getProperty(object))).clear();
-			driver.findElement(By.xpath(OR.getProperty(object))).click();
+			click(object);
+			clear(object);
 			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(data);
 			Thread.sleep(1000);
 		 }catch(Exception e){
 			Log.error("Not able to Enter value --- " + e.getMessage());
 			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
+			Assert.fail();
 		 }
 	}
 	
 	public static void clear(String object, String data){
 		try{
+			waitForElementDisplayed(object);
 			driver.findElement(By.xpath(OR.getProperty(object))).clear();
-			waitFor();
 		}catch(Exception e){
 			 Log.error(e.getMessage());
 			 extentTest.log(LogStatus.ERROR, e.getMessage());
@@ -1272,7 +1370,6 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
 		}catch(Exception e){
 	 		Log.error("Verify Alert: " + e.getMessage());
@@ -1299,7 +1396,16 @@ public class ActionKeywords {
         catch(Exception e){
 //TODO
         }   
-      }
+    }
+    
+    public static void clickNew(){
+        try{
+        	click("btn_New");
+        }
+        catch(Exception e){
+//TODO
+        }   
+    }
     
 	public static void isApprover(String object, String data){
 		try{
@@ -1318,22 +1424,25 @@ public class ActionKeywords {
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;	
+			Assert.fail();
 		}catch(Exception e){
 			 Log.error(e.getMessage());
 			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
+			 Assert.fail();
 		}
 	}
 	
 	public static void openWFAssignment(String object, String data){
 		try{
 			String val = DriverScript.storedValue;
+			String path = "//table[contains(@summary,'Inbox / Assignments')]/tbody/tr";
 			Log.info("Stored value = " + val);
-			Log.info("openWFAssignment = " + object);
+			Log.info("openWFAssignment");
 //			waitForElementDisplayed();
-			int rowCount = (driver.findElements(By.xpath("//table[contains(@summary,'Inbox / Assignments')]/tbody/tr")).size());
+			waitForElementDisplayed(By.xpath(path));
+			int rowCount = (driver.findElements(By.xpath(path)).size());
 			boolean foundValue = false;
 			
 			for (int i=3;i<=rowCount;i+=2){
@@ -1351,6 +1460,7 @@ public class ActionKeywords {
 					By nextPage = By.xpath("//a[text()='Next Page']");
 					while (!foundValue && elementDisplayed(nextPage)){
 						driver.findElement(nextPage).click();
+						waitFor();
 						sValue = driver.findElement(By.xpath("//table[contains(@summary,'Inbox / Assignments')]/tbody/tr["+i+"]/td[3]")).getText();
 //						Log.info("value " + sValue);
 						if(sValue.endsWith(val)){
@@ -1366,11 +1476,11 @@ public class ActionKeywords {
 			if (foundValue=false){
 				Log.info(val + " not found in approver's Inbox");
 			}
-			waitForElementDisplayed("btn_OK");
 		}catch(Exception e){
 			 Log.error("WFAssignment not found --- " + e.getMessage());
 			 extentTest.log(LogStatus.ERROR, e.getMessage());
 			 DriverScript.bResult = false;
+			 Assert.fail();
 		}
 	}
 	
@@ -1411,12 +1521,13 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Table does not exists --- " +e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }
 	  }
 	 
@@ -1451,12 +1562,13 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 		  }catch(Exception e){
 				Log.error("Check status exists --- " + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 		  }
 	  }
 	  
@@ -1506,12 +1618,13 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 		 }catch(Exception e){
 			    Log.error("Check value exists --- " + e.getMessage());
 			    extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 		 }
 	  }
 	  
@@ -1564,12 +1677,13 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 		 }catch(Exception e){
 			    Log.error("Check value exists --- " + e.getMessage());
 			    extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 		 }
 	  }
 	  
@@ -1590,12 +1704,13 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
-				DriverScript.bResult = false;	    
+				DriverScript.bResult = false;	
+				Assert.fail();
           }catch(Exception e){
 				Log.error("check topmost drilldown --- " +e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 		 }
 	  }
 	  
@@ -1603,7 +1718,9 @@ public class ActionKeywords {
 		  try{
 			    List<String> colToCheck =  new ArrayList<String>();
 			    colToCheck = Arrays.asList(object.trim().toUpperCase().split("[\\s]*,[\\s]*"));
-								List<WebElement> ddOpts = driver.findElements(By.xpath("//tr[@id='lookup_page1_tbod_ttrow-tr']/th[contains(@id,'lookup_page1_ttrow_[C:')]"));
+			    String path = "//tr[@id='lookup_page1_tbod_ttrow-tr']/th[contains(@id,'lookup_page1_ttrow_[C:')]";
+			    waitForElementDisplayed(By.xpath(path));
+				List<WebElement> ddOpts = driver.findElements(By.xpath(path));
 				
 				Log.info("is empty column? =  " + ddOpts.isEmpty());
 				int colCount = ddOpts.size();
@@ -1628,12 +1745,13 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Check column exists ---" + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }
 	  }
 	  
@@ -1641,7 +1759,9 @@ public class ActionKeywords {
 		  try{
 			    List<String> colToCheck =  new ArrayList<String>();
 			    colToCheck = Arrays.asList(object.trim().toUpperCase().split("[\\s]*,[\\s]*"));
-				List<WebElement> ddOpts = driver.findElements(By.xpath("//tr[contains(@id,'_tbod_ttrow-tr')]/th[contains(@id,'_ttrow_[C:')]"));
+			    String xpath = "//tr[contains(@id,'_tbod_ttrow-tr')]/th[contains(@id,'_ttrow_[C:')]";
+			    waitForElementDisplayed(By.xpath(xpath));
+				List<WebElement> ddOpts = driver.findElements(By.xpath(xpath));
 				
 				Log.info("is empty column? =  " + ddOpts.isEmpty());
 				int colCount = ddOpts.size();
@@ -1676,12 +1796,13 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Check column exists ---" + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }
 	  }
 	  
@@ -1690,7 +1811,9 @@ public class ActionKeywords {
 		  try{
 			    List<String> colToCheck =  new ArrayList<String>();
 			    colToCheck = Arrays.asList(object.trim().toUpperCase().split("[\\s]*,[\\s]*"));
-				List<WebElement> ddOpts = driver.findElements(By.xpath("//tr[contains(@id,'_tbod_ttrow-tr')]/th[contains(@id,'_ttrow_[C:')]"));
+			    String xpath = "//tr[contains(@id,'_tbod_ttrow-tr')]/th[contains(@id,'_ttrow_[C:')]";
+			    waitForElementDisplayed(By.xpath(xpath));
+				List<WebElement> ddOpts = driver.findElements(By.xpath(xpath));
 				
 				Log.info("is empty column? =  " + ddOpts.isEmpty());
 				int colCount = ddOpts.size();
@@ -1725,12 +1848,13 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Check column exists ---" + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }
 	  }
 	  
@@ -1738,7 +1862,9 @@ public class ActionKeywords {
 		  try{
 			    List<String> colToCheck =  new ArrayList<String>();
 			    colToCheck = Arrays.asList(object.trim().toUpperCase().split("[\\s]*,[\\s]*"));
-				List<WebElement> ddOpts = driver.findElements(By.xpath("//table[contains(@summary,'"+data+"')]/tbody/tr[1]/th[contains(@id,'_ttrow_[C:')]"));
+			    String xpath = "//table[contains(@summary,'"+data+"')]/tbody/tr[1]/th[contains(@id,'_ttrow_[C:')]";
+			    waitForElementDisplayed(By.xpath(xpath));
+				List<WebElement> ddOpts = driver.findElements(By.xpath(xpath));
 
 				Log.info("is empty column? =  " + ddOpts.isEmpty());
 				int colCount = ddOpts.size();
@@ -1768,33 +1894,37 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Check column exists ---" + e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }
 	  }
 	  
 	  public static void fieldExists(String object, String data){
 		 try{
-   		    Log.info("fieldExists = " + By.xpath("//label[contains(., '"+object+"')]").toString());
+			String xpath = "//label[contains(., '"+object+"')]";
+		    waitForElementDisplayed(By.xpath(xpath));
+   		    Log.info("fieldExists = " + By.xpath(xpath).toString());
 			if (data.toLowerCase().equals("true")) {
-			    Assert.assertTrue(existsElement(By.xpath("//label[contains(., '"+object+"')]")));
+			    Assert.assertTrue(existsElement(By.xpath(xpath)));
 			} else {                                         
-				Assert.assertFalse(existsElement(By.xpath("//label[contains(., "+object+")]")));
+				Assert.assertFalse(existsElement(By.xpath(xpath)));
 			}                                                          
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			DriverScript.bResult = false;
+			Assert.fail();
 		 }catch(Exception e){
 			Log.error("Check field exists ---" + e.getMessage());
 			extentTest.log(LogStatus.ERROR, e.getMessage());
 			DriverScript.bResult = false;
+			Assert.fail();
 		 }
 	  }
 //	  //duplicate of input -- testing if possible
@@ -1812,6 +1942,7 @@ public class ActionKeywords {
 	  	  
 	  public static void copyMessage(String object, String data) {
 		  try{
+			  waitForElementDisplayed(object);
 			  driver.findElement(By.id(OR.getProperty(object))).getText();
 		  } catch(Exception e){
 				 Log.error("copyMessage --- " +e.getMessage());
@@ -1828,9 +1959,17 @@ public class ActionKeywords {
 //				 DriverScript.bResult = false;
 //		  }
 //	  }
+	  public static void scrollDown(String object) throws Exception {
+		  Log.info("scrolling down to field..");
+		  waitForElementDisplayed(object);
+		  WebElement element = driver.findElement(By.xpath(OR.getProperty(object)));
+		  ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+		  Thread.sleep(5000); 
+	  }
 	  
 	  public static void scrollDown(String object, String data) throws Exception {
 		  Log.info("scrolling down to field..");
+		  waitForElementDisplayed(object);
 		  WebElement element = driver.findElement(By.xpath(OR.getProperty(object)));
 		  ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
 		  Thread.sleep(5000); 
@@ -1838,13 +1977,29 @@ public class ActionKeywords {
 	  
 	  public static void scrollUp(String object, String data) throws Exception {
 		  Log.info("scrolling up to field..");
+		  waitForElementDisplayed(object);
 		  WebElement element = driver.findElement(By.xpath(OR.getProperty(object)));
 		  ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
 		  Thread.sleep(500); 
 	  }
 	  
+//	  public static void scrollRight(String object, String data) throws Exception {
+//		  Log.info("scrolling right to field..");
+//		  WebElement element = driver.findElement(By.xpath(OR.getProperty(object)));
+//		  ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+//		  Thread.sleep(5000); 
+//	  }
+//	  
+//	  public static void scrollLeft(String object, String data) throws Exception {
+//		  Log.info("scrolling left to field..");
+//		  WebElement element = driver.findElement(By.xpath(OR.getProperty(object)));
+//		  ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+//		  Thread.sleep(5000); 
+//	  }
+//	  
 	  public static void routeWF(String object, String data){
 		  try{
+			  waitForElementDisplayed("btn_Route");
 			  driver.findElement(By.xpath(OR.getProperty("btn_Route"))).click();
 			  if (data.toLowerCase().equals("dfa")) {
 				  driver.findElement(By.xpath(OR.getProperty("radio_WF_DFA"))).click();
@@ -1858,11 +2013,13 @@ public class ActionKeywords {
 			  Log.error("route WF --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
+			  Assert.fail();
 		  }
 	  }	
 	  
 	  public static void stopWF(String object, String data){
 		  try{
+			  waitForElementDisplayed("hvr_Workflow");
 			  driver.findElement(By.xpath(OR.getProperty("hvr_Workflow"))).click();
 			  driver.findElement(By.xpath(OR.getProperty("stop_Workflow"))).click();
 			  driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
@@ -1871,27 +2028,41 @@ public class ActionKeywords {
 			  Log.error("stop WF --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
+			  Assert.fail();
+		  }
+	  }	
+	  
+	  public static void stopWF(){
+		  try{
+			  waitForElementDisplayed("hvr_Workflow");
+			  driver.findElement(By.xpath(OR.getProperty("hvr_Workflow"))).click();
+			  driver.findElement(By.xpath(OR.getProperty("stop_Workflow"))).click();
+			  driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
+			  waitFor();			  
+		  } catch(Exception e){
+			  Log.error("stop WF --- " +e.getMessage());
+			  extentTest.log(LogStatus.ERROR, e.getMessage());
+			  DriverScript.bResult = false;
+			  Assert.fail();
 		  }
 	  }	
 	  
 	  public static void createSR(String object, String data){
 		  try{
 			  Log.info("Create SR....");
-			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-			  waitFor();			  
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ReporterType"))).sendKeys(data.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Summary"))).sendKeys(object.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).sendKeys("1000014");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Priority"))).sendKeys("4");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).sendKeys("Destress");
-			  waitFor();
-			  driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
-			  waitFor();
-//			  storeValue(driver.findElement(By.xpath(OR.getProperty("txtbx_ReporterType"))).getAttribute(data), "WONUM");
+			  waitForElementDisplayed("btn_New");
+			  click("btn_New");
+			  input("txtbx_ReporterType", data.trim());
+			  input("txtbx_Summary", object.trim());
+			  input("txtbx_AssetNum", "1000014");
+			  input("txtbx_Priority", "4");
+			  input("txtbx_ActivityType", "Destress");
+			  save(null, null);
 		  } catch(Exception e){
-				 Log.error("Create SR --- " +e.getMessage());
-				 extentTest.log(LogStatus.ERROR, e.getMessage());
-				 DriverScript.bResult = false;
+			  Log.error("Create SR --- " +e.getMessage());
+			  extentTest.log(LogStatus.ERROR, e.getMessage());
+			  DriverScript.bResult = false;
+			  Assert.fail();
 		  }
 	  }	
 	  
@@ -1907,26 +2078,27 @@ public class ActionKeywords {
 		      //add 2 week to the current date
 		      LocalDate next2Week = ngayon.plus(2, ChronoUnit.WEEKS);
 		      
-			  waitFor5();
-			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-			  waitFor5();			  
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).sendKeys("1000014");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Description"))).sendKeys(object.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Worktype"))).sendKeys(data.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).click();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).sendKeys(activityType);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Priority"))).sendKeys(priority);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys(String.valueOf(ngayon.getYear()));
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ScheduledStart"))).sendKeys(next2Week.toString());
-			  driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
-			  waitFor();
+		      waitForElementDisplayed("btn_New");
+			  click("btn_New");
+			  waitForElementDisplayed("txtbx_AssetNum");			  
+			  input("txtbx_AssetNum", "1000014");
+			  input("txtbx_Description", object.trim());
+			  input("txtbx_Worktype", data.trim());
+			  click("txtbx_ActivityType");
+			  input("txtbx_ActivityType", activityType);
+			  input("txtbx_Priority", priority);
+			  input("txtbx_FinancialYear", String.valueOf(ngayon.getYear()));
+			  input("txtbx_ScheduledStart", next2Week.toString());
+			  save(null, null);
 		  } catch(AssertionError ae){
-				Log.error(ae.getMessage());
-				extentTest.log(LogStatus.ERROR, ae.getMessage());
+			  Log.error(ae.getMessage());
+			  extentTest.log(LogStatus.ERROR, ae.getMessage());
+			  Assert.fail();
 		  } catch(Exception e){
-				 Log.error("CreateWO --- " +e.getMessage());
-				 extentTest.log(LogStatus.ERROR, e.getMessage());
-				 DriverScript.bResult = false;
+			  Log.error("CreateWO --- " +e.getMessage());
+			  extentTest.log(LogStatus.ERROR, e.getMessage());
+			  DriverScript.bResult = false;
+			  Assert.fail();
 		  }
      }	
 	  
@@ -1942,36 +2114,35 @@ public class ActionKeywords {
 		      //add 2 week to the current date
 		      LocalDate next2Week = ngayon.plus(2, ChronoUnit.WEEKS);
 		      
-		      waitFor5();
-			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-			  waitFor5();			  
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).sendKeys("1000047");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Description"))).sendKeys(object.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Worktype"))).sendKeys(data.trim());
+		      waitForElementDisplayed("btn_New");
+		      click("btn_New");
+			  waitForElementDisplayed("txtbx_AssetNum");		  
+			  input("txtbx_AssetNum", "1000047");
+			  input("txtbx_Description", object.trim());
+			  input("txtbx_Worktype", data.trim());
 			  
 			  WebDriverWait wait = new WebDriverWait(driver, 15);
 			  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(OR.getProperty("txtbx_ActivityType"))));
 			    
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).click();
+			  click("txtbx_ActivityType");
 			  
 			  System.out.println("Click txtbx_ActivityType");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).sendKeys(activityType);
+			  input("txtbx_ActivityType", activityType);
 			  
 			  System.out.println("SendKeys txtbx_ActivityType");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Priority"))).sendKeys(priority);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys(String.valueOf(ngayon.getYear()));
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ScheduledStart"))).sendKeys(next2Week.toString());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_StartRefPoint"))).sendKeys("12");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_EndRefPoint"))).sendKeys("12");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_StartRefPointOffset"))).sendKeys("0");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_EndRefPointOffset"))).sendKeys("1");
-			  waitFor();
-			  driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
-			  waitFor();
+			  input("txtbx_Priority", priority);
+			  input("txtbx_FinancialYear", String.valueOf(ngayon.getYear()));
+			  input("txtbx_ScheduledStart", next2Week.toString());
+			  input("txtbx_StartRefPoint", "12");
+			  input("txtbx_EndRefPoint", "12");
+			  input("txtbx_StartRefPointOffset", "0");
+			  input("txtbx_EndRefPointOffset", "1");
+			  save(null, null);
 		  } catch(Exception e){
-				 Log.error("CreateWO --- " +e.getMessage());
-				 extentTest.log(LogStatus.ERROR, e.getMessage());
-				 DriverScript.bResult = false;
+			 Log.error("CreateWO --- " +e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
+			 DriverScript.bResult = false;
+			 Assert.fail();
 		  }
      }	
 	  
@@ -1989,8 +2160,8 @@ public class ActionKeywords {
 		      //add 2 week to the current date
 		      LocalDate next2Week = ngayon.plus(2, ChronoUnit.WEEKS);
 		      
-		      click("btn_New", null);
-			  waitFor();	
+		      waitForElementDisplayed("btn_New");
+		      clickNew();
 			  input("txtbx_Priority", priority);
 			  input("txtbx_FinancialYear", String.valueOf(ngayon.getYear()));
 			  input("txtbx_ScheduledStart", next2Week.toString());
@@ -2004,14 +2175,14 @@ public class ActionKeywords {
 //			  input("txtbx_Description", object.trim());
 //			  input("txtbx_Priority", priority);
 //			  input("txtbx_ActivityType", activityType);
-			  save("1","1");
-			  Log.info("Generated WONUM = " + driver.findElement(By.xpath(OR.getProperty("txtbx_WONUM"))).getAttribute("value"));
+			  save(null, null);
+			  Log.info("Generated WONUM = " + getAttributeValue("txtbx_WONUM"));
 				 
 			  click("tab_Plans", null);
 			  waitForElementDisplayed("btn_NewRow_Labour");
 //			  add labour plan
 			  click("btn_NewRow_Labour", null);
-			  waitFor();
+			  waitForElementDisplayed("txtbx_Trade");
 			  input("txtbx_Trade", "LEVEL1");
 			  input("txtbx_Quantity", "2");
 			  input("txtbx_PersonHours", "5");
@@ -2020,14 +2191,14 @@ public class ActionKeywords {
 			  click("tab_Materials", null);
 			  waitForElementDisplayed("btn_NewRow_Materials");
 			  click("btn_NewRow_Materials", null);
-			  waitFor();
+			  waitForElementDisplayed("txtbx_Item");
 //			  item 1027419 cost = 788.34
 			  input("txtbx_Item", "1027419");
 			  input("txtbx_Quantity", "2");
 			  getStoreroom();
 			  input("txtbx_DeliveryAddress", "Dummy address");
-			  save("1","1");
-			  waitFor();
+			  save(null, null);
+
 			  Log.info("Added material plan...");
 //			  Go back to Labour Plan
 			  click("tab_Labour", null);
@@ -2036,6 +2207,7 @@ public class ActionKeywords {
 				 Log.error("CreateWOwithPlans --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
+				 Assert.fail();
 		  }
      }	
 	  
@@ -2051,227 +2223,234 @@ public class ActionKeywords {
 			  LocalDate ngayon = getDate();
 		      //add 2 week to the current date
 		      LocalDate next2Week = ngayon.plus(2, ChronoUnit.WEEKS);
-				
-			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-			  waitFor();	
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).sendKeys("1000014");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Description"))).sendKeys(object.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Worktype"))).sendKeys(data.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).click();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ActivityType"))).sendKeys(activityType);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Priority"))).sendKeys(priority);
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_FinancialYear"))).sendKeys(String.valueOf(ngayon.getYear()));
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ScheduledStart"))).sendKeys(next2Week.toString());
-			  
-			  waitFor();
-			  Log.info("Generated WONUM = " + driver.findElement(By.xpath(OR.getProperty("txtbx_WONUM"))).getAttribute("value"));
+			
+		      waitForElementDisplayed("btn_New");
+		      click("btn_New");
+			  waitForElementDisplayed("txtbx_AssetNum");
+			  input("txtbx_AssetNum", "1000014");
+			  input("txtbx_Description", object.trim());
+			  input("txtbx_Worktype", data.trim());
+			  click("txtbx_ActivityType");
+			  input("txtbx_ActivityType", activityType);
+			  input("txtbx_Priority", priority);
+			  input("txtbx_FinancialYear", String.valueOf(ngayon.getYear()));
+			  input("txtbx_ScheduledStart", next2Week.toString());
+
+			  Log.info("Generated WONUM = " + getAttributeValue("txtbx_WONUM"));
 				 
 //			  driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
 //			  Log.info("Saving...");
-			  driver.findElement(By.xpath(OR.getProperty("tab_Plans"))).click();
+			  click("tab_Plans");
 			  waitForElementDisplayed("tab_Materials");
 //		      add materialplan
-			  driver.findElement(By.xpath(OR.getProperty("tab_Materials"))).click();
+			  click("tab_Materials");
 			  waitForElementDisplayed("btn_NewRow_Materials");
-			  driver.findElement(By.xpath(OR.getProperty("btn_NewRow_Materials"))).click();
+			  click("btn_NewRow_Materials");
 //			  item 1027419 cost = 788.34
-			  driver.findElement(By.xpath(OR.getProperty("btn_LineType"))).click();
-			  driver.findElement(By.xpath(OR.getProperty("option_Material"))).click();
-			  waitFor();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ItemDescription"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_ItemDescription"))).sendKeys("material");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_OrderUnit"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_OrderUnit"))).sendKeys("EA");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_UnitCost"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_UnitCost"))).sendKeys("10");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_CommodityGroup"))).sendKeys("1000MAT");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_CommodityCode"))).sendKeys("8031");
-			  driver.findElement(By.xpath(OR.getProperty("btn_Vendor_chevron"))).click();
-			  waitFor();
-			  driver.findElement(By.xpath(OR.getProperty("lnk_SelectValue"))).click();
-			  waitFor();
-			  driver.findElement(By.xpath(OR.getProperty("lnk_List_Code"))).click();
+			  waitForElementDisplayed("btn_LineType");
+			  click("btn_LineType");
+			  waitForElementDisplayed("option_Material");
+			  click("option_Material");
+			  waitForElementDisplayed("txtbx_ItemDescription");
+			  clear("txtbx_ItemDescription");
+			  input("txtbx_ItemDescription", "material");
+			  clear("txtbx_OrderUnit");
+			  input("txtbx_OrderUnit", "EA");
+			  clear("txtbx_UnitCost");
+			  input("txtbx_UnitCost", "10");
+			  input("txtbx_CommodityGroup", "1000MAT");
+			  input("txtbx_CommodityCode", "8031");
+			  click("btn_Vendor_chevron");
+			  waitForElementDisplayed("lnk_SelectValue");
+			  click("lnk_SelectValue");
+			  waitForElementDisplayed("lnk_List_Code");
+			  click("lnk_List_Code");
 			  Log.info("Added material plan...");
 //			  Go back to Labour Plan
 //			  driver.findElement(By.xpath(OR.getProperty("tab_Labour"))).click();
-			  save("1","1");
-			  waitFor();
+			  save();
 		  } catch(Exception e){
-				 Log.error("createWOwithMaterialPlans --- " +e.getMessage());
-				 extentTest.log(LogStatus.ERROR, e.getMessage());
-				 DriverScript.bResult = false;
+			 Log.error("createWOwithMaterialPlans --- " +e.getMessage());
+			 extentTest.log(LogStatus.ERROR, e.getMessage());
+			 DriverScript.bResult = false;
+			 Assert.fail();
 		  }
      }	
 	  
 	  public static void createPO(String object, String data){
 		  try{
-			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-			  waitFor();			   
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Description"))).sendKeys(data.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Company"))).sendKeys("DUMMY");
-			  waitFor();
-			  driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
-			  waitFor();
+			  waitForElementDisplayed("btn_New");
+			  click("btn_New");
+			  waitForElementDisplayed("txtbx_Description");			   
+			  input("txtbx_Description", data.trim());
+			  input("txtbx_Company", "DUMMY");
+			  save();
 		  } catch(Exception e){
 				 Log.error("Create PO --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
+				 Assert.fail();
 		  }
 	  }
 	  
 //	  TODO - not tested
 	  public static void createPR(String object, String data){
 		  try{
-			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-			  waitFor();			   
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Description"))).sendKeys(data.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Company"))).sendKeys("706170");
-			  waitFor();
-			  driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
-			  waitFor();
+			  waitForElementDisplayed("btn_New");
+			  click("btn_New");
+			  waitForElementDisplayed("txtbx_Description");			   
+			  input("txtbx_Description", data.trim());
+			  input("txtbx_Company", "706170");
+			  save();
 		  } catch(Exception e){
-				 Log.error("Create PR --- " +e.getMessage());
-				 extentTest.log(LogStatus.ERROR, e.getMessage());
-				 DriverScript.bResult = false;
+			  Log.error("Create PR --- " +e.getMessage());
+			  extentTest.log(LogStatus.ERROR, e.getMessage());
+			  DriverScript.bResult = false;
+			  Assert.fail();
 		  }
 	  }
 	  
 	  public static void createAsset(String object, String data){
 		  try{
+			  waitForElementDisplayed("btn_New");
 			  Log.info("Creating Asset");
-			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-			  waitForElementDisplayed("btn_New", "1");			   
+			  click("btn_New");
+			  waitForElementDisplayed("txtbx_Discipline");			   
 			  driver.findElement(By.xpath("//input[contains(@aria-label, 'Asset description')]")).sendKeys(data.trim());
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Discipline"))).sendKeys("TRACK");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Region"))).sendKeys("Central");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Area"))).sendKeys("Wellington");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Line"))).sendKeys("JVILL");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_StartMetrage"))).sendKeys("95.500");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_EndMetrage"))).sendKeys("96.600");
-			  save("1", "1");
+			  input("txtbx_Discipline", "TRACK");
+			  input("txtbx_Region", "Central");
+			  input("txtbx_Area", "Wellington");
+			  input("txtbx_Line", "JVILL");
+			  input("txtbx_StartMetrage", "95.500");
+			  input("txtbx_EndMetrage", "96.600");
+			  save();
 			  assertValue1("Start Metrage", "95.500");
 			  assertValue1("End Metrage", "96.600");
 		  }catch(AssertionError ae){
 			  Log.error("Assertion failed --- " + ae.getMessage());
 			  extentTest.log(LogStatus.ERROR, ae.getMessage());
 			  extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-			  extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 			  DriverScript.bResult = false;
+			  Assert.fail();
 		  } catch (NoSuchElementException e) {
 		      Log.error("Element not found --- " + e.getMessage());
 		      extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		  DriverScript.bResult = false;
+	 		 Assert.fail();
 		  } catch (Exception e) {
 		      Log.error("Create Asset --- " + e.getMessage());
 		      extentTest.log(LogStatus.ERROR, e.getMessage());
 	 		  DriverScript.bResult = false;
+	 		 Assert.fail();
 		  }
 	  }
 	  
-	  public static void createLocation(String object, String data){
+	  public static void createLocation(String data){
 		  try {
 //				Create new location
+			    waitForElementDisplayed("btn_New");
 			    Log.info("Creating Location");
-				driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Type"))).sendKeys("OPERATING");
+			    click("btn_New");
+				waitForElementDisplayed("txtbx_Type");
+				input("txtbx_Type", "OPERATING");
 				driver.findElement(By.xpath("//input[contains(@aria-label, 'Location description')]")).sendKeys(data.trim());
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Discipline"))).sendKeys("TRACK");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Region"))).click();
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Region"))).sendKeys("Central");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Area"))).click();
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Area"))).sendKeys("Wellington");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Line"))).click();
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Line"))).sendKeys("JVILL");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_StartMetrage"))).click();
-				driver.findElement(By.xpath(OR.getProperty("txtbx_StartMetrage"))).sendKeys("97.569");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_EndMetrage"))).sendKeys("98.568");
-				save("1", "1");
+				input("txtbx_Discipline", "TRACK");
+				input("txtbx_Region", "Central");
+				input("txtbx_Area", "Wellington");
+				input("txtbx_Line", "JVILL");
+				input("txtbx_StartMetrage", "97.569");
+				input("txtbx_EndMetrage", "98.568");
+				save();
 				assertValue1("Start Metrage", "97.569");
 				assertValue1("End Metrage", "98.568");
 			}catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 		    } catch (NoSuchElementException e) {
 		    	Log.error("Element not found --- " + e.getMessage());
 		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
+	 			Assert.fail();
 		    } catch (Exception e) {
 		    	Log.error("Create Location --- " + e.getMessage());
 		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
+	 			Assert.fail();
 		    }	
 	  }
 	  
 	  public static void createClassification(String object, String data){
 		  try {
 //				Create new Classification
+			    waitForElementDisplayed("btn_New");
 			    Log.info("Creating Classification");
-				driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Type"))).sendKeys("OPERATING");
+			    click("btn_New");
+				waitForElementDisplayed("txtbx_Type");
+				input("txtbx_Type", "OPERATING");
 				driver.findElement(By.xpath("//input[contains(@aria-label, 'Location description')]")).sendKeys(data.trim());
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Discipline"))).sendKeys("TRACK");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Region"))).sendKeys("Central");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Area"))).sendKeys("Wellington");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_Line"))).sendKeys("JVILL");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_StartMetrage"))).sendKeys("97.569");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_EndMetrage"))).sendKeys("98.568");
-				save("1", "1");
+				input("txtbx_Discipline", "TRACK");
+				input("txtbx_Region", "Central");
+				input("txtbx_Area", "Wellington");
+				input("txtbx_Line", "JVILL");
+				input("txtbx_StartMetrage", "97.569");
+				input("txtbx_EndMetrage", "98.568");
+				save();
 				assertValue1("Start Metrage", "97.569");
 				assertValue1("End Metrage", "98.568");
 			}catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 		    } catch (NoSuchElementException e) {
 		    	Log.error("Element not found --- " + e.getMessage());
 		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
+	 			Assert.fail();
 		    } catch (Exception e) {
 		    	Log.error("Create Location --- " + e.getMessage());
 		    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
+	 			Assert.fail();
 		    }	
 	  }
 	  
 	  public static void createJobPlan(String object, String data){
 		  try{
 			  Log.info("Create Job Plan...");
-			  driver.findElement(By.xpath(OR.getProperty("btn_New"))).click();
-			  waitFor();			   
+			  waitForElementDisplayed("btn_New");
+			  click("btn_New");
+			  waitForElementDisplayed("btn_NewRow_Labour");		   
 			  driver.findElement(By.xpath("//input[@id=(//label[text()='Job Plan description']/@for)]")).sendKeys(data);
-			  driver.findElement(By.xpath(OR.getProperty("btn_NewRow_Labour"))).click();
-			  waitForElementDisplayed("txtbx_Trade", "1");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Trade"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Trade"))).sendKeys("LEVEL1");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Quantity"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Quantity"))).sendKeys("2");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_PersonHours"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_PersonHours"))).sendKeys("5");
+			  click("btn_NewRow_Labour");
+			  waitForElementDisplayed("txtbx_Trade");
+			  input("txtbx_Trade", "LEVEL1");
+			  input("txtbx_Quantity", "2");
+			  input("txtbx_PersonHours", "5");
 			  Log.info("Added labour plan...");
 //			  add material plan
-			  driver.findElement(By.xpath(OR.getProperty("tab_Materials"))).click();
+			  click("tab_Materials");
 			  waitForElementDisplayed("btn_NewRow_Materials");
-			  driver.findElement(By.xpath(OR.getProperty("btn_NewRow_Materials"))).click();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Item"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Item"))).sendKeys("1027419");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Quantity"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Quantity"))).sendKeys("2");
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Storeroom"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtbx_Storeroom"))).sendKeys("W600");
+			  click("btn_NewRow_Materials");
+			  waitForElementDisplayed("txtbx_Item");
+			  input("txtbx_Item", "1027419");
+			  input("txtbx_Quantity", "2");
+			  input("txtbx_Storeroom", "W600");
 //			  driver.findElement(By.xpath(OR.getProperty("txtbx_ConditionCode"))).sendKeys("NEW");
 			  Log.info("Added material plan...");
 //			  Go back to Labour Plan
-			  driver.findElement(By.xpath(OR.getProperty("tab_Labour"))).click();
-			  save("1","1");
+			  waitForElementDisplayed("tab_Labour");
+			  click("tab_Labour");
+			  save();
 		  } catch(Exception e){
 				 Log.error("Create PO --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
+				 Assert.fail();
 		  }
 	  }
 	  
@@ -2293,23 +2472,21 @@ public class ActionKeywords {
 	  
 	  public static void addValue(String object, String data){
 		  try{
-			  String objectVal = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
-			  Log.info("objectVal = "+objectVal);
-			  Log.info("data = "+data);
+			  waitForElementDisplayed(object);
+			  String objectVal = getAttributeValue(object);
+//			  Log.info("objectVal = "+objectVal);
+//			  Log.info("data = "+data);
 			  double objectInt = StringUtil.toLong(objectVal);
 			  double dataInt = Double.valueOf(data);
 			  double newVal = (objectInt * dataInt) + objectInt;
-			  Log.info("objectInt = "+objectInt);
-			  Log.info("dataInt = "+dataInt);
-			  Log.info("add value total = "+newVal);
-			  driver.findElement(By.xpath(OR.getProperty(object))).clear();
+			  clear(object);
 			  Log.info("Cleared object");
-			  driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(String.valueOf(newVal));
-			  waitFor();
+			  input(object, String.valueOf(newVal));
 		  } catch(Exception e){
 				 Log.error("Add value --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
+				 Assert.fail();
 		  }
 	  }
  
@@ -2361,18 +2538,22 @@ public class ActionKeywords {
 					status = "CREATE";
 				    break;     
 			}
-              oldStatus = driver.findElement(By.xpath(OR.getProperty("txtbx_Status"))).getAttribute("value");  
-			  driver.findElement(By.xpath("//li[contains(@id,'_STATUS_OPTION')]")).click();
-			  waitFor();
-//              driver.findElement(By.xpath("//img[contains(@title,'Drop-down image')]")).click();
-			  driver.findElement(By.xpath("//input[@id=(//label[text()='New Status:']/@for)]")).click();
+			  String statusOption = "//li[contains(@id,'_STATUS_OPTION')]";
+			  waitForElementDisplayed(By.xpath(statusOption));	
+              oldStatus = getAttributeValue(object);  
+			  driver.findElement(By.xpath(statusOption)).click();
+			  
+			  String newStatus = "//input[@id=(//label[text()='New Status:']/@for)]";
+			  waitForElementDisplayed(By.xpath(newStatus));
+			  driver.findElement(By.xpath(newStatus)).click();
               Thread.sleep(500);
 			  Log.info("clicked new status Drop-down ");
               driver.findElement(By.xpath("//span[contains(@id,'"+status+"_OPTION_a_tnode')]")).click();
               waitFor();
               Log.info("clicked new status "+status);
-              driver.findElement(By.xpath("//button[@type='button' and contains(., 'OK')]")).click();
-			  waitFor();
+              waitForElementDisplayed("btn_OK");
+              click("btn_OK");
+              waitForElementDisplayed("titlebar_message");
 			  Log.info("titlebar msg = " +driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText());
 			  Log.info("changeStatusMsg = " +changeStatusMsg);
 //			  if(waitForElementDisplayed("titlebar_message")){
@@ -2380,79 +2561,85 @@ public class ActionKeywords {
 //			  }
 			  Assert.assertTrue(waitForElementDisplayed("titlebar_message"));
 			  Log.info("old status = " +oldStatus);
-			  Log.info("new status = " +driver.findElement(By.xpath(OR.getProperty("txtbx_Status"))).getAttribute("value"));
-			  Assert.assertFalse(driver.findElement(By.xpath(OR.getProperty("txtbx_Status"))).getAttribute("value").trim().toUpperCase().equals(oldStatus), "Assertion failed - status not changed");
+			  Log.info("new status = " +getAttributeValue(object));
+			  Assert.assertFalse(getAttributeValue(object).trim().toUpperCase().equals(oldStatus), "Assertion failed - status not changed");
 		  }catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;	
+				Assert.fail();
 		  } catch(Exception e) {
 				 Log.error("changeStatus --- " +e.getMessage());
 				 extentTest.log(LogStatus.ERROR, e.getMessage());
 				 DriverScript.bResult = false;
+				 Assert.fail();
 		  }
      }	
 	  
 	  public static void duplicate(String object, String data){
 			try{
-				waitForElementDisplayed("btn_Duplicate", null);
-				driver.findElement(By.xpath(OR.getProperty("btn_Duplicate"))).click();
-				waitFor();
+				waitForElementDisplayed("btn_Duplicate");
+				click("btn_Duplicate");
+				waitForElementDisplayed("titlebar_message");
 				
 //				Log.info("titlebar_message path =  "+ OR.getProperty("titlebar_message"));
 //				Log.info(driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText());
 				if(waitForElementDisplayed("titlebar_message")){
 					Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText().trim().startsWith(duplicateMsg), "Assertion failed.");
-					save("1","1");
+					save();
 				}
 			}catch(AssertionError ae){
 				Log.error("duplicate failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;	
+				Assert.fail();
 			}catch(Exception e){
 		 		Log.error("Verify Alert: duplicate failed --- " + e.getMessage());
 		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
+		 		Assert.fail();
 		    }
 	  }
 	  
 	  public static void duplicatePR(String object, String data){
 			try{
-				waitForElementDisplayed("btn_Duplicate", null);
-				driver.findElement(By.xpath(OR.getProperty("btn_Duplicate"))).click();
-				waitFor();
+				waitForElementDisplayed("btn_Duplicate");
+				click("btn_Duplicate");
+				waitForElementDisplayed("titlebar_message");
 				
 				if(waitForElementDisplayed("titlebar_message")){
 					Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText().trim().startsWith(duplicateMsg), "Assertion failed.");
 					if (object.equals("PR") && !data.equals("")) {
-						driver.findElement(By.xpath(OR.getProperty("txtbx_RequiredDate"))).sendKeys(data);
+						input("txtbx_RequiredDate", data);
 					} else {
-						save("1","1");
+						save();
 					}
 				}
 			}catch(AssertionError ae){
 				Log.error("duplicate failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;	
+				Assert.fail();
 			}catch(Exception e){
 		 		Log.error("Verify Alert: duplicate failed --- " + e.getMessage());
 		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
+		 		Assert.fail();
 		    }
 	  }
 	  
-	  
+	  public static void save() {
+		  save(null, null);
+	  }
 
 	  public static void save(String object, String data){
 			try{
-				driver.findElement(By.xpath(OR.getProperty("btn_Save"))).click();
-				Thread.sleep(1000);
+				waitForElementDisplayed("btn_Save");
+				click("btn_Save");
+				waitForElementDisplayed("titlebar_message");
 				
 //				Log.info("titlebar_message path =  "+ OR.getProperty("titlebar_message"));
 //				Log.info(driver.findElement(By.xpath(OR.getProperty("titlebar_message"))).getText());
@@ -2464,22 +2651,23 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
-				DriverScript.bResult = false;	
+				DriverScript.bResult = false;
+				Assert.fail();
 			 }catch(Exception e){
 		 		Log.error("Verify Alert: Assertion failed --- " + e.getMessage());
 		 		extentTest.log(LogStatus.ERROR, e.getMessage());
 		 		DriverScript.bResult = false;
+		 		Assert.fail();
 		     }
 	}  
 	  
 	public static void getStoreroom() {
 		try {
-			driver.findElement(By.xpath(OR.getProperty("btn_Storeroom_chevron"))).click();
-			driver.findElement(By.xpath(OR.getProperty("lnk_SelectValue"))).click();
-			waitFor();
-			driver.findElement(By.xpath(OR.getProperty("lnk_List_Code"))).click();
-			waitFor();
+			waitForElementDisplayed("btn_Storeroom_chevron");
+			click("btn_Storeroom_chevron");
+			click("lnk_SelectValue");
+			waitForElementDisplayed("lnk_List_Code");
+			click("lnk_List_Code");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2524,8 +2712,9 @@ public class ActionKeywords {
 		            	 dir = "Tools";
 		            	 break;
 		        }
-		    		    	 
-			    List<WebElement> ddOpts = driver.findElements(By.xpath("//table[contains(@summary,'"+dir+"')]//tr[contains(@class,'tablerow')]"));
+		    	String xpath = "//table[contains(@summary,'"+dir+"')]//tr[contains(@class,'tablerow')]";  	
+		    	waitForElementDisplayed(By.xpath(xpath));
+			    List<WebElement> ddOpts = driver.findElements(By.xpath(xpath));
 //			    
 //			    Log.info("ddOpts.toString() =  " + ddOpts.toString());
 //			    Log.info("object =  " + object.toLowerCase());
@@ -2537,12 +2726,13 @@ public class ActionKeywords {
 				Log.error("Assertion failed --- " + ae.getMessage());
 				extentTest.log(LogStatus.ERROR, ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
-				extentTest.log(LogStatus.INFO, "Actual Value: " + driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value"));
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Table does not exists --- " +e.getMessage());
 				extentTest.log(LogStatus.ERROR, e.getMessage());
 				DriverScript.bResult = false;
+				Assert.fail();
 			 }
 	  }  
 	  
@@ -2583,7 +2773,7 @@ public class ActionKeywords {
 			
 			Log.info("Create Message");
 			
-			String code = driver.findElement(By.xpath(OR.getProperty(object))).getAttribute("value");
+			String code = getAttributeValue(object);
 			String divMsgBox = data;
 			String idForLog = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
 			File file = new File("LoggedMessages" + ".txt");
@@ -2615,31 +2805,38 @@ public class ActionKeywords {
 	  
 	  public static void whereClause(String object, String data){
 		  try{
-			  driver.findElement(By.xpath("//img[@alt='Advanced Search menu']")).click();
-			  driver.findElement(By.xpath("//span[@id='menu0_SEARCHWHER_OPTION_a_tnode']")).click();
+			  String advancedSearchMenu = "//img[@alt='Advanced Search menu']";
+			  String searchOption = "//span[@id='menu0_SEARCHWHER_OPTION_a_tnode']";
+			  waitForElementDisplayed(By.xpath(advancedSearchMenu));
+			  driver.findElement(By.xpath(advancedSearchMenu)).click();
+			  waitForElementDisplayed(By.xpath(searchOption));
+			  driver.findElement(By.xpath(searchOption)).click();
 			  waitForElementDisplayed("txtarea_whereClause");
-			  driver.findElement(By.xpath(OR.getProperty("txtarea_whereClause"))).clear();
-			  driver.findElement(By.xpath(OR.getProperty("txtarea_whereClause"))).sendKeys(data.trim());
+			  clear("txtarea_whereClause");
+			  input("txtarea_whereClause", data.trim());
 			  waitForElementDisplayed("btn_Find");
-			  driver.findElement(By.xpath(OR.getProperty("btn_Find"))).click();
+			  click("btn_Find");
 			  waitFor();
 		  } catch(Exception e){
 			  Log.error("whereClause --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
+			  Assert.fail();
 		  }
       }	
 	  
 	  public static void clearWhereClause(String object, String data){
-		  try{                       
-			  driver.findElement(By.xpath("//a[contains(.,'Advanced Search')]")).click();
-			  driver.findElement(By.xpath("//button[contains(.,'Revise')]")).click();
+		  try{       
+			  waitForElementDisplayed("btn_Advanced_Search");
+			  click("btn_Advanced_Search");
+			  click("btn_Revise");
 			  driver.findElement(By.xpath("//span[contains(.,'Clear Query and Fields')]")).click();
 //			  waitFor();
 		  } catch(Exception e){
 			  Log.error("clearWhereClause --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
+			  Assert.fail();
 		  }
       }
 	  
@@ -2656,12 +2853,14 @@ public class ActionKeywords {
 			  Log.error("populateDate --- " +e.getMessage());
 			  extentTest.log(LogStatus.ERROR, e.getMessage());
 			  DriverScript.bResult = false;
+			  Assert.fail();
 		  }
      }	
 	  
 	  public static String getAttributeValue(String element) {
 		String value = null;
 	  	try {
+	  		waitForElementDisplayed(element);
 	  		value = driver.findElement(By.xpath(OR.getProperty(element))).getAttribute("value");
 	  	} catch(Exception e){
  			Log.error(e.getMessage());
@@ -2669,90 +2868,310 @@ public class ActionKeywords {
        	}
 		return value;
 	  }
+	  
+	  public static String getAttributeValue(By xpath) {
+			String value = null;
+		  	try {
+		  		waitForElementDisplayed(xpath);
+		  		value = driver.findElement(xpath).getAttribute("value");
+		  	} catch(Exception e){
+	 			Log.error(e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	       	}
+			return value;
+		  }
  
-	  public static void changeWOStatusToPlan(String object, String data){
+	  public void changeWOStatusToPlan(String object, String data){
 			try{
-				Log.info("Change WO status to PLAN = "+data);
+				Log.info("Change WO status to PLAN = "+object +" " +data);
 				String user="mxeng1";
 				if (data.equals("AMREN")) {
 					user="mxsvcemgr1";
 				}
 				
-				openBrowser("1","Mozilla");
-                waitFor();
-				login("",user);
-				hover("hvr_WO", "lnk_WO");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_QuickSearch"))).sendKeys(object);
-				enter("txtbx_QuickSearch","1");
-				waitFor();
+				openBrowser("1","Chrome");
+				login(null, user);
+				action.goToWOPage(); 
+				action.quickSearch(object);
 
-				changeStatus("","ready to plan");
-				changeStatus("","planned");
-				save("1","1");
+				changeStatus("txtbx_Status", "ready to plan");
+				changeStatus("txtbx_Status", "planned");
+				save();
 			 }catch(Exception e){
-	 			Log.error("Not able to click --- " + e.getMessage());
+	 			Log.error("Not able to changeWOStatusToPlan --- " + e.getMessage());
 	 			extentTest.log(LogStatus.ERROR, e.getMessage());
 	 			DriverScript.bResult = false;
+	 			Assert.fail();
 	       	 }
 	   }
 	  
-	  public static void workorderWorkflow(String object, String data) {
-		  WorkorderWorkflow.workorderWorkflow(object, data);
+	  public void goToHomePage() {
+			try {
+				waitForElementDisplayed("lnk_Home");
+				click("lnk_Home");
+			} catch (Exception e) {
+				Log.error("goToWOPage --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	 			Assert.fail();
+			}
+			
 	  }
 	  
-	  public static void workorderWorkflowWithChildren(String object, String data) {
-		  WorkorderWorkflowWithChildren.workorderWorkflowWithChildren(object, data);
-	  }  
-	  
-	  public static void locationCustomMetrages(String object, String data) {
-		  LocationCustomMetrages.locationCustomMetrages(object, data);
+	  public void goToWorkflowAssignment() {
+			try {
+				waitForElementDisplayed("hvr_Workflow");
+				scrollDown("hvr_Workflow");
+				hover("hvr_Workflow", "lnk_WFAssignment");
+				waitForElementDisplayed("tbl_WFAssignment");
+			} catch (Exception e) {
+				Log.error("goToWOPage --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	 			Assert.fail();
+			}
+			
 	  }
 	  
-	  public static void railWearMeterReadings(String object, String data) {
-		  RailWearMeterReadings.railWearMeterReadings(object, data);
+	  public void approveWF(String wonum) {
+		try { 
+		  action.goToWOPage();
+		  action.quickSearch(wonum);
+		  
+		  boolean inWorkflow = true;
+		  int wfLevel = 1;
+		  
+		  action.hover("hvr_Workflow", "lnk_WFAssignment");
+		 
+  		  action.waitForElementDisplayed("tbl_WFAssignment");
+
+		  inWorkflow = driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0");
+		  DriverScript.WFApprover = driver.findElement(By.xpath("//table[contains(@summary,'Workflow Assignments')]/tbody/tr[4]/td[2]")).getText();
+		  
+		  Log.info("IsNull table approver =" +driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0"));
+		  action.clickOK();
+		  
+		  while (!inWorkflow) {
+//			  close current driver
+//			  driver.close();
+			  action.openBrowser(null, "Chrome");
+			  action.loginApprover("dummy", "dummy");
+			  
+			  Log.info("WF Approval Level " +wfLevel+ " Approver = "+DriverScript.WFApprover);
+			  action.openWFAssignment("dummy", "dummy");
+//			  waitFor();
+			  action.waitForElementDisplayed("btn_OK");
+			  action.clickOK();
+
+			  action.hover("hvr_Workflow", "lnk_WFAssignment");
+			  action.waitForElementDisplayed("tbl_WFAssignment");
+			  inWorkflow = driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0");
+			  if (!inWorkflow) {
+				  DriverScript.WFApprover = driver.findElement(By.xpath("//table[contains(@summary,'Workflow Assignments')]/tbody/tr[4]/td[2]")).getText();
+				  Log.info("IsNull table approver =" +driver.findElement(By.xpath(OR.getProperty("tbl_WFAssignment"))).getAttribute("displayrows").equals("0"));
+				  
+			  }
+			  action.clickOK();
+			  wfLevel++;
+		  }
+		  action.assertValue2("txtbx_Status", "APPR,WMATL");
+	    } catch(AssertionError ae){
+			Log.error("Assertion failed --- " + ae.getMessage());
+			Assert.fail();
+	    } catch (NoSuchElementException e) {
+	    	Log.error("Element not found --- " + e.getMessage());
+			Assert.fail();
+	    } catch (Exception e) {
+	    	Log.error("Exception --- " + e.getMessage());
+			Assert.fail();
+	    }	
+   }	  
+	  
+	  public void DeactivateOrActivateVendor() throws Exception {
+//		 this will deactivate active Vendor or activate inactive Vendor
+			Log.info("Deactivate/Activate Vendor..................");
+			Log.info("Click btn_Vendor_chevron..................");
+			action.click("btn_Vendor_chevron");
+
+			Log.info("Click Go To Companies..................");
+			waitForElementDisplayed(By.xpath("//span[text()='Go To Companies']"));
+			driver.findElement(By.xpath("//span[text()='Go To Companies']")).click();
+			
+			Log.info("Click chkbx_DisqualifyVendor..................");
+			action.waitForElementDisplayed("chkbx_DisqualifyVendor"); 
+			action.click("chkbx_DisqualifyVendor");
+			action.save();
+			
+			Log.info("Click btn_ReturnValue..................");
+			action.click("btn_ReturnValue");
+	  }
+	  
+  
+	  public void goToWOPage() {
+			try {
+				goToHomePage();
+				waitForElementDisplayed("hvr_WO");
+				scrollDown("hvr_WO");
+				hover("hvr_WO", "lnk_WO");
+			} catch (Exception e) {
+				Log.error("goToWOPage --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	 			Assert.fail();
+			}
+			
 	  }
 
-	  public static void crossoverLocationsAsset(String object, String data) {
-		  CrossoverLocationsAsset1.crossoverLocationsAsset1(object, data);
+	  public void goToSRPage() {
+			try {
+				goToHomePage();
+				waitForElementDisplayed("hvr_WO");
+				scrollDown("hvr_WO");
+				hover("hvr_WO", "lnk_SR");
+			} catch (Exception e) {
+				Log.error("goToWOPage --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	 			Assert.fail();
+			}
+			
+	  }
+	  public void goToAssetPage() {
+			try {
+				goToHomePage();
+				waitForElementDisplayed("hvr_Asset");
+				scrollDown("hvr_Asset");
+				hover("hvr_Asset", "lnk_Asset");
+			} catch (Exception e) {
+				Log.error("goToWOPage --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	 			Assert.fail();
+			}
+			
 	  }
 	  
-	  public static void WOClassificationAttributes(String object, String data) {
-		  WOClassificationAttributes.woClassificationAttributes(object, data);
+	  public void goToFeaturePage() {
+			try {
+				goToHomePage();
+				waitForElementDisplayed("hvr_Asset");
+				scrollDown("hvr_Asset");
+				hover("hvr_Asset", "lnk_Feature");
+			} catch (Exception e) {
+				Log.error("goToFeaturePage --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	 			Assert.fail();
+			}
+			
 	  }
 	  
-	  public static void AssetFeatureDeletion(String object, String data) {
-		  AssetFeatureDeletion.assetFeatureDeletion(object, data);
+	  public void goToLocationPage() {
+			try {
+				goToHomePage();
+				waitForElementDisplayed("hvr_Asset");
+				scrollDown("hvr_Asset");
+				hover("hvr_Asset", "lnk_Location");
+			} catch (Exception e) {
+				Log.error("goToLocationPage --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	 			Assert.fail();
+			}
+			
 	  }
+		
+	  public void quickSearch(String q) throws Exception {
+			waitForElementDisplayed("txtbx_QuickSearch");
+			input("txtbx_QuickSearch", q);
+			enter("txtbx_QuickSearch");
+			Thread.sleep(3000);
+		}
+		
+		public void clickFirstSearchedValue() {
+			try {
+				waitForElementDisplayed("lnk_List_Code");
+				click("lnk_List_Code");
+			} catch (Exception e) {
+				Log.error("Not able to click --- " + e.getMessage());
+	 			extentTest.log(LogStatus.ERROR, e.getMessage());
+	 			extentTest.log(LogStatus.INFO, "Element: lnk_List_Code");
+	 			Assert.fail();
+			}
+			
+		} 
+		
+		public void route() {
+			click("btn_Route");
+		}
+		
+		public void clickOK() throws Exception {
+			try {
+				waitForElementDisplayed("btn_OK");
+				click("btn_OK");
+				Thread.sleep(2000);
+			} catch (NoSuchElementException e) {
+				Log.error("Element not found --- " + e.getMessage());
+				extentTest.log(LogStatus.ERROR, e.getMessage());
+				extentTest.log(LogStatus.INFO, "Element: btn_OK");
+				Assert.fail();
+			}
+		}
+		
+		public void clickActiveElement() {
+			driver.switchTo().activeElement().click();
+		}	
+		
+//	  public void workorderWorkflow(String object, String data) {
+//		  WorkorderWorkflow.workorderWorkflow(object, data);
+//	  }
 	  
-	  public static void PreventSRsAndWOsWhereNOTRACKexist(String object, String data) {
-		  PreventSRsAndWOsWhereNOTRACKexist.preventSRsAndWOsWhereNOTRACKexist();
-	  }
+//	  public static void workorderWorkflowWithChildren(String object, String data) {
+//		  WorkorderWorkflowWithChildren.workorderWorkflowWithChildren(object, data);
+//	  }  
 	  
-	  public static void WOAssetLocRoute(String object, String data) {
-		  WOAssetLocRoute.woAssetLocRoute();
-	  }
+//	  public static void locationCustomMetrages(String object, String data) {
+//		  LocationCustomMetrages.locationCustomMetrages(object, data);
+//	  }
+//	  
+//	  public static void railWearMeterReadings(String object, String data) {
+//		  RailWearMeterReadings.railWearMeterReadings(object, data);
+//	  }
+//
+//	  public static void crossoverLocationsAsset(String object, String data) {
+//		  CrossoverLocationsAsset1.crossoverLocationsAsset1(object, data);
+//	  }
+//	  
+//	  public static void WOClassificationAttributes(String object, String data) {
+//		  WOClassificationAttributes.woClassificationAttributes(object, data);
+//	  }
 	  
-	  public static void WOTotalCosts(String object, String data) {
-		  WOTotalCosts.WOTotalCosts();
-	  }
+//	  public static void AssetFeatureDeletion(String object, String data) {
+//		  AssetFeatureDeletion.assetFeatureDeletion(object, data);
+//	  }
 	  
-	  public static void ServiceItemPlannedCostChange(String object, String data) {
-		  ServiceItemPlannedCostChange.serviceItemPlannedCostChange();
-	  }
-	  
-	  public static void Classifications(String object, String data) {
-		  Classifications.classifications();
-	  }
-	  
-	  public static void LocationSystems(String object, String data) {
-		  LocationSystems.locationSystems();
-	  }
-	  
-	  public static void Vendor(String object, String data) {
-		  Vendor.vendor();;
-	  }
-	  
-	  public static void UnitTests(String object, String data) throws Exception {
-		  WOUnitTests.unitTests();
-	  }
+//	  public static void PreventSRsAndWOsWhereNOTRACKexist(String object, String data) {
+//		  PreventSRsAndWOsWhereNOTRACKexist.preventSRsAndWOsWhereNOTRACKexist();
+//	  }
+//	  
+//	  public static void WOAssetLocRoute(String object, String data) {
+//		  WOAssetLocRoute.woAssetLocRoute();
+//	  }
+//	  
+//	  public static void WOTotalCosts(String object, String data) {
+//		  WOTotalCosts.WOTotalCosts();
+//	  }
+//	  
+//	  public static void ServiceItemPlannedCostChange(String object, String data) {
+//		  ServiceItemPlannedCostChange.serviceItemPlannedCostChange();
+//	  }
+//	  
+//	  public static void Classifications(String object, String data) {
+//		  Classifications.classifications();
+//	  }
+//	  
+//	  public static void LocationSystems(String object, String data) {
+//		  LocationSystems.locationSystems();
+//	  }
+//	  
+//	  public static void Vendor(String object, String data) {
+//		  Vendor.vendor();;
+//	  }
+//	  
+//	  public void UnitTests(String object, String data) throws Exception {
+//		  WOUnitTests.unitTests();
+//	  }
 }
