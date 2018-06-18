@@ -1,4 +1,6 @@
-package config;
+package utility;
+
+import java.time.LocalDate;
 
 public class Constants {
 	
@@ -24,19 +26,15 @@ public class Constants {
 //	public static final String URL = "http://dvmaxp01:9080/maximo/webclient/login/login.jsp";
 //	public static final String URL = "http://10.160.16.55:9080/maximo/webclient/login/login.jsp";
 	
-	public static final String Path_Screenshot = "Screenshots";
+	public static final String Path_Screenshot = "Screenshots//";
 	public static final String Path_TestData = "src//test//java//dataEngine//DataEngine.xlsx";
 	public static final String Path_TestFiles = "src//test//java//dataEngine//";
-	public static final String Path_OR = "src//test//java//config//OR.txt";
+	public static final String Path_OR = "src//test//java//utility//OR.txt";
+	public static final String Path_Lib = "src//test//resources//lib//";
 
 	public static final String KEYWORD_FAIL = "FAIL";
 	public static final String KEYWORD_PASS = "PASS";
 
-//	public static final String Path_Screenshot = "Z://zAutomation Tool//GitRepository//MaxTestTool//Screenshots//";
-//	public static final String Path_TestData = "Z://zAutomation Tool//GitRepository//MaxTestTool//src//dataEngine//DataEngine.xlsx";
-//	public static final String Path_TestFiles = "Z://zAutomation Tool//GitRepository//MaxTestTool//bin//dataEngine//";
-//	public static final String Path_OR = "Z://zAutomation Tool//GitRepository//MaxTestTool//bin//config//OR.txt";
-	
 //Data Sheet Column Numbers
 	public static final int Col_TestCaseID = 0;	
 	public static final int Col_TestScenarioID = 1;
@@ -53,12 +51,8 @@ public class Constants {
 	public static final String Sheet_TestCases = "Test Cases";
 	public static final String Sheet_TestData = "Test Data";
 	
-// Test Data
-	public static final String UserName = "maxadmin";
-	public static final String Password = "maxadmin";
-	
 //Reporting
 	public static final String extentReportPath = "Logs";
-	public static final String extentReportFile = "Logs//extentReportFile.html";
+	public static final String extentReportFile = "Logs//extentReportFile_"+LocalDate.now().toString()+".html";
 	public static final String extentReportImage = "Logs//extentReportImage.png";
 }

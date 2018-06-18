@@ -1,6 +1,6 @@
 package config;
 
-public class WOTotalCosts extends ActionKeywords {
+public class WOTotalCosts {
 
 	public static void WOTotalCosts() {
 		

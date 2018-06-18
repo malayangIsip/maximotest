@@ -1,103 +1,161 @@
 package config;
 
-import static executionEngine.DriverScript.OR;
-import static executionEngine.DriverScript.driver;
+import static executionEngine.Base.OR;
+import static executionEngine.Base.driver;
+import static executionEngine.Base.extent;
+import static executionEngine.Base.extentTest;
+import static executionEngine.Base.action;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
-import executionEngine.DriverScript;
+import com.relevantcodes.extentreports.LogStatus;
+
+import executionEngine.Base;
+import executionEngine.TestAutomation;
 import utility.Log;
 
-public class CrossoverLocationsAsset1 extends ActionKeywords {
-
-	static WebDriverWait wait = new WebDriverWait(driver, 3);
+public class CrossoverLocationsAsset1 extends TestAutomation {
+	
 	static String assetnum = null;
 	static String locationnum = null;
+	static String user = "maxadmin";
+	
+    static String testCase = "";
+    static String testName = "CrossoverLocationsAsset1";
 
-	public static void crossoverLocationsAsset1(String object, String data) {
-		relateAssetToLocation();
-		verifyLocationInWO();
+    @BeforeClass
+    public void init() {
+    	Log.startTest(testName);
+    	extentTest = extent.startTest(testName);
+    }
+
+    @Override
+	@AfterClass
+    public void tearDown() {
+    	extent.endTest(extentTest);
+		Log.endTest(testName);
+		
+		super.tearDown();
+    }
+    
+    @Override    
+    @BeforeMethod
+    public void setUp() {
+    	action.openBrowser("Chrome");
+    	
+    	Base.bResult = true;
+    }
+    
+    @AfterMethod
+    public void logout() {
+    	logout(testName, testCase);
+
     }
 	
-	static void relateAssetToLocation() {
+    @Test
+	void relateAssetToLocation() {
+		testCase = "relateAssetToLocation";
+//		extentTest.log(LogStatus.INFO, testCase);
+ 		Log.startTestCase(testCase);
+
 			try {
 //				Create Location
-				driver.findElement(By.xpath(OR.getProperty("lnk_Home"))).click();
-				waitForElementDisplayed("hvr_Asset", "1");
-				hover("hvr_Asset","lnk_Location");
-				waitForElementDisplayed("btn_New", "1");
-				createLocation("", "crossoverLocationsAsset");
-				locationnum = driver.findElement(By.xpath(OR.getProperty("txtbx_Location"))).getAttribute("value");
+				action.login(user);
+				action.goToLocationPage();
+				
+				action.createLocation(testCase);
+				locationnum = action.getAttributeValue("txtbx_Location");
+				
 //				Create Asset
-				driver.findElement(By.xpath(OR.getProperty("lnk_Home"))).click();
-				waitForElementDisplayed("hvr_Asset", "1");
-				hover("hvr_Asset","lnk_Asset");
-				waitForElementDisplayed("btn_New", "1");
-				createAsset("", "crossoverLocationsAsset");
-				assetnum = driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).getAttribute("value");
-				Log.info("Assign Location to Asset");
-//				Assign Location to Asset
-				driver.findElement(By.xpath(OR.getProperty("lnk_MoveModifyAssets"))).click();
-				wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//input[contains(@id,'_tdrow_[C:7]_txt-tb[R:0]')]"))));
-				driver.findElement(By.xpath("//input[contains(@id,'_tdrow_[C:7]_txt-tb[R:0]')]")).sendKeys(locationnum);
-				driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
-				verifyAlert("msg_Popup", "Asset "+assetnum+" in site NETWORK was moved successfully.");
-				driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
-				waitFor();
-				save("1", "1");
+				action.goToHomePage();
+				action.goToAssetPage();
+
+				action.createAsset(testCase, false);
+				assetnum = action.getAttributeValue("txtbx_AssetNum");
+
+				
+				Log.info("Assign Location to Asset.........");
+				action.click("lnk_MoveModifyAssets");
+
+				action.input("txtbx_ToLocation", locationnum);
+				action.clickOK();
+				action.verifyAlert("Asset "+assetnum+" in site NETWORK was moved successfully.");
+				action.clickOK();
+				action.save();
+				
 				Log.info("Verify relationship in Location app");
-//				Verify relationship in Location app
-				driver.findElement(By.xpath(OR.getProperty("lnk_Home"))).click();
-				waitForElementDisplayed("hvr_Asset", "1");
-				hover("hvr_Asset","lnk_Location");
-				driver.findElement(By.xpath(OR.getProperty("txtbx_QuickSearch"))).sendKeys(locationnum);
-				enter("txtbx_QuickSearch","1");
-				wait.until(ExpectedConditions.textToBePresentInElementValue(driver.findElement(By.xpath(OR.getProperty("txtbx_Location"))), locationnum));
-				driver.findElement(By.xpath(OR.getProperty("tab_Assets"))).click();
-				rowsDisplayed1("Assets", "1");
+				action.goToHomePage();
+				action.goToLocationPage();
+
+				action.quickSearch(locationnum);
+
+				action.clickAssetsTab();
+				action.rowsDisplayed1("Assets", "1");
 				Log.info("Assetnm="+ assetnum);
 				Log.info("Location="+ locationnum);
 			}catch(AssertionError ae){
 				Log.error("Assertion failed --- " + ae.getMessage());
-				DriverScript.bResult = false;
+				extentTest.log(LogStatus.ERROR, ae.getMessage());
+				Base.bResult = false;
+	 			Assert.fail();
 		    } catch (NoSuchElementException e) {
 		    	Log.error("Element not found --- " + e.getMessage());
-	 			DriverScript.bResult = false;
+		    	extentTest.log(LogStatus.ERROR, e.getMessage());
+		    	Base.bResult = false;
+	 			Assert.fail();
 		    } catch (Exception e) {
 		    	Log.error("Exception --- " + e.getMessage());
-	 			DriverScript.bResult = false;
+		    	extentTest.log(LogStatus.ERROR, e.getMessage());
+		    	Base.bResult = false;
+	 			Assert.fail();
 		    }	
 	}
 	
-	static void verifyLocationInWO() {
+	@Test(dependsOnMethods={"relateAssetToLocation"})
+	void verifyLocationInWO() {
+		testCase = "verifyLocationInWO";
+//		extentTest.log(LogStatus.INFO, testCase);
+ 		Log.startTestCase(testCase);
 		try {
+			action.login(user);
 //			Create WO and populate asset(remove pre-populated assetnum)
-			driver.findElement(By.xpath(OR.getProperty("lnk_Home"))).click();
-			waitForElementDisplayed("hvr_WO", "1");
-			hover("hvr_WO","lnk_WO");
-			waitForElementDisplayed("btn_New", "1");
-			createWO("crossoverLocationsAsset", "CM");
-			driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).clear();
-			driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).click();
-			driver.findElement(By.xpath(OR.getProperty("txtbx_Location"))).sendKeys(locationnum);
-			driver.findElement(By.xpath(OR.getProperty("txtbx_AssetNum"))).click();
-			waitFor();
-			save("1", "1");
+			action.goToWOPage();
+			
+			action.createWO(testCase, "CM");
+			action.clear("txtbx_AssetNum");
+			action.input("txtbx_Location", locationnum);
+			action.save();
+
 //			Verify fields - assetnum should display the related asset
-			assertValue1("Asset", assetnum);
-			assertValue1("Location", locationnum);			
+			action.assertValueOnLabel("Asset", assetnum);
+			action.assertValueOnLabel("Location", locationnum);
+			
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			DriverScript.bResult = false;
+			extentTest.log(LogStatus.ERROR, ae.getMessage());
+			Base.bResult = false;
+ 			Assert.fail();
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+	    	Base.bResult = false;
+ 			Assert.fail();
 	    } catch (Exception e) {
 	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+	    	Base.bResult = false;
+ 			Assert.fail();
 	    }	
 }
 

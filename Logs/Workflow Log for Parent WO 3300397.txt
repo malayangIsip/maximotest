@@ -1,0 +1,11 @@
+Run Date: 29-05-2018_10-42-07
+Parent WONUM = 3300397
+WO Area = Wellington
+WO Discipline = TRACK
+WO Region = Central
+WO Total Cost = 1,926.68
+Child WONUM = 3300398
+Parent WO 3300397 status = APPR
+Child WO 3300398 status = APPR
+End Workflow.
+

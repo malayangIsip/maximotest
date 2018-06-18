@@ -1,65 +1,101 @@
 package config;
 
-import static executionEngine.DriverScript.driver;
+import static executionEngine.Base.action;
+import static executionEngine.Base.driver;
+import static executionEngine.Base.extent;
+import static executionEngine.Base.extentTest;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 
-import executionEngine.DriverScript;
+import com.relevantcodes.extentreports.LogStatus;
+
+import executionEngine.Base;
+import executionEngine.TestAutomation;
 import utility.Log;
 
-public class Security {
+public class Security extends TestAutomation {
 /*MAX-1192 - Security Redesign*/
+
+    static String testCase = "";	
+    static String testName = "Security";
 	
-	static WebDriverWait wait = new WebDriverWait(driver, 3);
-	
-	public static void security(String object, String data) {
+    @BeforeClass
+    public void init() {
+    	Log.startTest(testName);
+    	extentTest = extent.startTest(testName);
+    }
+
+    @Override
+	@AfterClass
+    public void tearDown() {
+    	extent.endTest(extentTest);
+		Log.endTest(testName);
 		
-	}
+		super.tearDown();
+    }
+    
+    @Override    
+    @BeforeMethod
+    public void setUp() {
+    	action.openBrowser("Chrome");
+    	
+    	Base.bResult = true;
+    }
+    
+    @Override  
+    @AfterMethod
+    public void logout() {
+    	
+    }
 	
 	/*MAX-1311-Update License Type */
-	static void testLicenseType() {
+	void testLicenseType() {
 		try {
 			String typeList = "Authorised, Express, Limited, Self-service";
 			
-			Log.info("Start testUpdateLicenseType..................");
-			ActionKeywords.login("maxadmin", null);
+			action.login("maxadmin");
 			
-			ActionKeywords.click("lnk_Home");
-			ActionKeywords.waitForElementDisplayed("hvr_Security");
-			ActionKeywords.hover("hvr_Security","lnk_Users");
+			action.click("lnk_Home");
+			action.waitElementExists("hvr_Security");
+			action.hover("hvr_Security","lnk_Users");
 			
 //			Check  type in the List tab btn_Type
-			ActionKeywords.click("btn_Type1");
-			ActionKeywords.checkValueExistsInSelectValue(typeList, "true");
-			ActionKeywords.waitForElementDisplayed("btn_Cancel");
-			ActionKeywords.click("btn_Cancel");
+			action.click("btn_Type1");
+			action.checkValueExistsInSelectValue(typeList, true);
+			action.waitElementExists("btn_Cancel");
+			action.click("btn_Cancel");
 			
 //			Go to Advanced Search
-			ActionKeywords.click("btn_Advanced_Search");
-			ActionKeywords.waitForElementDisplayed("btn_Type");
-			ActionKeywords.click("btn_Type");
-			ActionKeywords.checkValueExistsInSelectValue(typeList, "true");
-			ActionKeywords.waitForElementDisplayed("btn_Cancel");
-			ActionKeywords.click("btn_Cancel");
+			action.click("btn_Advanced_Search");
+			action.waitElementExists("btn_Type");
+			action.click("btn_Type");
+			action.checkValueExistsInSelectValue(typeList, true);
+			action.waitElementExists("btn_Cancel");
+			action.click("btn_Cancel");
 			
 //			Check user tab(main tab)
-			ActionKeywords.click("tab_User");
-			ActionKeywords.waitForElementDisplayed("btn_Type");
-			ActionKeywords.click("btn_Type");
-			ActionKeywords.checkValueExistsInSelectValue(typeList, "true");
-			ActionKeywords.waitForElementDisplayed("btn_Cancel");
-			
-			ActionKeywords.logout(null, null);
+			action.click("tab_User");
+			action.waitElementExists("btn_Type");
+			action.click("btn_Type");
+			action.checkValueExistsInSelectValue(typeList, true);
+			action.waitElementExists("btn_Cancel");
+
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    } catch (Exception e) {
 	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    }	
    }
 	
@@ -71,28 +107,26 @@ public class Security {
 //		The ff values should exist "HIDDEN, ASSET, SETUP, PURCHASE, INVENTOR, INT, PLANS, SD, PM, WO
 		try {
 			Log.info("Start testNewDomain..................");
-			ActionKeywords.login("maxadmin", null);
+			action.login("maxadmin");
 			
-			ActionKeywords.click("lnk_Home");
-			ActionKeywords.waitForElementDisplayed("hvr_SystemConfiguration");
-			ActionKeywords.hover("hvr_SystemConfiguration","lnk_PR");
-			ActionKeywords.waitForElementDisplayed("hvr_Purchasing");
+			action.click("lnk_Home");
+			action.waitElementExists("hvr_SystemConfiguration");
+			action.hover("hvr_SystemConfiguration","lnk_PR");
+			action.waitElementExists("hvr_Purchasing");
 			
 //			Check if new button is active
-			ActionKeywords.isDisabled("btn_New", "true");
+			action.isDisabled("btn_New", true);
 			
 //			Check if save button is active
-			ActionKeywords.click("tab_PR");
-			ActionKeywords.isDisabled("btn_Save", "true");
-			
-			ActionKeywords.logout(null, null);
+			action.click("tab_PR");
+			action.isDisabled("btn_Save", true);
 
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    } catch (Exception e) {
 	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    }	
 		
 		
@@ -173,28 +207,26 @@ public class Security {
 //		validate that user cannot edit PR
 		try {
 			Log.info("Start testCondExpSTOPSAVEPR..................");
-			ActionKeywords.login("MXPLAN", null);
+			action.login("MXPLAN");
 			
-			ActionKeywords.click("lnk_Home");
-			ActionKeywords.waitForElementDisplayed("hvr_Purchasing");
-			ActionKeywords.hover("hvr_Purchasing","lnk_PR");
-			ActionKeywords.waitForElementDisplayed("hvr_Purchasing");
+			action.click("lnk_Home");
+			action.waitElementExists("hvr_Purchasing");
+			action.hover("hvr_Purchasing","lnk_PR");
+			action.waitElementExists("hvr_Purchasing");
 			
 //			Check if new button is active
-			ActionKeywords.isDisabled("btn_New", "true");
+//			ActionKeywords.isDisabled("btn_New", true);
 			
 //			Check if save button is active
-			ActionKeywords.click("tab_PR");
-			ActionKeywords.isDisabled("btn_Save", "true");
-			
-			ActionKeywords.logout(null, null);
+			action.click("tab_PR");
+			action.isDisabled("btn_Save", true);
 
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    } catch (Exception e) {
 	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    }	
 		
 	}

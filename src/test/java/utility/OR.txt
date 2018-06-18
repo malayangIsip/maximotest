@@ -4,11 +4,18 @@ ASSET=ASSET
 CE=CE
 PM=PM
 
+home=//img[text()='Go To Applications']
+lnk_StandardView=//span[contains(.,'Standard Start Center')]
+tbl_ListView=.//table[@rownum='0' and contains(@class, 'tbod')]
+dialog_Wait=.//div[contains(@id, 'longopwait')]
+
 #Start Centre
 tbl_inbox=.//*[@id='portletbody_8914']
 titlebar_message=.//*[@id='titlebar_error'] 
 app_name=//span[@id='titlebar-tb_appname']
-txtarea_whereClause=.//td//textarea[contains(@id,'-ta') and @ctype='textarea']
+systemMessage=//label[text()="System Message"]
+msg_Popup=//label[contains(@id,'mb_msg')]
+
 
 #Generics
 txtbx_UserName=.//*[@id='username']
@@ -24,6 +31,8 @@ btn_SaveQuery=//a[contains(.,'Save Query')]
 btn_Bookmarks=//a[contains(.,'Bookmarks')]
 btn_Revise=//button[@type='button' and contains (., "Revise")]
 btn_Search=//button[@type='button' and contains (., "Search")]
+txtarea_whereClause=.//td//textarea[contains(@id,'-ta') and @ctype='textarea']
+dialog_AdvancedSearch=.//table[@id='searchmore-dialog_inner' and aria-labelledby='searchmore-lb']
 
 chkbx_Active=//a[@id=(//label[text()="Active?"]/@for)]
 chkbx_UseFrequencyCriteria=//a[@id=(//label[text()="Use Frequency Criteria?"]/@for)]
@@ -36,8 +45,8 @@ chkbx_ApplyGapsandOverlaps=//a[@id=(//label[text()="Apply Gaps and Overlaps?"]/@
 chkbx_DisqualifyVendor=//a[@id=(//label[text()="Disqualified Vendor?"]/@for)]
 
 chkbx_Custodian=//a[@id=(//label[text()="Custodian?"]/@for)]
+chkbx_IncludeTasksInSchedule=//a[@id=(//label[text()="Include Tasks in Schedule?"]/@for)]
 
-systemMessage=//label[text()="System Message"]
 
 #Actions
 btn_LogIn=.//*[@id='loginbutton']
@@ -56,10 +65,10 @@ btn_Duplicate=//span[contains(@id,'_DUPLICATE_OPTION_a')]
 btn_OK=//button[@type='button' and contains (., "OK")]
 btn_Close=//button[@type='button' and contains (., "Close")]
 btn_Yes=//button[@type='button' and contains (., "Yes")]
-msg_Popup=//label[contains(@id,'mb_msg')]
 btn_Cancel=//button[@type='button' and contains (., "Cancel")]
 btn_Filter=//img[@id='lookup_page1-ti2_img']
 btn_Filter1=//img[@title='Filter Table']
+icon_Filter=//span[contains(.,'Filter')]
 btn_Filter_SelectValue=//img[@id='lookup_page2-ti2_img']
 btn_Advanced_Search=//a[contains(., 'Advanced Search')]
 btn_Find=//button[@type='button' and contains (., "Find")]
@@ -69,7 +78,8 @@ btn_NewRow=//button[@type='button' and contains (., "New Row")]
 btn_No=//button[@type='button' and contains (., "No")]
 btn_ShowPathtoTop=//button[@type='button' and contains (., "Show Path to Top")]
 btn_ViewDetails_Row1=//img[contains(@id, '_tdrow_[C:0]_tgdet-ti[R:0]_img')]
-btn_DeleteDetails_Row1=//img[contains(@id, '_toggleimage-ti[R:0]_img')]
+btn_DeleteDetails_Row1=//a[@title='Mark Row for Delete']
+btn_UndeleteDetails_Row1=//a[@title='Undo Delete']
 btn_WO_chevron=//input[@id=(//label[text()="Work Order:"]/@for)]/following-sibling::img[contains(@title,'Detail Menu')]
 btn_ReferenceWO_chevron=//input[@id=(//label[text()="Reference WO:"]/@for)]/following-sibling::img[contains(@title,'Detail Menu')]
 btn_Record_chevron=//input[@id=(//label[text()="Record:"]/@for)]/following-sibling::img[contains(@title,'Detail Menu')]
@@ -105,6 +115,9 @@ btn_OK_Calendar=//button[@dojoattachpoint="okButtonNode"]
 btn_LastReading=//img[@lc=(//label[text()="Last Reading:"]/@for)]
 btn_LastReadingInspector_chevron=//img[@lc=(//label[text()="Last Reading Inspector:"]/@for)]
 btn_HEATActivation_date=//input[@id=(//label[text()="Heat Alarm Activation:"]/@for)]/following-sibling::img[contains(@title,'Select Date and Time')]
+btn_SelectAssets=//button[@type='button' and contains (., "Select Assets")]
+btn_SelectLocations=//button[@type='button' and contains (., "Select Locations")]
+btn_SelectWorkOrders=//button[@type='button' and contains (., "Select Work Orders")]
 
 #Menu
 #hvr_WO=//span[contains(@id,'WO_MODULE_a_')]
@@ -129,7 +142,7 @@ lnk_PO=//span[contains(@id,'_PURCHASE_MODULE_sub_changeapp_PO_')]
 lnk_PR=//span[contains(@id,'_PURCHASE_MODULE_sub_changeapp_PR_')]
 hvr_PM=//span[contains(@id,'PM_MODULE_')]
 lnk_PM=//span[contains(@id,'_PM_MODULE_sub_changeapp_PM_')]
-#lnk_ChangeStatus=//a[contains(@id,'_STATUS_OPTION_')]
+lnk_Companies=//span[contains(@id,'_PURCHASE_MODULE_sub_changeapp_COMPANY_')]
 lnk_ChangeStatus=//li[contains(@id,'_STATUS_OPTION')]
 lnk_GIS=//span[contains(@id,'_KRGISBTNSR_OPTION_')]
 lnk_ViewHistory=//span[contains(@id,'_VIEWHIST_OPTION_')]
@@ -138,6 +151,7 @@ hvr_Create=//a[contains(@id,'_HEADER_a')]/span[.='Create']
 lnk_CreateWO=//span[contains(@id,'_HEADER_sub_CREATEWO_OPTION_a')]
 lnk_CreateSR=//span[contains(@id,'_HEADER_sub_CREATESR')]
 lnk_Complete=//span[contains(@id,'_COMP_OPTION_a_tnode')]
+lnk_Close=//span[contains(@id,'_CLOSE_OPTION_a_tnode')]
 lnk_Delete=//span[contains(@id,'_DELETE_OPTION_a_tnode')]
 lnk_SetSchedDate=//li[contains(@id,'_INV_REQ_DATE_OPTION')]
 lnk_EditReservations=//li[contains(@id,'_KR_WORESMATERIALS_OPTION')]
@@ -160,6 +174,8 @@ lnk_MoveModifyAssets=//span[contains(@id,'_menu_MOVEASSET_OPTION_a_tnode')]
 hvr_Administration=//span[contains(.,'Administration')]
 lnk_Classifications=//span[contains(.,'Classifications')]
 lnk_EnterRailWearReadings=//span[contains(.,'Enter Rail Wear Readings')]
+lnk_Resources=//span[contains(.,'Resources')]
+lnl_PersonGroups=//span[contains(.,'Person Groups')]
 
 lnk_AddModifyProperties=//span[contains(.,'Add/Modify Properties')]
 lnk_AddClassification=//span[contains(.,'Classification')]
@@ -205,6 +221,7 @@ radio_WF_NotApproveAsset=//input[@aria-labelledby=(//label[contains(.,'Notify Or
 
 #Select Value page      
 txtbx_Search_Code=.//input[contains(@id,'_tfrow_[C:1]_txt-tb')]
+txtbx_Search_Label=.//input[contains(@id,'_tfrow_[C:3]_txt-tb')]
 txtbx_AdvancedSearch_Code=//input[@id='lookup_page2_tfrow_[C:1]_txt-tb']  
 lnk_List_Code=//span[contains(@id,'_tdrow_[C:1]_ttxt-lb[R:0]')]
 lnk_List_CodeES=//span[contains(@id,'_tdrow_[C:0]_ttxt-lb[R:0]')]
@@ -275,6 +292,7 @@ lookup_Row1=.//*[@id='lookup_page1_tdrow_[C:0]_ttxt-lb[R:0]']
                       
 #Generic Textboxes
 txtbx_Description=//input[contains(@aria-label, ' description')]
+txtbx_AssetDescription=//input[contains(@aria-label, 'Asset description')]
 txtbx_WOTaskDescription=//input[contains(@aria-label, 'Task description')]
 txtbx_WOChildDescription=//input[contains(@aria-label, 'Record description')]
 txtbx_PODescription=//input[contains(@aria-label, 'PO description')]
@@ -284,6 +302,7 @@ txtbx_ItemDescription=//input[contains(@aria-label, 'Item description')]
 txtbx_Status=//input[@id=(//label[text()="Status:"]/@for)]
 txtbx_Priority=//input[@id=(//label[text()="Priority:"]/@for)]
 txtbx_Location=//input[@id=(//label[text()="Location:"]/@for)]
+txtbx_LocationDescription=//input[contains(@aria-label, 'Location description')]
 txtbx_Discipline=//input[@id=(//label[text()="Discipline:"]/@for)]
 txtbx_Region=//input[@id=(//label[text()="Region:"]/@for)]
 txtbx_Area=//input[@id=(//label[text()="Area:"]/@for)]
@@ -300,8 +319,10 @@ txtbx_EndRefPoint=//input[@id=(//label[text()="End"]/following::label[text()="Re
 txtbx_StartRefPointOffset=//input[@id=(//label[text()="Start"]/following::label[text()="Reference Point Offset:"]/@for)]
 txtbx_EndRefPointOffset=//input[@id=(//label[text()="End"]/following::label[text()="Reference Point Offset:"]/@for)]
 txtbx_LRM=//input[@id=(//label[text()="LRM:"]/@for)]
-txtbx_StartMeasure=//input[@id=(//label[text()="Start Measure:"]/@for)]
-txtbx_EndMeasure=//input[@id=(//label[text()="End Measure:"]/@for)]
+txtbx_StartMeasure=//input[@id=(//label[text()="Start"]/following::label[text()="Measure:"]/@for)]
+txtbx_EndMeasure=//input[@id=(//label[text()="End"]/following::label[text()="Measure:"]/@for)]
+txtbx_AssetStartMeasure=//input[@id=(//label[text()="Start Measure:"]/@for)]
+txtbx_AssetEndMeasure=//input[@id=(//label[text()="End Measure:"]/@for)]
 txtbx_Linear=//a[@id=(//label[text()="Linear?"]/@for)]
 txtbx_ReporterType=//input[@id=(//label[text()="Reporter Type:"]/@for)]
 txtbx_Source=//input[@id=(//label[text()="Source:"]/@for)]
@@ -316,8 +337,8 @@ txtbx_Worktype=//input[@id=(//label[text()="Work Type:"]/@for)]
 txtbx_GLAccount=//input[@id=(//label[text()="GL Account:"]/@for)]
 txtbx_FinancialYear=//input[@id=(//label[text()="Financial Year:"]/@for)]
 txtbx_JP=//input[@id=(//label[text()="Job Plan:"]/@for)]
-txtbx_Total_Hier_Est_Cost=//input[@id=(//label[text()="WO Hierarchy Total Est Cost:"]/@for)]
-txtbx_Total_Hier_Act_Cost=//input[@id=(//label[text()="WO Hierarchy Total Act Cost:"]/@for)]
+txtbx_Total_Hier_Est_Cost=//input[@id=(//label[text()="Total Planned Cost:"]/@for)]
+txtbx_Total_Hier_Act_Cost=//input[@id=(//label[text()="Actual Cost:"]/@for)]
 txtbx_Owner=//input[@id=(//label[text()="Owner:"]/@for)]
 
 txtbx_Trade=//input[@id=(//label[text()="Trade:"]/@for)]
@@ -342,6 +363,7 @@ txtbx_DeliveryAddress=//input[@id=(//label[text()="Delivery Address:"]/@for)]
 txtbx_WOClass=//input[@id=(//label[text()="WO Class:"]/@for)]
 
 txtbx_Service=//input[@id=(//label[text()="Service:"]/@for)]
+txtbx_ServiceDescription=//input[contains(@aria-label, 'Service description')]
 txtbx_ServiceItem=//input[@id=(//label[text()="Service Item:"]/@for)]
 txtbx_RequestedBy=//input[@id=(//label[text()="Requested By:"]/@for)]
 txtbx_Vendor=//input[@id=(//label[text()="Vendor:"]/@for)]
@@ -359,6 +381,7 @@ txtbx_LastReadingDate=//input[@id=(//label[text()="Last Reading Date:"]/@for)]
 txtbx_LastReadingInspector=//input[@id=(//label[text()="Last Reading Inspector:"]/@for)]
 
 txtbx_Classification=//input[@id=(//label[text()="Classification:"]/@for)]
+txtbx_ClassificationDescription=//input[contains(@aria-label, 'Classification description')]
 txtbx_ClassDescription=//input[@id=(//label[text()="Class Description:"]/@for)]
 txtbx_ClassificationPath=//input[@id=(//label[text()="Classification Path:"]/@for)]
 txtbx_ParentClassification=//input[@id=(//label[text()="Parent Classification:"]/@for)]
@@ -370,9 +393,10 @@ txtbx_Site=//input[@id=(//label[text()="Site:"]/@for)]
 txtbx_Organization=//input[@id=(//label[text()="Organization:"]/@for)]
 
 txtbx_JobPlan=//input[@id=(//label[text()="Job Plan:"]/@for)]
+txtbx_JobPlanDescription=//input[contains(@aria-label, 'Job Plan description')]
 txtbx_Route=//input[@id=(//label[text()="Route:"]/@for)]
 txtbx_PlanType=//input[@id=(//label[text()="Plan Type:"]/@for)]
-txtbx_NewStatus=//input[@id=(//label[text()="New Status:"]/@for)]
+txtbx_NewStatus=//input[@id=(//label[text()='New Status:']/@for)]
 
 txtbx_WOHierarchyTotalEstCost=//input[@id=(//label[text()="WO Hierarchy Total Est Cost:"]/@for)]
 txtbx_TargetStart=//input[@id=(//label[text()="Target Start:"]/@for)]
@@ -385,7 +409,7 @@ txtbx_StartNoEarlierThan=//input[@id=(//label[text()="Start No Earlier Than:"]/@
 txtbx_FinishNoLaterThan=//input[@id=(//label[text()="Finish No Later Than:"]/@for)]
 
 txtbx_OriginalJobPlan=//input[@id=(//label[text()="Original Job Plan:"]/@for)]
-txtbx_PlanEstimatedCost=//input[@id=(//label[text()="Plan Estimated Cost (at RTP):"]/@for)]
+txtbx_PlanEstimatedCost=//input[@id=(//label[text()="Plan Estimated Cost (RTP):"]/@for)]
 txtbx_JobPlanRevision=//input[@id=(//label[text()="Job Plan Revision #:"]/@for)]
 
 txtbx_Creator=//input[@id=(//label[text()="Creator:"]/@for)]
@@ -434,6 +458,9 @@ txtbx_TopLeft=//input[@id=(//label[text()='Top:']/@for)][1]
 txtbx_TopRight=//input[@id=(//label[text()='Top:']/@for)][2]
 
 txtbx_RequiredDateViewReservation=//input[contains(@id,'_tdrow_[C:6]_txt-tb[R:0]')]
+
+txtbx_ToLocation=//input[contains(@id,'_tdrow_[C:7]_txt-tb[R:0]')]
+
 
 #WO
 tbl_Routes=//table[contains(@summary,'Routes')]  
@@ -495,6 +522,9 @@ btn_ClassDescription=//img[@lc=(//label[text()="Class Description:"]/@for)]
 tree_Classification_ACFilter=//img[@alt='Select Record ACFILTER:AC Filter']
 tbl_Specifications=//table[contains(@summary,'Specifications')] 
 tbl_Features=//table[contains(@summary,'Features')] 
+btn_NewRailWearReading=//button[@type='button' and contains (., "New")]
+btn_SaveRailWearReading=//button[@type='button' and contains (., "Save")]
+btn_CancelRailWearReading=//button[@type='button' and contains (., "Cancel")]
 
 #PM
 txtbx_WorkOrderStatus=//input[@id=(//label[contains(., "Work Order Status")]/@for)]           
@@ -505,3 +535,10 @@ txtbx_StartConstraintOffset=//input[@id=(//label[contains(., "Start Constraint O
 txtbx_FinishConstraintOffset=//input[@id=(//label[contains(., "Finish Constraint Offset")]/@for)]    
 txtbx_Sponsor=//input[@id=(//label[contains(., "Sponsor")]/@for)]    
 txtbx_CreatedBy=//input[@id=(//label[contains(., "Created By")]/@for)]    
+
+#Classifications
+btn_NewRow_UseWith=//table[contains(@aria-label, 'Use With Table Button Group')]/tbody/tr/td/button[@type='button' and contains (., 'New Row')]
+btn_NewRow_Attributes=//table[contains(@aria-label, 'Attributes Table Button Group')]//button[@type='button' and contains (., 'New Row')]
+txtbx_useWithObject=//input[@id=(//label[text()='Use With Object:']/@for)]
+txtbx_Attribute=//input[@id=(//label[text()='Attribute:']/@for)]
+txtbx_DataType=//input[@id=(//label[text()='Data Type:']/@for)]

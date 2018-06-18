@@ -1,0 +1,10 @@
+Run Date: 09-05-2018_10-57-57
+WONUM = 3254462
+WO Area = Wellington
+WO Discipline = TRACK
+WO Region = Central
+WO Total Cost = 1,926.68
+WF Approval Level 1 Approver = MXSVCEMGR1
+WO 3254462 status = APPR
+End Workflow.
+

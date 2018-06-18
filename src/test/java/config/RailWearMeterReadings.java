@@ -3,6 +3,7 @@ package config;
 import static executionEngine.Base.OR;
 import static executionEngine.Base.action;
 import static executionEngine.Base.driver;
+import static executionEngine.Base.extent;
 import static executionEngine.Base.extentTest;
 
 import org.openqa.selenium.By;
@@ -12,94 +13,90 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.LogStatus;
 
-import executionEngine.DriverScript;
+import executionEngine.Base;
+import executionEngine.TestAutomation;
 import utility.Log;
 
-public class RailWearMeterReadings {
+public class RailWearMeterReadings extends TestAutomation {
 	static String user = "maxadmin";
-	static boolean runStatus = true;
-    static String methodName = "";
+    static String testCase = "";
+    static String testName = "RailWearMeterReadings";
     
 	static String tableName="Metrage and Date of Previous Reading Sets";
 
-	@BeforeClass(alwaysRun = true)
-    public void init() throws Exception {
-    	extentTest.log(LogStatus.INFO, "Start RailWearMeterReadings Tests");
+	@BeforeClass
+    public void init() {
+    	Log.startTest(testName);
+    	extentTest = extent.startTest(testName);
     }
 
-	@AfterClass(alwaysRun = true)
-    public void tearDown() throws Exception {
-		extentTest.log(LogStatus.INFO, "END RailWearMeterReadings Tests");
+    @Override
+	@AfterClass
+    public void tearDown() {
+    	extent.endTest(extentTest);
+		Log.endTest(testName);
+		
+		super.tearDown();
     }
     
-        
-    @BeforeMethod(alwaysRun = true)
-    void setUp() {
-    	action.openBrowser(null, "Chrome");
+    @Override    
+    @BeforeMethod
+    public void setUp() {
+    	action.openBrowser("Chrome");
     	
-    	action.login(user);
+    	Base.bResult = true;
     }
     
-    @AfterMethod(alwaysRun = true)
-    void logout() {
-    	if (runStatus == true) {
-    		extentTest.log(LogStatus.PASS, methodName);
-    		action.logout(null, null);
-    	} else {
-    		extentTest.log(LogStatus.FAIL, methodName);
-    		driver.close();
-    	}
-    	Log.endTestCase(methodName);
+    @AfterMethod
+    public void logout() {
+    	logout(testName, testCase);
     }
     
 
 	@Test
 	void verifyCheckbox() {
-		methodName = "verifyCheckbox";
-    	extentTest.log(LogStatus.INFO, methodName);
- 		Log.startTestCase(methodName);
+		testCase = "verifyCheckbox";
+//    	extentTest.log(LogStatus.INFO, testCase);
+ 		Log.startTestCase(testCase);
 		try {
-			Log.info("Start verifyCheckbox....");
+			action.login(user);
 			action.goToClassificationsPage();
 			
-			action.click("btn_Advanced_Search");
-			action.input("txtbx_ParentClassification", "TRACK");
-			action.input("txtbx_Classification", "MAINL");
-			action.clickFind();
-			action.waitForElementDisplayed("chkbx_AllowRailWearMeters");
+			String[][] toSearch = new String[][] {{"txtbx_ParentClassification", "TRACK"}, {"txtbx_Classification", "MAINL"}};
+			action.advancedSearch(toSearch);
+			action.waitElementExists("chkbx_AllowRailWearMeters");
 
 			
-	//		Allow Rail Wear Meters is checked
+			Log.info("Allow Rail Wear Meters is checked.............");
 			if (!action.isChecked("chkbx_AllowRailWearMeters")) {
 				//check it otherwise do nothing
 				action.click("chkbx_AllowRailWearMeters");
 				action.save();
 			}
-			action.isChecked("chkbx_AllowRailWearMeters", "True");
+			action.isChecked("chkbx_AllowRailWearMeters", true);
 			
-	//		Go to Asset and search for linear asset with track/mail classification, i.e. 1000060
+			Log.info("Go to Asset and search for linear asset with track/mail classification, i.e. 1000060..............");
 			action.goToAssetPage();
 			action.quickSearch("1000060");
 
-			action.waitForElementDisplayed("lnk_EnterRailWearReadings");
+			action.waitElementExists("lnk_EnterRailWearReadings");
 	
-	//      Enter Rail Wear Readings link should exists
-			action.elementExists("lnk_EnterRailWearReadings", "True");
+			Log.info("Enter Rail Wear Readings link should exists...............");
+			action.elementExists("lnk_EnterRailWearReadings", true);
 			
-	//		uncheck Allow Rail Wear Meters
+			Log.info("Uncheck Allow Rail Wear Meters...................");
 			action.goToClassificationsPage();
 			
-			action.click("btn_Advanced_Search");
-			action.input("txtbx_ParentClassification", "TRACK");
-			action.input("txtbx_Classification", "MAINL");
-			action.clickFind();
-			action.waitForElementDisplayed("chkbx_AllowRailWearMeters");
+			action.advancedSearch(toSearch);
+			action.waitElementExists("chkbx_AllowRailWearMeters");
 			
 			if (action.isChecked("chkbx_AllowRailWearMeters")) {
 				//uncheck it otherwise do nothing
@@ -108,62 +105,59 @@ public class RailWearMeterReadings {
 			}
 			
 			
-	//		Allow Rail Wear Meters is not checked
-			action.isChecked("chkbx_AllowRailWearMeters", "False");
+			Log.info("Allow Rail Wear Meters is not checked...................");
+			action.isChecked("chkbx_AllowRailWearMeters", false);
 						
-	//		Go to Asset and search for linear asset with track/mail classification, i.e. 1000060
+			Log.info("Go to Asset and search for linear asset with track/mail classification, i.e. 1000060........");
 			action.goToAssetPage();
 			action.quickSearch("1000060");
 
 //	      Enter Rail Wear Readings link should not exist (BUG: link still exists same in PROD) 
-//			action.waitForElementDisplayed("lnk_EnterRailWearReadings");
+//			action.waitElementExists("lnk_EnterRailWearReadings");
 //			action.elementExists("lnk_EnterRailWearReadings", "False");
 			
-    //		check Allow Rail Wear Meters
+			Log.info("Check Allow Rail Wear Meters...............");
 			action.goToClassificationsPage();
 			
-//			revert to orig checked state
-			action.click("btn_Advanced_Search");
-			action.input("txtbx_ParentClassification", "TRACK");
-			action.input("txtbx_Classification", "MAINL");
-			action.clickFind();
-			action.waitForElementDisplayed("chkbx_AllowRailWearMeters");
+			Log.info("Revert to orig checked state...........");
+			action.advancedSearch(toSearch);
+			action.waitElementExists("chkbx_AllowRailWearMeters");
 			action.click("chkbx_AllowRailWearMeters");
 			action.save();
 			
-		//	Allow Rail Wear Meters is checked
-			action.isChecked("chkbx_AllowRailWearMeters", "True");
+			Log.info("Allow Rail Wear Meters is checked...................");
+			action.isChecked("chkbx_AllowRailWearMeters", true);
 	    } catch (Exception e) {
 	    	Log.error("Exception verifyCheckbox--- " + e.getMessage());
 	    	extentTest.log(LogStatus.ERROR, e.getMessage());
-	    	runStatus = false;
+	    	Base.bResult = false;
  			Assert.fail();
 	    }	
 	}
 	
 	@Test(dependsOnMethods={"verifyCheckbox"})
 	void searchRailWear() {
-		methodName = "searchRailWear";
-    	extentTest.log(LogStatus.INFO, methodName);
- 		Log.startTestCase(methodName);
+		testCase = "searchRailWear";
+//    	extentTest.log(LogStatus.INFO, testCase);
+ 		Log.startTestCase(testCase);
 		try {
-			Log.info("Start searchRailWear....");
+			action.login(user);
 			action.goToAssetPage();
 			
 			action.quickSearch("1000060");
-			action.waitForElementDisplayed("lnk_EnterRailWearReadings");
+			action.waitElementExists("lnk_EnterRailWearReadings");
 			
-//			Go to ‘Enter Rail Wear Readings'
+			Log.info("Go to Enter Rail Wear Readings............");
 			action.click("lnk_EnterRailWearReadings");
 //			Click search without populating the search parameters
 			action.clickSearch();
-			action.waitForElementDisplayed("systemMessage");
+			action.waitElementExists("systemMessage");
 			action.verifyAlert("No search parameters entered.");
 			action.clickOK();
 
 			Log.info("Click clickNewRailWearReading..");
 			action.clickNewRailWearReading();
-			action.waitForElementDisplayed("systemMessage");
+			action.waitElementExists("systemMessage");
 			Log.info("verify alert");
 			action.verifyAlert("Please performe a search before entering new Metrage");
 			action.clickOK();
@@ -176,28 +170,29 @@ public class RailWearMeterReadings {
 			
 //          Check that the table exists
 			Log.info("Wait for table displayed...");
-			action.tableExists(tableName, "1");
+			action.tableExists(tableName);
 			Log.info("Check columns exist...");
 			action.checkTableColumnExists("KM,Offset (M),Previous Reading Date", tableName);
 	    } catch (Exception e) {
 	    	Log.error("Exception searchRailWear--- " + e.getMessage());
 	    	extentTest.log(LogStatus.ERROR, e.getMessage());
-	    	runStatus = false;
+	    	Base.bResult = false;
  			Assert.fail();
 	    }	
 	}
 	
 	@Test(dependsOnMethods={"verifyCheckbox"})
 	void enterRailWear() {
-		methodName = "enterRailWear";
-    	extentTest.log(LogStatus.INFO, methodName);
- 		Log.startTestCase(methodName);
+		testCase = "enterRailWear";
+//    	extentTest.log(LogStatus.INFO, testCase);
+ 		Log.startTestCase(testCase);
 		try {
 			String topValue = "2";
-			Log.info("Start enterRailWear....");
+			
+			action.login(user);
 			action.goToAssetPage();
 			action.quickSearch("1000060");
-			action.waitForElementDisplayed("lnk_EnterRailWearReadings");
+			action.waitElementExists("lnk_EnterRailWearReadings");
 			
 //			Go to ‘Enter Rail Wear Readings'
 			action.click("lnk_EnterRailWearReadings");
@@ -211,10 +206,10 @@ public class RailWearMeterReadings {
 			Log.info("Click New..");
 			action.clickNewRailWearReading();
 
-			action.isRequired("txtbx_Km", "True");
-			action.isRequired("txtbx_Offset(M)", "True");
-			action.isRequired("txtbx_MeterInspector", "True");
-			action.isRequired("txtbx_RailWearNewReadingDate", "True");
+			action.isRequired("txtbx_Km", true);
+			action.isRequired("txtbx_Offset(M)", true);
+			action.isRequired("txtbx_MeterInspector", true);
+			action.isRequired("txtbx_RailWearNewReadingDate", true);
 					
 			action.input("txtbx_Km", "0");
 			action.input("txtbx_Offset(M)", "400");
@@ -228,17 +223,17 @@ public class RailWearMeterReadings {
 		} catch(AssertionError ae){
 			Log.error("Assertion failed enterRailWear--- " + ae.getMessage());
 			extentTest.log(LogStatus.ERROR, ae.getMessage());
-	    	runStatus = false;
+	    	Base.bResult = false;
  			Assert.fail();
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not foundenterRailWear --- " + e.getMessage());
 	    	extentTest.log(LogStatus.ERROR, e.getMessage());
-	    	runStatus = false;
+	    	Base.bResult = false;
  			Assert.fail();
 	    } catch (Exception e) {
 	    	Log.error("Exception enterRailWear--- " + e.getMessage());
 	    	extentTest.log(LogStatus.ERROR, e.getMessage());
-	    	runStatus = false;
+	    	Base.bResult = false;
  			Assert.fail();
 	    }	
 	}
@@ -247,13 +242,13 @@ public class RailWearMeterReadings {
 		try {
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			DriverScript.bResult = false;
+			Base.bResult = false;
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    } catch (Exception e) {
 	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    }	
 	}
 	
@@ -261,13 +256,13 @@ public class RailWearMeterReadings {
 		try {
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			DriverScript.bResult = false;
+			Base.bResult = false;
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    } catch (Exception e) {
 	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+ 			Base.bResult = false;
 	    }	
 	}
 

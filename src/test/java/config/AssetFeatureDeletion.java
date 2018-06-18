@@ -1,143 +1,192 @@
 package config;
 
-import static executionEngine.DriverScript.OR;
-import static executionEngine.DriverScript.driver;
+import static executionEngine.Base.OR;
+import static executionEngine.Base.driver;
+import static executionEngine.Base.extent;
+import static executionEngine.Base.extentTest;
+import static executionEngine.Base.action;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
-import executionEngine.DriverScript;
+import com.relevantcodes.extentreports.LogStatus;
+
+import executionEngine.Base;
+import executionEngine.TestAutomation;
 import utility.Log;
 
-public class AssetFeatureDeletion extends ActionKeywords {
+public class AssetFeatureDeletion extends TestAutomation {
+    static String testCase = "";
+    static String testName = "AssetFeatureDeletion";
+    
+	static String user = "maxadmin";
 
-	static WebDriverWait wait = new WebDriverWait(driver, 3);
+	@BeforeClass
+    public void init() {
+    	Log.startTest(testName);
+    	extentTest = extent.startTest(testName);
+    }
+
+    @Override
+	@AfterClass
+    public void tearDown() {
+    	extent.endTest(extentTest);
+		Log.endTest(testName);
+		
+		super.tearDown();
+    }
+    
+    @Override    
+    @BeforeMethod
+    public void setUp() {
+    	action.openBrowser("Chrome");
+    	
+    	Base.bResult = true;
+    }
+    
+    @AfterMethod
+    public void logout() {
+    	logout(testName, testCase);
+
+    }
 	
-	public static void assetFeatureDeletion(String object, String data) {
-//		applyGapsAndOverlaps("SLEEPERS");
-//		deleteFeatureAsAdmin("1000000");
-		deleteFeatureAsNonAdmin("1000000");
-	}
-	
-	static void applyGapsAndOverlaps(String feature) {
+    @Test
+	void applyGapsAndOverlaps() {
+		String feature = "SLEEPERS";
+		testCase = "applyGapsAndOverlaps()";
+//		extentTest.log(LogStatus.INFO, testCase);
+		Log.startTestCase(testCase);
 		try {
-			Log.info("Start applyGapsAndOverlaps..................");
-			driver.findElement(By.xpath(OR.getProperty("lnk_Home"))).click();
-			waitForElementDisplayed("hvr_Asset", "1");
-			hover("hvr_Asset","lnk_Feature");
-			driver.findElement(By.xpath(OR.getProperty("txtbx_QuickSearch"))).sendKeys(feature);
-			enter("txtbx_QuickSearch","1");
-			waitForElementDisplayed("txtbx_Feature", "1");
+			action.login(user);
+			action.goToFeaturePage();
+
+			action.quickSearch(feature);
+			action.waitElementExists("txtbx_Feature");
 
 			boolean checked = driver.findElement(By.xpath(OR.getProperty("chkbx_ApplyGapsandOverlaps"))).getAttribute("aria-checked").equals("true");
 			if (!checked) {
-				driver.findElement(By.xpath(OR.getProperty("chkbx_ApplyGapsandOverlaps"))).click();
+				action.click("chkbx_ApplyGapsandOverlaps");
 			}
 			
-			Log.info("END applyGapsAndOverlaps..................");
 	    } catch (NoSuchElementException e) {
-	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+	    	Log.error("Element not found --- ");
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+	    	Base.bResult = false;
+ 			Assert.fail();
 	    } catch (Exception e) {
-	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+	    	Log.error("Exception --- ");
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+	    	Base.bResult = false;
+ 			Assert.fail();
 	    }	
 	}
 	
-	static void deleteFeatureAsAdmin(String asset) {
+    @Test
+	void deleteFeatureAsAdmin() {
+		String asset = "1000001";
+		testCase = "deleteFeatureAsAdmin()";
+//		extentTest.log(LogStatus.INFO, testCase);
+		Log.startTestCase(testCase);
 		try {
-			Log.info("Start deleteFeature admin....................");
-			driver.findElement(By.xpath(OR.getProperty("lnk_Home"))).click();
-			waitForElementDisplayed("hvr_Asset", "1");
-			hover("hvr_Asset","lnk_Asset");
-			waitForElementDisplayed("txtbx_QuickSearch", "1");
-			driver.findElement(By.xpath(OR.getProperty("txtbx_QuickSearch"))).sendKeys(asset);
-			enter("txtbx_QuickSearch","1");
-			waitForElementDisplayed("tab_Features", "1");
-			driver.findElement(By.xpath(OR.getProperty("tab_Features"))).click();
-			waitForElementDisplayed("tbl_Features", "1");
-//			delete non-gaps & overlaps enabled feature
-			driver.findElement(By.xpath(OR.getProperty("txtbx_Search_Code"))).sendKeys("TSR");
-			enter("txtbx_Search_Code","1");
-			driver.findElement(By.xpath(OR.getProperty("btn_DeleteDetails_Row1"))).click();
-			elementDisplayed(By.xpath("//a[contains(id,'_tdrow_[C:9]_toggleimage-ti[R:0]') and @title='Undo Delete']"));
-//		undelete
-			driver.findElement(By.xpath(OR.getProperty("btn_DeleteDetails_Row1"))).click();
-			elementDisplayed(By.xpath("//a[contains(id,'_tdrow_[C:9]_toggleimage-ti[R:0]') and @title='Mark Row for Delete']"));
-			save("", "");
+			action.login(user);
+			action.goToAssetPage();
+
+			action.quickSearch(asset);
+			action.click("tab_Features");
 			
-//			delete gaps & overlaps enabled feature
-			driver.findElement(By.xpath(OR.getProperty("txtbx_Search_Code"))).clear();
-			driver.findElement(By.xpath(OR.getProperty("txtbx_Search_Code"))).sendKeys("SLEEPERS");
-			enter("txtbx_Search_Code","1");
-			driver.findElement(By.xpath(OR.getProperty("btn_DeleteDetails_Row1"))).click();
-			elementDisplayed(By.xpath("//a[contains(id,'_tdrow_[C:9]_toggleimage-ti[R:0]') and @title='Undo Delete']"));
-//		undelete
-			driver.findElement(By.xpath(OR.getProperty("btn_DeleteDetails_Row1"))).click();
-			elementDisplayed(By.xpath("//a[contains(id,'_tdrow_[C:9]_toggleimage-ti[R:0]') and @title='Mark Row for Delete']"));
-			save("", "");
-//			logout("","");
+			Log.info("Delete non-gaps & overlaps enabled feature...");
+			action.input("txtbx_Search_Code", "TSR");
+			action.enter("txtbx_Search_Code");
 			
-			Log.info("END deleteFeature admin....................");
-		}catch(AssertionError ae){
-			Log.error("Assertion failed --- " + ae.getMessage());
-			DriverScript.bResult = false;
-	    } catch (NoSuchElementException e) {
-	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+			action.scrollDown("btn_DeleteDetails_Row1");
+			action.click("btn_DeleteDetails_Row1");
+			
+			Log.info("Undelete...");
+			action.click("btn_UndeleteDetails_Row1");
+			
+			Log.info("Delete button should dispLAy...");
+			action.waitElementExists("btn_DeleteDetails_Row1");
+			action.save();
+			
+			Log.info("Delete gaps & overlaps enabled feature...");
+			action.input("txtbx_Search_Code", "SLEEPERS");
+			action.enter("txtbx_Search_Code");
+			Thread.sleep(10000); //TODO temp - wait for page to refresh 
+			
+			action.scrollDown("btn_DeleteDetails_Row1");
+			action.click("btn_DeleteDetails_Row1");
+			
+			Log.info("Undelete...");
+			action.click("btn_UndeleteDetails_Row1");
+
+			Log.info("Delete button should dispLAY...");
+			action.waitElementExists("btn_DeleteDetails_Row1");
+			action.save();
+		} catch (NoSuchElementException e) {
+	    	Log.error("Element not found --- ");
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+	    	Base.bResult = false;
+ 			Assert.fail();
 	    } catch (Exception e) {
-	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+	    	Log.error("Exception --- ");
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+	    	Base.bResult = false;
+ 			Assert.fail();
 	    }	
 	}
 	
-	static void deleteFeatureAsNonAdmin(String asset) {
+    @Test
+	static void deleteFeatureAsNonAdmin() {
+		String asset = "1000001";
+		testCase = "deleteFeatureAsNonAdmin()";
+//		extentTest.log(LogStatus.INFO, testCase);
+		Log.startTestCase(testCase);
 		try {
-			Log.info("Start deleteFeature non-admin..................");
-//			login as non-admin
-			logout("1", "1");
-			openBrowser("", "Mozilla");
-			driver.findElement(By.xpath(".//*[@id='username']")).sendKeys("mxfldeng");
-			driver.findElement(By.xpath(".//*[@id='password']")).sendKeys("Kiwirail123");
-			driver.findElement(By.xpath(".//*[@id='loginbutton']")).click();
-			waitForElementDisplayed("lnk_Home", "1");
-			driver.findElement(By.xpath(OR.getProperty("lnk_Home"))).click();
-			waitForElementDisplayed("hvr_Asset", "1");
-			hover("hvr_Asset","lnk_Asset");
-			driver.findElement(By.xpath(OR.getProperty("txtbx_QuickSearch"))).sendKeys(asset);
-			enter("txtbx_QuickSearch","1");
-			waitForElementDisplayed("tab_Features", "1");
-			driver.findElement(By.xpath(OR.getProperty("tab_Features"))).click();
-			waitForElementDisplayed("tbl_Features", "1");
-//			delete non-gaps & overlaps enabled feature
-			driver.findElement(By.xpath(OR.getProperty("txtbx_Search_Code"))).sendKeys("KMPOST");
-			enter("txtbx_Search_Code","1");
-			Thread.sleep(1000);
-			driver.findElement(By.xpath(OR.getProperty("btn_DeleteDetails_Row1"))).click();
-			verifyAlert("msg_Popup", "The asset-feature is used as a reference to define ASSETFEATURE."); 
-			driver.findElement(By.xpath(OR.getProperty("btn_OK"))).click();
-			save("", "");
+			action.login("mxfldeng");
+			action.goToAssetPage();
+			
+			action.quickSearch(asset);
+			action.click("tab_Features");
+			action.waitElementExists("tbl_Features");
+			
+			Log.info("Delete non-gaps & overlaps enabled feature...");
+			action.input("txtbx_Search_Code", "KMPOST");
+			action.input("txtbx_Search_Label", "10");
+			action.enter("txtbx_Search_Label");
+			
+			action.scrollDown("btn_DeleteDetails_Row1");
+			action.click("btn_DeleteDetails_Row1");
+			action.verifyAlert("The asset-feature is used as a reference to define ASSETFEATURE."); 
+			action.click("btn_OK");
+			action.save();
 
 			Log.info("Delete gaps & overlaps enabled feature.................");
-			driver.findElement(By.xpath(OR.getProperty("txtbx_Search_Code"))).clear();
-			driver.findElement(By.xpath(OR.getProperty("txtbx_Search_Code"))).sendKeys("SLEEPERS");
-			enter("txtbx_Search_Code","1");
-//			driver.findElement(By.xpath(OR.getProperty("btn_DeleteDetails_Row1"))).click();
-			Assert.assertFalse(existsElement(By.xpath("//a[contains(id,'_tdrow_[C:9]_toggleimage-ti[R:0]')]")));
+			action.input("txtbx_Search_Code", "SLEEPERS");
+			action.enter("txtbx_Search_Code");
 			
-			Log.info("END deleteFeature non-admin..................");
-		}catch(AssertionError ae){
-			Log.error("Assertion failed --- " + ae.getMessage());
-			DriverScript.bResult = false;
+			action.scrollDown("btn_DeleteDetails_Row1");
+			action.click("btn_DeleteDetails_Row1");
+			action.waitElementExists("btn_DeleteDetails_Row1");
+			Assert.assertFalse(action.existsElement("btn_DeleteDetails_Row1"));
+			
 	    } catch (NoSuchElementException e) {
-	    	Log.error("Element not found --- " + e.getMessage());
- 			DriverScript.bResult = false;
+	    	Log.error("Element not found --- ");
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+	    	Base.bResult = false;
+ 			Assert.fail();
 	    } catch (Exception e) {
-	    	Log.error("Exception --- " + e.getMessage());
- 			DriverScript.bResult = false;
+	    	Log.error("Exception --- ");
+	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+	    	Base.bResult = false;
+ 			Assert.fail();
 	    }	
 	}
 

@@ -1,4 +1,32 @@
 -------------------------------------------------------------------------------
 Test set: TestSuite
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.629 s - in TestSuite
+Tests run: 16, Failures: 7, Errors: 0, Skipped: 1, Time elapsed: 3,163.341 s <<< FAILURE! - in TestSuite
+test(config.Shakedown6)  Time elapsed: 112.046 s  <<< FAILURE!
+java.lang.AssertionError: null
+	at config.Shakedown6.test(Shakedown6.java:152)
+
+test(config.Shakedown6)  Time elapsed: 109.513 s  <<< FAILURE!
+java.lang.AssertionError: null
+	at config.Shakedown6.test(Shakedown6.java:152)
+
+test(config.Shakedown6)  Time elapsed: 109.876 s  <<< FAILURE!
+java.lang.AssertionError: null
+	at config.Shakedown6.test(Shakedown6.java:152)
+
+test(config.Shakedown6)  Time elapsed: 117.29 s  <<< FAILURE!
+java.lang.AssertionError: null
+	at config.Shakedown6.test(Shakedown6.java:152)
+
+test(config.Shakedown6)  Time elapsed: 121.653 s  <<< FAILURE!
+java.lang.AssertionError: null
+	at config.Shakedown6.test(Shakedown6.java:152)
+
+test(config.Shakedown6)  Time elapsed: 108.513 s  <<< FAILURE!
+java.lang.AssertionError: null
+	at config.Shakedown6.test(Shakedown6.java:152)
+
+test(config.Shakedown6)  Time elapsed: 115.108 s  <<< FAILURE!
+java.lang.AssertionError: null
+	at config.Shakedown6.test(Shakedown6.java:152)
+

@@ -1,0 +1,9 @@
+Run Date: 08-06-2018_18-33-44
+WONUM = 3300799
+WO Area = Wellington
+WO Discipline = TRACK
+WO Region = Central
+WO Total Cost = 1,926.68
+WO 3300799 status = APPR
+End Workflow.
+
