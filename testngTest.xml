@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="MaximoTestSuite" preserve-order= "true" parallel="none" verbose="1">
+  <listeners>
+    <listener class-name="utility.CRetryListener"/>
+  </listeners>
+   
+  <test verbose="2" name="Regression Test Suite" >
+    <classes>
+    <!--  Base -->
+   		<class name="executionEngine.Base"></class>
+
+       <class name="config.Shakedown6"></class>
+       
+   <!--     
+		<class name="config.TestLog"></class>
+    	 <class name="config.WOPageConfigurations">
+       	<methods>
+        	<include name="testWOPlansTab" />
+      	</methods> 
+       </class>
+       
+        
+      <class name="config.WFUnitTests"></class>
+       <class name="config.Shakedown6"></class>
+ 
+     
+     
+    <class name="config.VendorUnitTest"></class>
+       <class name="config.WOTrackRenewals"></class>
+     <class name="config.WOAssetLocRoute"></class>
+    
+
+    
+ 
+ 		
+        
+        <class name="config.WOAssetLocRoute"></class>
+       
+       
+       
+      
+     
+        <class name="config.WOPageConfigurations">
+       	<methods>
+        	<include name="testPOGeneratedByTAWO" />
+      	</methods> 
+       </class> 
+       
+        <class name="config.TestLog"></class>-->
+      
+          
+  	</classes>
+  </test>
+</suite>  
+
+
+
+
+
+ <!--   <groups>
+    	<dependencies>
+            <group name="functional" depends-on="base"/>
+        </dependencies> 
+              <run>
+                <include name='base'/>
+                <exclude name='smoke'/>
+                <exclude name='unitTest'/>
+                <exclude name='workflow'/>
+                <include name='functional'/>
+                <exclude name='config'/>
+            </run>  
+    </groups> -->           

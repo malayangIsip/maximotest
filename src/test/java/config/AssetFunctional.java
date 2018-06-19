@@ -48,7 +48,7 @@ public class AssetFunctional extends TestAutomation {
     }
     
     @AfterMethod
-    public void logout() {
+    public void logout() throws Exception {
     	logout(testName, testCase);
 
     }

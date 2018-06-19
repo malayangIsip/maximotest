@@ -54,7 +54,7 @@ public class Shakedown1 extends TestAutomation {
     
     @Override  
     @AfterMethod
-    public void logout() {
+    public void logout() throws Exception {
     	logout(testName, testCase);
 
     }

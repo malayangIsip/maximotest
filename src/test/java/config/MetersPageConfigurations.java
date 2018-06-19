@@ -50,7 +50,7 @@ public class MetersPageConfigurations extends TestAutomation {
     
     @Override  
     @AfterMethod
-    public void logout() {
+    public void logout() throws Exception {
     	logout(testName, testCase);
 
     }

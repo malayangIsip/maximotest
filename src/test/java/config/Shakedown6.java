@@ -54,7 +54,7 @@ public class Shakedown6 extends TestAutomation {
     
     @Override  
     @AfterMethod
-    public void logout() {
+    public void logout() throws Exception {
     	logout(testName, testCase);
 
     }
@@ -98,7 +98,7 @@ public class Shakedown6 extends TestAutomation {
  	}
     
 	@Test(groups = {"smoke"}, dataProvider = "data")
-    void test(String user, String desc, boolean hasParent, boolean isLinear, Boolean approve) {
+    void test(String user, String desc, boolean hasParent, boolean isLinear, Boolean approve) throws Exception {
     	testCase = desc;
 //    	extentTest.log(LogStatus.INFO, testCase);
  		Log.startTestCase(testCase);
@@ -147,12 +147,12 @@ public class Shakedown6 extends TestAutomation {
 
  		} catch(AssertionError ae){
 			Log.error("Assertion failed Shakedown6--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, ae.getMessage());
 	    	Base.bResult = false;
  			Assert.fail();
 	    } catch (Exception e) {
 	    	Log.error("Exception Shakedown6--- " + e.getMessage());
-	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+//	    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	    	Base.bResult = false;
  			Assert.fail();
 	    }	
@@ -162,7 +162,7 @@ public class Shakedown6 extends TestAutomation {
      * Scenario: Area and Region are Multiple
      */
     @Test(groups = {"smoke"})
-    void multipleAreaAndRegion() {
+    void multipleAreaAndRegion() throws Exception {
     	testCase = "multipleAreaAndRegion";
 //    	extentTest.log(LogStatus.INFO, testCase);
  		Log.startTestCase(testCase);
@@ -228,12 +228,12 @@ public class Shakedown6 extends TestAutomation {
 
  		} catch(AssertionError ae){
 			Log.error("Assertion failed multipleAreaAndRegion--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, ae.getMessage());
 	    	Base.bResult = false;
  			Assert.fail();
 	    } catch (Exception e) {
 	    	Log.error("Exception multipleAreaAndRegion--- " + e.getMessage());
-	    	extentTest.log(LogStatus.ERROR, e.getMessage());
+//	    	extentTest.log(LogStatus.ERROR, e.getMessage());
 	    	Base.bResult = false;
  			Assert.fail();
 	    }	

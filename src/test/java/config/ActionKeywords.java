@@ -121,7 +121,7 @@ public class ActionKeywords {
 			navigate();
 		}catch (Exception e){
 			Log.info("Exception Not able to open the Browser --- " + e.getMessage());
-			extentTest.log(LogStatus.ERROR, "Not able to open the Browser --- " +e.getMessage());
+//			extentTest.log(LogStatus.ERROR, "Not able to open the Browser --- " +e.getMessage());
 			bResult = false;
 			Assert.fail();
 		}
@@ -348,12 +348,12 @@ public class ActionKeywords {
 			Assert.assertTrue(CollectionUtils.containsAny(actual, expected), "Expected="+data +"; Actual="+ele);
 		 } catch(AssertionError ae){
 			Log.error(object +": Assertion failed --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": assertValue--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": assertValue--- "+ae.getMessage());
 		 	bResult = false;
 		 	Assert.fail();
 	     } catch(Exception e){
 	 		Log.error(object +": Exception assertValue2 --- " + e.getMessage());
-	 		extentTest.log(LogStatus.ERROR, object +": assertValue--- "+e.getMessage());
+//	 		extentTest.log(LogStatus.ERROR, object +": assertValue--- "+e.getMessage());
 	 		bResult = false;
 	 		Assert.fail();
 	     } 
@@ -381,12 +381,12 @@ public class ActionKeywords {
 			Assert.assertTrue(ele.toUpperCase().trim().equals(expectedValue.toUpperCase()), "Expected="+expectedValue +"; Actual="+ele);
 		 } catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, labelName +": assertValueOnLabel--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, labelName +": assertValueOnLabel--- "+ae.getMessage());
 		 	bResult = false;
 		 	Assert.fail();
 	     } catch(Exception e){
 	 		Log.error("Exception assertValueOnLabel --- " + e.getMessage());
-	 		extentTest.log(LogStatus.ERROR, labelName +": assertValueOnLabel--- "+e.getMessage());
+//	 		extentTest.log(LogStatus.ERROR, labelName +": assertValueOnLabel--- "+e.getMessage());
 	 		bResult = false;
 	 		Assert.fail();
 	     } 
@@ -415,13 +415,13 @@ public class ActionKeywords {
 			Assert.assertTrue(ele.toUpperCase().trim().equals(data.toUpperCase()), "Expected="+data +"; Actual="+ele);
 		 } catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": assertCode--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": assertCode--- "+ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
 		 	bResult = false;
 		 	Assert.fail();
 	     } catch(Exception e){
 	 		Log.error("Exception assertCode --- " + e.getMessage());
-	 		extentTest.log(LogStatus.ERROR, object +": assertCode--- "+e.getMessage());
+//	 		extentTest.log(LogStatus.ERROR, object +": assertCode--- "+e.getMessage());
 	 		bResult = false;
 	 		Assert.fail();
 	     } 
@@ -486,12 +486,12 @@ public class ActionKeywords {
 			Assert.assertEquals(field1.trim().toLowerCase(), field2.trim().toLowerCase());
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed fieldValuesEqual--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, fieldVal1 +", "+fieldVal2+" : fieldValuesEqual--- " + ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, fieldVal1 +", "+fieldVal2+" : fieldValuesEqual--- " + ae.getMessage());
 			bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Exception Fields not Equal --- " + e.getMessage());
- 			extentTest.log(LogStatus.ERROR, fieldVal1 +", "+fieldVal2+" : fieldValuesEqual--- " + e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, fieldVal1 +", "+fieldVal2+" : fieldValuesEqual--- " + e.getMessage());
  			bResult = false;
  			Assert.fail();
          }
@@ -504,12 +504,12 @@ public class ActionKeywords {
 			Assert.assertEquals(val.toLowerCase(), String.valueOf(status).toLowerCase(), "Expected="+status +" Actual="+val);
 		}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isNull--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isNull--- "+ae.getMessage());
 			bResult = false; 
 			Assert.fail();
 		}catch(Exception e){
  			Log.error("Exception Object is null --- " + e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": isNull--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": isNull--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
          }
@@ -522,12 +522,12 @@ public class ActionKeywords {
 			Assert.assertEquals(String.valueOf(val).toLowerCase(), String.valueOf(status).toLowerCase(), "Expected="+status +" Actual="+val);
 		}catch(AssertionError ae){
 			Log.error(object +": Assertion failed isEmpty " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isEmpty--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isEmpty--- "+ae.getMessage());
 			bResult = false; 
 			Assert.fail();
 		}catch(Exception e){
  			Log.error(object +": Exception Object is empty --- " + e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": isEmpty--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": isEmpty--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
         }
@@ -552,12 +552,12 @@ public class ActionKeywords {
 			Assert.assertEquals(val, String.valueOf(status).toLowerCase(), "Expected="+status +"; Actual="+val);
 		 }catch(AssertionError ae){
 			Log.error(object +": Assertion failed isReadOnly --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isReadOnly--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isReadOnly--- "+ae.getMessage());
 			bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
  			Log.error(object +": Exception Object is readonly --- " +e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": isReadOnly--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": isReadOnly--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
          }
@@ -583,12 +583,12 @@ public class ActionKeywords {
 			Thread.sleep(2000);
     	}catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isDisabled---- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isDisabled---- "+ae.getMessage());
 			bResult = false; 
 			Assert.fail();
 		}catch(Exception e){
 			Log.error("Exception Object is disabled --- " +e.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isDisabled---- "+e.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isDisabled---- "+e.getMessage());
 			bResult = false;
 			Assert.fail();
         }
@@ -606,12 +606,12 @@ public class ActionKeywords {
 				Thread.sleep(2000);
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, element +": isDisabled--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, element +": isDisabled--- "+ae.getMessage());
 			bResult = false;
 			Assert.fail();
 		}catch(Exception e){
 			Log.error("Exception Object is disabled --- " +e.getMessage());
-			extentTest.log(LogStatus.ERROR, element +": isDisabled--- "+e.getMessage());
+//			extentTest.log(LogStatus.ERROR, element +": isDisabled--- "+e.getMessage());
 			bResult = false;
 			Assert.fail();
        }
@@ -627,13 +627,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, String.valueOf(status).toLowerCase(), "Expected="+status +"; Actual="+val);
    	    }catch(AssertionError ae){
 			Log.error("Assertion failed isRequired--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isRequired-- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isRequired-- "+ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + String.valueOf(status));
 			bResult = false;	
 			Assert.fail();
 		}catch(Exception e){
  			Log.error("Exception isRequired --- " +e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": isRequired--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": isRequired--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
         }
@@ -646,13 +646,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val.toLowerCase(), String.valueOf(status).toLowerCase(), "Expected="+status +"; Actual="+val);
 		}catch(AssertionError ae){
 			Log.error("Assertion failed isChecked--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isChecked--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isChecked--- "+ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + String.valueOf(status));
 			bResult = false; 
 			Assert.fail();
 		}catch(Exception e){
  			Log.error("Exception Object is checked--- " +e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": isChecked--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": isChecked--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
         }
@@ -677,12 +677,12 @@ public class ActionKeywords {
 			Assert.assertEquals(val.toLowerCase(), String.valueOf(status).toLowerCase(), "Expected="+status +"; Actual="+val);
   	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isTicked--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isTicked--- "+ae.getMessage());
 			bResult = false; 
 			Assert.fail();
 		}catch(Exception e){
  			Log.error("Exception Object is ticked --- " +e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": isTicked--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": isTicked--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
         }
@@ -698,12 +698,12 @@ public class ActionKeywords {
 			Assert.assertEquals(val, String.valueOf(status).toLowerCase(), "Expected="+status +" Actual="+val);
   	    }catch(AssertionError ae){
 			Log.error("Assertion failed --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isValid--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isValid--- "+ae.getMessage());
 			bResult = false; 
 			Assert.fail();
 		}catch(Exception e){
  			Log.error("Exception isValid --- " +e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": isValid--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": isValid--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
         }
@@ -717,12 +717,12 @@ public class ActionKeywords {
 			Assert.assertEquals(val, expectedRows, "Expected="+expectedRows +"; Actual="+val);
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed rowsDisplayed --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, expectedRows +": rowsDisplayed--- " + ae.getMessage()); 
+//			extentTest.log(LogStatus.ERROR, expectedRows +": rowsDisplayed--- " + ae.getMessage()); 
 			bResult = false;	
 			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Exception rowsDisplayed ---" + e.getMessage());
- 			extentTest.log(LogStatus.ERROR, expectedRows +": rowsDisplayed--- " + e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, expectedRows +": rowsDisplayed--- " + e.getMessage());
  			bResult = false;
  			Assert.fail();
          }
@@ -736,13 +736,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, Integer.valueOf(numRows).intValue(), "Expected="+numRows +"; Actual="+val);
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed rowsDisplayed1 --- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, tableName +": rowsDisplayed1--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, tableName +": rowsDisplayed1--- "+ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + numRows.toUpperCase().trim());
 			bResult = false;	
 			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Exception rowsDisplayed1 ---" + e.getMessage());
- 			extentTest.log(LogStatus.ERROR, tableName +": rowsDisplayed1--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, tableName +": rowsDisplayed1--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
          }
@@ -756,12 +756,12 @@ public class ActionKeywords {
 			Assert.assertEquals(Boolean.valueOf(val > 0).booleanValue(), status);
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed tableNotEmpty--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": tableNotEmpty--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": tableNotEmpty--- "+ae.getMessage());
 			bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Exception tableNotEmpty---" + e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": tableNotEmpty--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": tableNotEmpty--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
          }
@@ -775,13 +775,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, rowsperpage, "Expected="+rowsperpage +"; Actual="+val);
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed rowsPerPage--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, rowsperpage +": rowsPerPage-- " +ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, rowsperpage +": rowsPerPage-- " +ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + rowsperpage);
 			bResult = false;	
 			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Exception rowsPerPage---" + e.getMessage());
- 			extentTest.log(LogStatus.ERROR, rowsperpage +": rowsPerPage-- " +e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, rowsperpage +": rowsPerPage-- " +e.getMessage());
  			bResult = false;
  			Assert.fail();
          }
@@ -795,13 +795,13 @@ public class ActionKeywords {
 			Assert.assertEquals(val, Integer.valueOf(numRows).intValue(), "Expected="+numRows +" Actual="+val);
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed rowsPerPage1--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": rowsPerPage1--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": rowsPerPage1--- "+ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + numRows.toUpperCase().trim());
 			bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Exception rowsPerPage1---" + e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": rowsPerPage1--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": rowsPerPage1--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
          }
@@ -816,13 +816,13 @@ public class ActionKeywords {
 			Assert.assertEquals(rowCount, Integer.valueOf(numRows).intValue(), "Expected="+numRows +" Actual="+rowCount);
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed totalRowCount--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": totalRowCount--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": totalRowCount--- "+ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + numRows.toUpperCase().trim());
 			bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
  			Log.error("Exception Total row count ---" +e.getMessage());
- 			extentTest.log(LogStatus.ERROR, object +": totalRowCount--- "+e.getMessage());
+// 			extentTest.log(LogStatus.ERROR, object +": totalRowCount--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
          }
@@ -837,12 +837,12 @@ public class ActionKeywords {
 	    	Assert.assertTrue(elementDisplayed(By.xpath(path)));
 	    }catch(AssertionError ae){
 			Log.error("Assertion failed tableExists--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": tableExists--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": tableExists--- "+ae.getMessage());
 			bResult = false;
 			Assert.fail();
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found tableExists--- " + e.getMessage());
-	    	extentTest.log(LogStatus.ERROR, object +": tableExists--- "+e.getMessage());
+//	    	extentTest.log(LogStatus.ERROR, object +": tableExists--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
 	    }
@@ -922,13 +922,13 @@ public class ActionKeywords {
 			Assert.assertTrue(driver.findElement(By.xpath(OR.getProperty(element))).getText().contains(msg), "Assertion failed.");
 		} catch(AssertionError ae){
 			Log.error("Assertion failed verifyAlert--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, "verifyAlert--- " + ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, "verifyAlert--- " + ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + msg.toUpperCase().trim());
 			bResult = false;
 			Assert.fail();
 		} catch(Exception e){
 	 		Log.error("Exception Verify Alert: " + e.getMessage());
-	 		extentTest.log(LogStatus.ERROR, "verifyAlert--- " +e.getMessage());
+//	 		extentTest.log(LogStatus.ERROR, "verifyAlert--- " +e.getMessage());
 	 		bResult = false;
 	 		Assert.fail();
 	    }
@@ -994,13 +994,13 @@ public class ActionKeywords {
 			}
 		}catch(AssertionError ae){
 			Log.error("Assertion failed isApprover--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, object +": isApprover--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, object +": isApprover--- "+ae.getMessage());
 			extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
 			bResult = false;	
 			Assert.fail();
 		}catch(Exception e){
 			 Log.error(e.getMessage());
-			 extentTest.log(LogStatus.ERROR, object +": isApprover--- "+e.getMessage());
+//			 extentTest.log(LogStatus.ERROR, object +": isApprover--- "+e.getMessage());
 			 bResult = false;
 			 Assert.fail();
 		}
@@ -1042,7 +1042,7 @@ public class ActionKeywords {
 
 		if (foundValue=false){
 			Log.error(val+": Exception WFAssignment not found");
-	   	    extentTest.log(LogStatus.ERROR, val+": Exception WFAssignment not found");
+//	   	    extentTest.log(LogStatus.ERROR, val+": Exception WFAssignment not found");
 			bResult = false;
 			Assert.fail();
 			throw new Exception(val+": Exception WFAssignment not found");
@@ -1126,13 +1126,13 @@ public class ActionKeywords {
 				Assert.assertEquals(String.valueOf(rowCount), data.trim());
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed expectedRows--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": expectedRows--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": expectedRows--- "+ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + data.toUpperCase().trim());
 				bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Exception expectedRows --- " +e.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": expectedRows--- "+e.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": expectedRows--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }
@@ -1171,12 +1171,12 @@ public class ActionKeywords {
 				}
 		  }catch(AssertionError ae){
 				Log.error("Assertion failed checkStatusExists--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkStatusExists--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkStatusExists--- "+ae.getMessage());
 				bResult = false;
 				Assert.fail();
 		  }catch(Exception e){
 				Log.error("Exception checkStatusExists --- " + e.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkStatusExists--- "+e.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkStatusExists--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 		  }
@@ -1230,12 +1230,12 @@ public class ActionKeywords {
 				}
    	     }catch(AssertionError ae){
 				Log.error("Assertion failed checkValueExists--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkValueExists--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkValueExists--- "+ae.getMessage());
 				bResult = false;
 				Assert.fail();
 		 }catch(Exception e){
 			    Log.error("Exception checkValueExists --- " + e.getMessage());
-			    extentTest.log(LogStatus.ERROR, object +": checkValueExists--- "+e.getMessage());
+//			    extentTest.log(LogStatus.ERROR, object +": checkValueExists--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 		 }
@@ -1277,12 +1277,12 @@ public class ActionKeywords {
 				}
    	     }catch(AssertionError ae){
 				Log.error("Assertion failed checkValueExistsInSelectValue--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkValueExistsInSelectValue--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkValueExistsInSelectValue--- "+ae.getMessage());
 				bResult = false;
 				Assert.fail();
 		 }catch(Exception e){
 			    Log.error("Exception checkValueExistsInSelectValue --- " + e.getMessage());
-			    extentTest.log(LogStatus.ERROR, object +": checkValueExistsInSelectValue--- "+e.getMessage());
+//			    extentTest.log(LogStatus.ERROR, object +": checkValueExistsInSelectValue--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 		 }
@@ -1303,12 +1303,12 @@ public class ActionKeywords {
 		        }
    	      }catch(AssertionError ae){
 				Log.error("Assertion failed checkTopMostDrilldown--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkTopMostDrilldown--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkTopMostDrilldown--- "+ae.getMessage());
 				bResult = false;	
 				Assert.fail();
           }catch(Exception e){
 				Log.error("Exception checkTopMostDrilldown--- " +e.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkTopMostDrilldown--- "+e.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkTopMostDrilldown--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 		 }
@@ -1343,12 +1343,12 @@ public class ActionKeywords {
 				}
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed checkColumnExists--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkColumnExists--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkColumnExists--- "+ae.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Exception checkColumnExists ---" + e.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkColumnExists--- "+e.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkColumnExists--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }
@@ -1393,12 +1393,12 @@ public class ActionKeywords {
 				}
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed checkColumnExistsListView--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkColumnExistsListView--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkColumnExistsListView--- "+ae.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Exception checkColumnExistsListView ---" + e.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkColumnExistsListView--- "+e.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkColumnExistsListView--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }
@@ -1444,12 +1444,12 @@ public class ActionKeywords {
 				}
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed checkColumnExists1--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkColumnExists1--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkColumnExists1--- "+ae.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Exception checkColumnExists1---" + e.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": checkColumnExists1--- "+e.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": checkColumnExists1--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }
@@ -1494,13 +1494,13 @@ public class ActionKeywords {
 				Assert.assertTrue(colList.containsAll(colToCheck));
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed checkTableColumnExists--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, tableName +": checkTableColumnExists--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, tableName +": checkTableColumnExists--- "+ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Expected Value: " + columnList.toUpperCase().trim());
 				bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Exception checkTableColumnExists ---" + e.getMessage());
-				extentTest.log(LogStatus.ERROR, tableName +": checkTableColumnExists--- "+e.getMessage());
+//				extentTest.log(LogStatus.ERROR, tableName +": checkTableColumnExists--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }
@@ -1540,12 +1540,12 @@ public class ActionKeywords {
 				Assert.assertFalse(colList.containsAll(colToCheck));
 		     }catch(AssertionError ae){
 				Log.error("Assertion failed checkTableColumnNotExists--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, tableName +": checkTableColumnNotExists--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, tableName +": checkTableColumnNotExists--- "+ae.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }catch(Exception e){
 				Log.error("Exception checkTableColumnExists ---" + e.getMessage());
-				extentTest.log(LogStatus.ERROR, tableName +": checkTableColumnNotExists--- "+e.getMessage());
+//				extentTest.log(LogStatus.ERROR, tableName +": checkTableColumnNotExists--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 			 }
@@ -1559,12 +1559,12 @@ public class ActionKeywords {
 				Assert.assertEquals(val > 0, status);
 			 }catch(AssertionError ae){
 				Log.error("Assertion failed checkTableNotEmpty--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, tableName +": checkTableNotEmpty-- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, tableName +": checkTableNotEmpty-- "+ae.getMessage());
 				extentTest.log(LogStatus.INFO, "Element: " + tableName);
 				Assert.fail();
 			 }catch(Exception e){
 	 			Log.error("Exception checkTableNotEmpty ---" + e.getMessage());
-	 			extentTest.log(LogStatus.ERROR, tableName +": checkTableNotEmpty--- "+e.getMessage());
+//	 			extentTest.log(LogStatus.ERROR, tableName +": checkTableNotEmpty--- "+e.getMessage());
 	 			extentTest.log(LogStatus.INFO, "Element: " + tableName);
 	 			Assert.fail();
 	         }
@@ -1594,12 +1594,12 @@ public class ActionKeywords {
 			}                                                          
 		 }catch(AssertionError ae){
 			Log.error(labelName +": Assertion failed fieldExists--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, labelName +": fieldExists--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, labelName +": fieldExists--- "+ae.getMessage());
 			bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
 			Log.error(labelName +": Exception fieldExists ---" + e.getMessage());
-			extentTest.log(LogStatus.ERROR, labelName +": fieldExists--- "+e.getMessage());
+//			extentTest.log(LogStatus.ERROR, labelName +": fieldExists--- "+e.getMessage());
 			bResult = false;
 			Assert.fail();
 		 }
@@ -1618,12 +1618,12 @@ public class ActionKeywords {
 			}                                                          
 		 }catch(AssertionError ae){
 			Log.error("Assertion failed buttonExists--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, buttonName +": buttonExists--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, buttonName +": buttonExists--- "+ae.getMessage());
 			bResult = false;
 			Assert.fail();
 		 }catch(Exception e){
 			Log.error("Exception fieldExists ---" + e.getMessage());
-			extentTest.log(LogStatus.ERROR, buttonName +": buttonExists--- "+e.getMessage());
+//			extentTest.log(LogStatus.ERROR, buttonName +": buttonExists--- "+e.getMessage());
 			bResult = false;
 			Assert.fail();
 		 }
@@ -2180,12 +2180,12 @@ public class ActionKeywords {
 				Thread.sleep(2000);
 			} catch(AssertionError ae){
 				Log.error("Assertion failed save--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, "save: " +ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, "save: " +ae.getMessage());
 				bResult = false;
 				Assert.fail();
 			} catch(Exception e){
 		 		Log.error("Exception save--- " + e.getMessage());
-		 		extentTest.log(LogStatus.ERROR, "save: " +e.getMessage());
+//		 		extentTest.log(LogStatus.ERROR, "save: " +e.getMessage());
 		 		bResult = false;
 		 		Assert.fail();
 		    }
@@ -2390,17 +2390,17 @@ public class ActionKeywords {
 		  Log.info("END approveWO........................"+wonum);
 	    } catch(AssertionError ae){
 			Log.error("Assertion failed approveWF--- " + ae.getMessage());
-			extentTest.log(LogStatus.ERROR, wonum +": approveWF--- "+ae.getMessage());
+//			extentTest.log(LogStatus.ERROR, wonum +": approveWF--- "+ae.getMessage());
  			bResult = false;
  			Assert.fail();
 	    } catch (NoSuchElementException e) {
 	    	Log.error("Element not found approveWF--- " + e.getMessage());
-	    	extentTest.log(LogStatus.ERROR, wonum +": approveWF--- "+e.getMessage());
+//	    	extentTest.log(LogStatus.ERROR, wonum +": approveWF--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
 	    } catch (Exception e) {
 	    	Log.error("Exception approveWF--- " + e.getMessage());
-	    	extentTest.log(LogStatus.ERROR, wonum +": approveWF--- "+e.getMessage());
+//	    	extentTest.log(LogStatus.ERROR, wonum +": approveWF--- "+e.getMessage());
  			bResult = false;
  			Assert.fail();
 	    }	
@@ -2824,12 +2824,12 @@ public class ActionKeywords {
 		    	Thread.sleep(2000);
 		    }catch(AssertionError ae){
 				Log.error(object +": Assertion failed elementExists--- " + ae.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": elementExists--- "+ae.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": elementExists--- "+ae.getMessage());
 				bResult = false;
 				Assert.fail();
 		    } catch (NoSuchElementException e) {
 		    	Log.error(object +": Element not found elementExists--- " + e.getMessage());
-		    	extentTest.log(LogStatus.ERROR, object +": elementExists--- "+e.getMessage());
+//		    	extentTest.log(LogStatus.ERROR, object +": elementExists--- "+e.getMessage());
 	 			bResult = false;
 	 			Assert.fail();
 		    }
@@ -2882,12 +2882,12 @@ public class ActionKeywords {
 				waitForElementDisplayed(object);
 			} catch (NoSuchElementException e) {
 		    	Log.error(object+"- Element not found waitElementExists--- " + e.getMessage());
-		    	extentTest.log(LogStatus.ERROR, object +": waitElementExists--- "+e.getMessage());
+//		    	extentTest.log(LogStatus.ERROR, object +": waitElementExists--- "+e.getMessage());
 	 			bResult = false;
 	 			Assert.fail();	
 			} catch(Exception e){
 	 			Log.error(object+"- Exception waitElementExists--- " + e.getMessage());
-	 			extentTest.log(LogStatus.ERROR, object +": waitElementExists--- "+e.getMessage());
+//	 			extentTest.log(LogStatus.ERROR, object +": waitElementExists--- "+e.getMessage());
 	 			bResult = false;
 	 			Assert.fail();
 	        }
@@ -2901,12 +2901,12 @@ public class ActionKeywords {
 				elementDisplayed(xpath);
 			} catch (NoSuchElementException e) {
 		    	Log.error("Element not found waitElementExists--- " + e.getMessage());
-		    	extentTest.log(LogStatus.ERROR, "waitElementExists: "+e.getMessage());
+//		    	extentTest.log(LogStatus.ERROR, "waitElementExists: "+e.getMessage());
 	 			bResult = false;
 	 			Assert.fail();	
 			} catch(Exception e){
 	 			Log.error("Exception waitElementExists--- " + e.getMessage());
-	 			extentTest.log(LogStatus.ERROR, "waitElementExists: "+e.getMessage());
+//	 			extentTest.log(LogStatus.ERROR, "waitElementExists: "+e.getMessage());
 	 			bResult = false;
 	 			Assert.fail();
 	        }
@@ -2921,12 +2921,12 @@ public class ActionKeywords {
 				Thread.sleep(1000);
 			} catch (NoSuchElementException e) {
 		    	Log.error("Element not found waitElementExists--- " + e.getMessage());
-		    	extentTest.log(LogStatus.ERROR, element.toString() +": waitElementExists--- "+e.getMessage());
+//		    	extentTest.log(LogStatus.ERROR, element.toString() +": waitElementExists--- "+e.getMessage());
 	 			bResult = false;
 	 			Assert.fail();	
 			} catch(Exception e){
 	 			Log.error("Exception waitElementExists--- " + e.getMessage());
-	 			extentTest.log(LogStatus.ERROR, element.toString() +": waitElementExists--- "+e.getMessage());
+//	 			extentTest.log(LogStatus.ERROR, element.toString() +": waitElementExists--- "+e.getMessage());
 	 			bResult = false;
 	 			Assert.fail();
 	        }
@@ -3041,7 +3041,7 @@ public class ActionKeywords {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath(OR.getProperty(object))));
 			} catch (Throwable e) {
 				Log.error("Exception elementClickable--- " + e.getMessage());
-		 		extentTest.log(LogStatus.ERROR, object +": elementClickable--- "+e.getMessage());
+//		 		extentTest.log(LogStatus.ERROR, object +": elementClickable--- "+e.getMessage());
 		 		bResult = false;
 		        Assert.fail("Timeout waiting for Page Load Request to complete.");
 		    }
@@ -3054,7 +3054,7 @@ public class ActionKeywords {
 				wait.until(ExpectedConditions.elementToBeClickable((object)));
 			 }catch(Exception e){
 				Log.error("Exception elementClickable--- " + e.getMessage());
-				extentTest.log(LogStatus.ERROR, object +": elementClickable--- "+e.getMessage());
+//				extentTest.log(LogStatus.ERROR, object +": elementClickable--- "+e.getMessage());
 				bResult = false;
 				Assert.fail();
 		     }

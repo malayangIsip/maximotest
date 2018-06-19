@@ -31,11 +31,11 @@ public abstract class TestAutomation {
 
     }
     
-    public void logout() {
+    public void logout() throws Exception {
     	
     }
     
-    public void logout(String testName, String testCase) {
+    public void logout(String testName, String testCase) throws Exception {
     	if (Base.bResult == true) {
     		extentTest.log(LogStatus.PASS, testCase);
     		driver.close();
@@ -45,12 +45,7 @@ public abstract class TestAutomation {
     		if (RetryAnalyzer.getRetryCounter() == Base.retryLimit) {
 //    			Log.info("Fail test...................");
     			extentTest.log(LogStatus.FAIL, testCase);
-    			try {
-					action.takeScreenshot(testName +" - "+testCase);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				action.takeScreenshot(testName +" - "+testCase);
     		}
     		driver.close();
     	}

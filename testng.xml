@@ -9,65 +9,53 @@
     <classes>
     <!--  Base -->
    		<class name="executionEngine.Base"></class>
-
-       <class name="config.Shakedown6"></class>
+   		
+   	<!--  Smoke Tests -->
+   	 	<class name="config.Shakedown1"></class> 
+        <class name="config.Shakedown2"></class>
+        <class name="config.Shakedown3"></class> 
+        <class name="config.Shakedown4"></class>
+        <class name="config.Shakedown5"></class>  
+        <class name="config.Shakedown6"></class>
        
-   <!--     
-		<class name="config.TestLog"></class>
-    	 <class name="config.WOPageConfigurations">
-       	<methods>
-        	<include name="testWOPlansTab" />
-      	</methods> 
-       </class>
-       
-        
-      <class name="config.WFUnitTests"></class>
-       <class name="config.Shakedown6"></class>
- 
-     
-     
-    <class name="config.VendorUnitTest"></class>
-       <class name="config.WOTrackRenewals"></class>
-     <class name="config.WOAssetLocRoute"></class>
-    
-
-    
- 
- 		
-        
-        <class name="config.WOAssetLocRoute"></class>
-       
-       
-       
+    <!--  Unit Tests  -->
+    	<class name="config.WOUnitTests"></class>
+    	<class name="config.WFUnitTests"></class> 
       
-     
-        <class name="config.WOPageConfigurations">
-       	<methods>
-        	<include name="testPOGeneratedByTAWO" />
-      	</methods> 
-       </class> 
-       
-        <class name="config.TestLog"></class>-->
-      
+    <!--  Workflow Tests -->
+    	<class name="config.WorkorderWorkflow"></class> 
+   		<class name="config.WorkorderWorkflowWithChildren"></class>
+   		<class name="config.SRWorkflow"></class> 
+     	<class name="config.PRWorkflow"></class>
+   	
+   	<!--  Functional Tests -->
+   		<class name="config.WOTrackRenewals"></class>
+   		<class name="config.PORevision"></class>
+   		<class name="config.Vendor"></class>
+   		<class name="config.LocationCustomMetrages"></class>
+   	 	<class name="config.CrossoverLocationsAsset1"></class>  
+   	 	<class name="config.AssetFeatureDeletion"></class>
+   		<class name="config.PreventSRsAndWOsWhereNOTRACKexist"></class> 
+        <class name="config.RailWearMeterReadings"></class>
+        <class name="config.AssetFunctional"></class>
+        		
+   		
+   	<!--  Config Tests 	-->
+        <class name="config.LocationsPageConfigurations"></class>
+        <class name="config.AssetPageConfigurations"></class> 
+        <class name="config.ConditionMonitoringPageConfigurations"></class> 
+       <class name="config.MetersPageConfigurations"></class>  
+        <class name="config.MeterGroupsPageConfigurations"></class>
+        <class name="config.EssentialFeaturesPageConfigurations"></class>
+        <class name="config.POPageConfigurations"></class>
+        <class name="config.FailureCodesPageConfigurations"></class>
+        <class name="config.PMPageConfigurations"></class>
+        <class name="config.FeaturesPageConfigurations"></class>
+        <class name="config.RelationshipsPageConfigurations"></class>  
+        <class name="config.WOPageConfigurations"></class> 
           
   	</classes>
   </test>
 </suite>  
 
 
-
-
-
- <!--   <groups>
-    	<dependencies>
-            <group name="functional" depends-on="base"/>
-        </dependencies> 
-              <run>
-                <include name='base'/>
-                <exclude name='smoke'/>
-                <exclude name='unitTest'/>
-                <exclude name='workflow'/>
-                <include name='functional'/>
-                <exclude name='config'/>
-            </run>  
-    </groups> -->           
