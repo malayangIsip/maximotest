@@ -92,7 +92,7 @@ public class ActionKeywords {
 
 			} else if(browser.equals("Chrome")) {
 				Log.info("Chrome is the browser");
-				System.setProperty("webdriver.gecko.driver", Constants.Path_Lib + "chromedriver.exe");
+				System.setProperty("webdriver.chrome.driver", Constants.Path_Lib + "chromedriver.exe");
 				
 				ChromeOptions chromeOptions = new ChromeOptions();
 				DesiredCapabilities capabilities = DesiredCapabilities.chrome();
@@ -102,7 +102,7 @@ public class ActionKeywords {
 
 			} else if(browser.equals("Chrome--headless")) {
 				Log.info("Chrome is the browser--headless");
-				System.setProperty("webdriver.gecko.driver", Constants.Path_Lib + "chromedriver.exe");
+				System.setProperty("webdriver.chrome.driver", Constants.Path_Lib + "chromedriver.exe");
 				
 				ChromeOptions chromeOptions = new ChromeOptions();
 				chromeOptions.addArguments("--headless");

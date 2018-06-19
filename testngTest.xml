@@ -10,7 +10,7 @@
     <!--  Base -->
    		<class name="executionEngine.Base"></class>
 
-       <class name="config.Shakedown6"></class>
+       <class name="config.TestLog"></class>
        
    <!--     
 		<class name="config.TestLog"></class>
